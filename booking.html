@@ -903,6 +903,12 @@
     </footer>
 
     <script>
+        // ═══════════════════════════════════════════════
+// SUPABASE CONFIGURATION - ADD THIS FIRST
+// ═══════════════════════════════════════════════
+const SUPABASE_URL = 'https://xxxxxxxxxxxxx.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         // Booking state
         let bookingData = {
             pickupDate: '',
