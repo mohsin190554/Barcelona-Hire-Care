@@ -1,0 +1,553 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <title>Our Services | Barcelona Hire Car</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #8B7F00;
+            --primary-dark: #6d6300;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --bg-light: #f8f8f8;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .top-bar {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .top-bar-content > div:first-child {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .top-bar-content > div:last-child {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .top-bar a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .logo-image { height: 45px; width: auto; object-fit: contain; }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--white);
+            min-width: 220px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-radius: 8px;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-dark);
+        }
+
+        .dropdown-content a:hover {
+            background: var(--bg-light);
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 999;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.50) 0%, rgba(45, 45, 45, 0.50) 100%),
+                        url('images/hero-bg.jpg') center/cover no-repeat;
+            color: var(--white);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .services-section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .section-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .section-intro h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .section-intro p {
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .service-content {
+            padding: 30px;
+        }
+
+        .service-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .service-content p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .cta-section {
+            background: var(--bg-light);
+            padding: 60px 20px;
+            text-align: center;
+            margin-top: 80px;
+            border-radius: 12px;
+        }
+
+        .cta-section h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 60px 20px 20px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 32px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .whatsapp-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        .nav-links.mobile-active { display: flex !important; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 20px; gap: 10px; z-index: 1000; }
+        .dropdown-toggle { cursor: pointer; user-select: none; }
+        @media (max-width: 768px) {
+            .dropdown-content { position: static; box-shadow: none; border-radius: 0; margin: 0; padding: 0; background: #f8f8f8; display: none; }
+            .dropdown.mobile-open .dropdown-content { display: block; }
+            .dropdown-content a { padding-left: 40px; font-size: 0.9rem; }
+            .dropdown-toggle { display: block; width: 100%; }
+            .dropdown-toggle::after { transition: transform 0.3s; }
+            .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div>Trusted by 800+ travelers for private transfers across Barcelona</div>
+            <div>
+                <a href="tel:+34656269013">+34 656 269 013</a>
+                <a href="mailto:Barcelonahirecar@gmail.com">Barcelonahirecar@gmail.com</a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Barcelona Hire Car Logo" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li class="dropdown">
+                    <a href="services.html" class="dropdown-toggle">Our Services</a>
+                    <div class="dropdown-content">
+                        <a href="service-andorra.html">Transfers Andorra</a>
+                        <a href="service-port.html">Port Transfers</a>
+                        <a href="service-wedding.html">Wedding</a>
+                        <a href="service-laroca.html">La Roca Village</a>
+                    </div>
+                </li>
+                <li><a href="faqs.html">FAQs</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <div class="page-hero">
+        <h1>Our Services</h1>
+        <p>Reliable, Comfortable, and Professional Rides</p>
+    </div>
+
+    <section class="services-section">
+        <div class="section-intro">
+            <h2>Premium Private Transfer Services for Every Occasion</h2>
+            <p>Whether you're traveling to Andorra, arriving by cruise, or celebrating your wedding day, we provide personalized, on-time, and comfortable rides tailored to your needs.</p>
+        </div>
+
+        <div class="services-grid">
+            <a href="service-andorra.html" class="service-card">
+                <div class="service-image"><img src="images/service-andorra.jpg" alt="Andorra Transfer" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="service-content">
+                    <h3>Transfers Andorra</h3>
+                    <p>Comfortable and scenic transfers to Andorra's mountains and premier ski resorts. Our experienced drivers know the mountain routes intimately.</p>
+                </div>
+            </a>
+
+            <a href="service-port.html" class="service-card">
+                <div class="service-image"><img src="images/service-port.jpg" alt="Port Transfer" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="service-content">
+                    <h3>Port Transfers</h3>
+                    <p>Seamless cruise port pickups and drop-offs in Barcelona. We handle all the logistics so you can enjoy your journey.</p>
+                </div>
+            </a>
+
+            <a href="service-wedding.html" class="service-card">
+                <div class="service-image"><img src="images/service-wedding.jpg" alt="Wedding Transportation" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="service-content">
+                    <h3>Wedding Transportation</h3>
+                    <p>Elegant and luxurious transportation for your special day. Make your wedding unforgettable with our premium fleet.</p>
+                </div>
+            </a>
+
+            <a href="service-laroca.html" class="service-card">
+                <div class="service-image"><img src="images/service-shopping.jpg" alt="La Roca Village" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="service-content">
+                    <h3>La Roca Village</h3>
+                    <p>Shopping trips to Barcelona's premier outlet village. Enjoy a comfortable ride and focus on finding the best deals.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="cta-section">
+            <h2>Book Your Ride in Advance</h2>
+            <p>Enjoy exclusive service when you reserve your private transfer with Barcelona Hire Car</p>
+            <a href="booking.html" class="btn-primary">Book Now!</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Hours: 24/7</h3>
+                <p>Barcelonahirecar@gmail.com</p>
+                <p>Need help? Call us</p>
+                <p><a href="tel:+34656269013">+34 656 269 013</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="booking.html">Book Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <ul>
+                    <li><a href="service-andorra.html">Transfers Andorra</a></li>
+                    <li><a href="service-port.html">Port Transfers</a></li>
+                    <li><a href="service-wedding.html">Wedding</a></li>
+                    <li><a href="service-laroca.html">La Roca Village</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms.html">Terms &amp; Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="cookies.html">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Barcelona Hire Car. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/34656269013?text=Hello!%20I'm%20interested%20in%20booking%20a%20transfer%20in%20Barcelona." class="whatsapp-btn" title="Chat on WhatsApp">
+        💬
+    </a>
+    <script>
+        var mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        var navLinks = document.querySelector('.nav-links');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navLinks.classList.toggle('mobile-active');
+                this.textContent = navLinks.classList.contains('mobile-active') ? '✕' : '☰';
+            });
+        }
+        document.addEventListener('click', function(e) {
+            if (navLinks && !e.target.closest('nav')) {
+                navLinks.classList.remove('mobile-active');
+                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
+            }
+        });
+        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('mobile-active');
+                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
+            });
+        });
+        document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var dropdown = this.closest('.dropdown');
+                    var wasOpen = dropdown.classList.contains('mobile-open');
+                    document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                    if (!wasOpen) dropdown.classList.add('mobile-open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <title>Cookie Policy | Barcelona Hire Car</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #8B7F00; --text-dark: #1a1a1a; --text-light: #666; --white: #ffffff; }
+        body { font-family: 'Inter', sans-serif; color: var(--text-dark); line-height: 1.6; }
+        .top-bar { background: var(--text-dark); color: var(--white); padding: 10px 0; font-size: 14px; }
+        .top-bar-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .top-bar-content > div:first-child { font-size: 13px; line-height: 1.4; }
+        .top-bar-content > div:last-child { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .top-bar a { color: var(--white); text-decoration: none; margin-left: 20px; }
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        nav { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; color: var(--text-dark); text-decoration: none; }
+        .logo-image { height: 45px; width: auto; object-fit: contain; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--text-dark); text-decoration: none; font-weight: 500; padding: 8px 0; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .dropdown { position: relative; }
+        .dropdown-toggle { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle::after { content: '▼'; font-size: 10px; }
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background: var(--white); min-width: 220px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border-radius: 8px; padding: 10px 0; margin-top: 10px; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { display: block; padding: 12px 20px; color: var(--text-dark); }
+        .dropdown-content a:hover { background: var(--bg-light); color: var(--primary); }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-dark); }
+        .page-hero { background: linear-gradient(135deg, rgba(26, 26, 26, 0.50) 0%, rgba(45, 45, 45, 0.50) 100%), url('images/hero-bg.jpg') center/cover no-repeat; color: var(--white); padding: 80px 20px; text-align: center; position: relative; }
+        .page-hero h1 { font-size: 48px; }
+        .content-section { max-width: 900px; margin: 80px auto; padding: 0 20px; }
+        .content-section h2 { font-size: 28px; margin: 40px 0 20px; color: var(--primary); }
+        .content-section p { color: var(--text-light); margin-bottom: 15px; }
+        .content-section table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .content-section th, .content-section td { padding: 12px; text-align: left; border: 1px solid #e0e0e0; }
+        .content-section th { background: #f8f8f8; font-weight: 600; }
+        footer { background: var(--text-dark); color: var(--white); padding: 60px 20px 20px; margin-top: 80px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+        .footer-section h3 { font-size: 18px; margin-bottom: 20px; }
+        .footer-section ul { list-style: none; }
+        .footer-section a { color: rgba(255,255,255,0.7); text-decoration: none; }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: rgba(255,255,255,0.6); }
+        .whatsapp-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 30px; text-decoration: none; z-index: 999; }
+        @media (max-width: 768px) { .nav-links { display: none; } .page-hero h1 { font-size: 32px; } .footer-content { grid-template-columns: 1fr; } }
+        .nav-links.mobile-active { display: flex !important; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 20px; gap: 10px; z-index: 1000; }
+        .dropdown-toggle { cursor: pointer; user-select: none; }
+        @media (max-width: 768px) {
+            .dropdown-content { position: static; box-shadow: none; border-radius: 0; margin: 0; padding: 0; background: #f8f8f8; display: none; }
+            .dropdown.mobile-open .dropdown-content { display: block; }
+            .dropdown-content a { padding-left: 40px; font-size: 0.9rem; }
+            .dropdown-toggle { display: block; width: 100%; }
+            .dropdown-toggle::after { transition: transform 0.3s; }
+            .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div>Trusted by 800+ travelers for private transfers across Barcelona</div>
+            <div><a href="tel:+34656269013">+34 656 269 013</a><a href="mailto:Barcelonahirecar@gmail.com">Barcelonahirecar@gmail.com</a></div>
+        </div>
+    </div>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Barcelona Hire Car Logo" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li class="dropdown">
+                    <a href="services.html" class="dropdown-toggle">Our Services</a>
+                    <div class="dropdown-content">
+                        <a href="service-andorra.html">Transfers Andorra</a>
+                        <a href="service-port.html">Port Transfers</a>
+                        <a href="service-wedding.html">Wedding</a>
+                        <a href="service-laroca.html">La Roca Village</a>
+                    </div>
+                </li>
+                <li><a href="faqs.html">FAQs</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <div class="page-hero"><h1>Cookie Policy</h1></div>
+
+    <section class="content-section">
+        <p><strong>Last Updated:</strong> January 2026</p>
+
+        <h2>1. What Are Cookies?</h2>
+        <p>Cookies are small text files stored on your device when you visit our website. They help us provide you with a better experience and understand how you use our site.</p>
+
+        <h2>2. Types of Cookies We Use</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Cookie Type</th>
+                    <th>Purpose</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Essential Cookies</strong></td>
+                    <td>Required for website functionality (booking system, secure areas)</td>
+                    <td>Session</td>
+                </tr>
+                <tr>
+                    <td><strong>Performance Cookies</strong></td>
+                    <td>Help us understand how visitors use our website</td>
+                    <td>1 year</td>
+                </tr>
+                <tr>
+                    <td><strong>Functional Cookies</strong></td>
+                    <td>Remember your preferences and settings</td>
+                    <td>1 year</td>
+                </tr>
+                <tr>
+                    <td><strong>Marketing Cookies</strong></td>
+                    <td>Track visitors across websites for advertising purposes</td>
+                    <td>1 year</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>3. Specific Cookies We Use</h2>
+        <p><strong>Stripe Payment Cookies:</strong> Necessary for processing secure payments</p>
+        <p><strong>Session Cookies:</strong> Maintain your booking session</p>
+        <p><strong>Preference Cookies:</strong> Remember your language and currency preferences</p>
+
+        <h2>4. Third-Party Cookies</h2>
+        <p>We may use third-party services that set cookies:</p>
+        <ul>
+            <li><strong>Stripe:</strong> Payment processing</li>
+            <li><strong>Google Maps:</strong> Location services in booking form</li>
+        </ul>
+
+        <h2>5. Managing Cookies</h2>
+        <p>You can control and manage cookies in several ways:</p>
+        <ul>
+            <li><strong>Browser Settings:</strong> Most browsers allow you to refuse or accept cookies</li>
+            <li><strong>Cookie Preferences:</strong> Use our cookie consent banner to manage preferences</li>
+            <li><strong>Third-Party Tools:</strong> Browser extensions for cookie management</li>
+        </ul>
+
+        <h2>6. Browser-Specific Instructions</h2>
+        <p><strong>Chrome:</strong> Settings > Privacy and Security > Cookies and other site data</p>
+        <p><strong>Firefox:</strong> Options > Privacy & Security > Cookies and Site Data</p>
+        <p><strong>Safari:</strong> Preferences > Privacy > Cookies and website data</p>
+        <p><strong>Edge:</strong> Settings > Privacy, search, and services > Cookies</p>
+
+        <h2>7. Impact of Disabling Cookies</h2>
+        <p>Disabling cookies may affect website functionality:</p>
+        <ul>
+            <li>Booking system may not work properly</li>
+            <li>Your preferences won't be saved</li>
+            <li>Some features may be unavailable</li>
+        </ul>
+
+        <h2>8. Cookie Consent</h2>
+        <p>By continuing to use our website, you consent to our use of cookies as described in this policy. You can withdraw consent at any time by adjusting your cookie preferences.</p>
+
+        <h2>9. Updates to This Policy</h2>
+        <p>We may update this Cookie Policy periodically. Changes will be posted on this page with an updated revision date.</p>
+
+        <h2>10. Contact Us</h2>
+        <p>For questions about our cookie policy:</p>
+        <ul>
+            <li>Email: Barcelonahirecar@gmail.com</li>
+            <li>Phone: +34 656 269 013</li>
+        </ul>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Hours: 24/7</h3>
+                <p>Barcelonahirecar@gmail.com</p>
+                <p><a href="tel:+34656269013">+34 656 269 013</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="booking.html">Book Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <ul>
+                    <li><a href="service-andorra.html">Transfers Andorra</a></li>
+                    <li><a href="service-port.html">Port Transfers</a></li>
+                    <li><a href="service-wedding.html">Wedding</a></li>
+                    <li><a href="service-laroca.html">La Roca Village</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="cookies.html">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>© 2026 Barcelona Hire Car. All rights reserved.</p></div>
+    </footer>
+
+    <a href="https://wa.me/34656269013?text=Hello!%20I'm%20interested%20in%20booking%20a%20transfer%20in%20Barcelona." class="whatsapp-btn">💬</a>
+    <script>
+        var mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        var navLinks = document.querySelector('.nav-links');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navLinks.classList.toggle('mobile-active');
+                this.textContent = navLinks.classList.contains('mobile-active') ? '✕' : '☰';
+            });
+        }
+        document.addEventListener('click', function(e) {
+            if (navLinks && !e.target.closest('nav')) {
+                navLinks.classList.remove('mobile-active');
+                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
+            }
+        });
+        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('mobile-active');
+                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
+            });
+        });
+        document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var dropdown = this.closest('.dropdown');
+                    var wasOpen = dropdown.classList.contains('mobile-open');
+                    document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                    if (!wasOpen) dropdown.classList.add('mobile-open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

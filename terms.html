@@ -1,0 +1,457 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <title>Terms & Conditions | Barcelona Hire Car</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #8B7F00;
+            --primary-dark: #6d6300;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --bg-light: #f8f8f8;
+            --white: #ffffff;
+            --border: #e0e0e0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        .top-bar {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .top-bar-content > div:first-child {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .top-bar-content > div:last-child {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .top-bar a { color: var(--white); text-decoration: none; margin-left: 20px; }
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+        .logo-image { height: 45px; width: auto; object-fit: contain; }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .dropdown { position: relative; }
+        .dropdown-toggle { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle::after { content: '▼'; font-size: 10px; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--white);
+            min-width: 220px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-radius: 8px;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-dark);
+        }
+        .dropdown-content a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+        .page-hero {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.50) 0%, rgba(45, 45, 45, 0.50) 100%),
+                        url('images/hero-bg.jpg') center/cover no-repeat;
+            color: var(--white);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+        }
+        .page-hero h1 { font-size: 48px; margin-bottom: 15px; }
+        .content-section {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        .content-section h2 {
+            font-size: 28px;
+            margin: 40px 0 20px;
+            color: var(--primary);
+        }
+        .content-section h3 {
+            font-size: 20px;
+            margin: 30px 0 15px;
+        }
+        .content-section p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .content-section ul {
+            margin: 15px 0 15px 30px;
+            color: var(--text-light);
+        }
+        .content-section li { margin-bottom: 10px; }
+        footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 60px 20px 20px;
+            margin-top: 80px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-section h3 { font-size: 18px; margin-bottom: 20px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-section a:hover { color: var(--primary); }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 999;
+        }
+        .whatsapp-btn:hover { transform: scale(1.1); }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .page-hero h1 { font-size: 32px; }
+            .footer-content { grid-template-columns: 1fr; }
+            .whatsapp-btn { width: 50px; height: 50px; font-size: 24px; bottom: 20px; right: 20px; }
+        }
+        .nav-links.mobile-active { display: flex !important; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 20px; gap: 10px; z-index: 1000; }
+        .dropdown-toggle { cursor: pointer; user-select: none; }
+        @media (max-width: 768px) {
+            .dropdown-content { position: static; box-shadow: none; border-radius: 0; margin: 0; padding: 0; background: #f8f8f8; display: none; }
+            .dropdown.mobile-open .dropdown-content { display: block; }
+            .dropdown-content a { padding-left: 40px; font-size: 0.9rem; }
+            .dropdown-toggle { display: block; width: 100%; }
+            .dropdown-toggle::after { transition: transform 0.3s; }
+            .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div>Trusted by 800+ travelers for private transfers across Barcelona</div>
+            <div>
+                <a href="tel:+34656269013">+34 656 269 013</a>
+                <a href="mailto:Barcelonahirecar@gmail.com">Barcelonahirecar@gmail.com</a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Barcelona Hire Car Logo" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li class="dropdown">
+                    <a href="services.html" class="dropdown-toggle">Our Services</a>
+                    <div class="dropdown-content">
+                        <a href="service-andorra.html">Transfers Andorra</a>
+                        <a href="service-port.html">Port Transfers</a>
+                        <a href="service-wedding.html">Wedding</a>
+                        <a href="service-laroca.html">La Roca Village</a>
+                    </div>
+                </li>
+                <li><a href="faqs.html">FAQs</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <div class="page-hero">
+        <h1>Terms & Conditions</h1>
+    </div>
+
+    <section class="content-section">
+        <p><strong>Last Updated:</strong> January 2026</p>
+
+        <h2>1. Introduction</h2>
+        <p>Welcome to Barcelona Hire Car. By using our services, you agree to these terms and conditions. Please read them carefully before making a booking.</p>
+
+        <h2>2. Booking and Reservations</h2>
+        <h3>2.1 Making a Booking</h3>
+        <p>All bookings must be made through our website, phone, or email. A booking is confirmed once you receive a confirmation email with your booking reference number.</p>
+
+        <h3>2.2 Booking Confirmation</h3>
+        <p>You will receive two emails:</p>
+        <ul>
+            <li>Initial booking received confirmation</li>
+            <li>Booking acceptance confirmation (within 2-3 business days)</li>
+        </ul>
+
+        <h2>3. Payment Terms</h2>
+        <h3>3.1 Payment Methods</h3>
+        <p>We accept payment by credit card, debit card, and bank transfer through our secure Stripe payment system.</p>
+
+        <h3>3.2 Pricing</h3>
+        <p>All prices displayed on our website include VAT. There are no hidden fees. Prices are based on:</p>
+        <ul>
+            <li>Base rate for first 20km</li>
+            <li>€1.95 per additional kilometer</li>
+            <li>Different rates apply for city-to-city transfers</li>
+        </ul>
+
+        <h2>4. Cancellation Policy</h2>
+        <h3>4.1 Cancellation by Customer</h3>
+        <ul>
+            <li><strong>More than 48 hours before transfer:</strong> Full refund</li>
+            <li><strong>Less than 48 hours before transfer:</strong> No refund</li>
+        </ul>
+
+        <h3>4.2 Cancellation by Barcelona Hire Car</h3>
+        <p>In rare circumstances, we may need to cancel your booking. In such cases, you will receive a full refund or alternative transfer arrangement.</p>
+
+        <h2>5. Modifications</h2>
+        <p>Changes to bookings can be made up to 24 hours before the scheduled transfer, subject to availability. Contact our customer service team for modifications.</p>
+
+        <h2>6. Service Delivery</h2>
+        <h3>6.1 Driver Punctuality</h3>
+        <p>Our drivers will arrive at the scheduled pickup time. For airport pickups, drivers monitor flight arrivals and adjust accordingly.</p>
+
+        <h3>6.2 Waiting Time</h3>
+        <ul>
+            <li>Airport pickups: Driver waits in arrivals hall</li>
+            <li>Hotel pickups: 15 minutes courtesy waiting time</li>
+            <li>Train/cruise: 30 minutes from scheduled time</li>
+        </ul>
+
+        <h3>6.3 Meet & Greet</h3>
+        <p>Complimentary meet and greet service available. Driver will hold a sign with your name.</p>
+
+        <h2>7. Passenger Responsibilities</h2>
+        <ul>
+            <li>Provide accurate pickup location and contact details</li>
+            <li>Be ready at the scheduled pickup time</li>
+            <li>Inform us of any special requirements (child seats, extra luggage, etc.)</li>
+            <li>Notify us immediately of flight/train delays</li>
+        </ul>
+
+        <h2>8. Luggage</h2>
+        <p>Standard luggage allowance is included. For excessive luggage, please inform us when booking to ensure appropriate vehicle allocation.</p>
+
+        <h2>9. Child Seats</h2>
+        <p>Child seats and booster seats are provided free of charge upon request. Please specify requirements when booking.</p>
+
+        <h2>10. Vehicle Assignment</h2>
+        <p>We reserve the right to provide a larger vehicle than booked at the same price, but never a smaller vehicle.</p>
+
+        <h2>11. Delays and Disruptions</h2>
+        <h3>11.1 Flight Delays</h3>
+        <p>We monitor flight arrivals. For delays over 1 hour, we may need to reschedule.</p>
+
+        <h3>11.2 Traffic and Weather</h3>
+        <p>Barcelona Hire Car is not liable for delays caused by traffic, weather, or other circumstances beyond our control.</p>
+
+        <h2>12. Liability</h2>
+        <p>Barcelona Hire Car maintains comprehensive insurance. We are not liable for:</p>
+        <ul>
+            <li>Lost or damaged personal belongings left in vehicles</li>
+            <li>Delays caused by circumstances beyond our control</li>
+            <li>Missed flights, trains, or appointments due to traffic or weather</li>
+        </ul>
+
+        <h2>13. Behavior</h2>
+        <p>We reserve the right to refuse service to passengers who are intoxicated, aggressive, or abusive. No refund will be provided in such cases.</p>
+
+        <h2>14. Privacy</h2>
+        <p>Your personal data is handled in accordance with our Privacy Policy and GDPR regulations.</p>
+
+        <h2>15. Complaints</h2>
+        <p>If you have any complaints, please contact us at Barcelonahirecar@gmail.com within 7 days of your transfer.</p>
+
+        <h2>16. Changes to Terms</h2>
+        <p>We reserve the right to modify these terms and conditions. Changes will be posted on our website.</p>
+
+        <h2>17. Governing Law</h2>
+        <p>These terms are governed by Spanish law. Any disputes will be subject to the jurisdiction of Spanish courts.</p>
+
+        <h2>18. Contact</h2>
+        <p>For questions about these terms, contact us:</p>
+        <ul>
+            <li>Email: Barcelonahirecar@gmail.com</li>
+            <li>Phone: +34 656 269 013</li>
+        </ul>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Hours: 24/7</h3>
+                <p>Barcelonahirecar@gmail.com</p>
+                <p><a href="tel:+34656269013">+34 656 269 013</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="booking.html">Book Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <ul>
+                    <li><a href="service-andorra.html">Transfers Andorra</a></li>
+                    <li><a href="service-port.html">Port Transfers</a></li>
+                    <li><a href="service-wedding.html">Wedding</a></li>
+                    <li><a href="service-laroca.html">La Roca Village</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="cookies.html">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Barcelona Hire Car. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/34656269013?text=Hello!%20I'm%20interested%20in%20booking%20a%20transfer%20in%20Barcelona." class="whatsapp-btn">💬</a>
+    <script>
+        var mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        var navLinks = document.querySelector('.nav-links');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navLinks.classList.toggle('mobile-active');
+                this.textContent = navLinks.classList.contains('mobile-active') ? '✕' : '☰';
+            });
+        }
+        document.addEventListener('click', function(e) {
+            if (navLinks && !e.target.closest('nav')) {
+                navLinks.classList.remove('mobile-active');
+                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
+            }
+        });
+        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('mobile-active');
+                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
+            });
+        });
+        document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var dropdown = this.closest('.dropdown');
+                    var wasOpen = dropdown.classList.contains('mobile-open');
+                    document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                    if (!wasOpen) dropdown.classList.add('mobile-open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1292 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcelona Hire Car | Premium Chauffeur Service</title>
+    <meta name="description" content="Book luxury private transfers in Barcelona. Professional chauffeur service for airport pickups, city tours, and intercity travel. Available 24/7 with premium vehicles.">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B7F00;
+            --primary-light: #a39400;
+            --primary-dark: #6d6300;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --bg-light: #f8f8f8;
+            --white: #ffffff;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .top-bar-content > div:first-child {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .top-bar-content > div:last-child {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .top-bar a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .logo-image { height: 45px; width: auto; object-fit: contain; }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--white);
+            min-width: 220px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-radius: 8px;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-dark);
+        }
+
+        .dropdown-content a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.50) 0%, rgba(45, 45, 45, 0.50) 100%),
+                        url('images/hero-bg.jpg') center/cover no-repeat;
+            color: var(--white);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-feature::before {
+            content: '✓';
+            background: var(--primary);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Booking Section - FORM LEFT, MAP RIGHT */
+        .booking-section {
+            max-width: 1200px;
+            margin: -50px auto 80px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .booking-container {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+
+        .booking-form-side {
+            padding: 40px;
+        }
+
+        .booking-map-side {
+            background: var(--bg-light);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .booking-form-side h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .booking-form-side p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .form-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .map-placeholder {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
+            height: 300px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .distance-info {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .distance-info h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-text h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .about-text p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .about-features li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+        }
+
+        .about-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .about-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Services */
+        .services-section {
+            background: var(--bg-light);
+            padding: 80px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h3 {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .service-content {
+            padding: 25px;
+        }
+
+        .service-content h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        /* Why Choose */
+        .why-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: transparent;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+        }
+
+        .feature-item h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        /* Fleet Section - 4 PER ROW */
+        .fleet-section {
+            background: var(--bg-light);
+            padding: 80px 20px;
+        }
+
+        .fleet-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .fleet-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .fleet-image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .fleet-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .fleet-info {
+            padding: 20px;
+        }
+
+        .fleet-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .fleet-info h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .fleet-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .fleet-specs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: var(--text-light);
+            flex-wrap: wrap;
+        }
+
+        .hourly-rate {
+            background: var(--bg-light);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .author-image {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .author-info h4 {
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .author-info p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .testimonial-rating {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 60px 20px 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* WHATSAPP BUTTON ONLY */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 999;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .fleet-grid,
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .services-grid,
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .fleet-grid,
+            .services-grid,
+            .features-grid,
+            .testimonials-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .whatsapp-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        .nav-links.mobile-active { display: flex !important; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 20px; gap: 10px; z-index: 1000; }
+        .dropdown-toggle { cursor: pointer; user-select: none; }
+        @media (max-width: 768px) {
+            .dropdown-content { position: static; box-shadow: none; border-radius: 0; margin: 0; padding: 0; background: #f8f8f8; display: none; }
+            .dropdown.mobile-open .dropdown-content { display: block; }
+            .dropdown-content a { padding-left: 40px; font-size: 0.9rem; }
+            .dropdown-toggle { display: block; width: 100%; }
+            .dropdown-toggle::after { transition: transform 0.3s; }
+            .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div>Trusted by 800+ travelers for private transfers across Barcelona</div>
+            <div>
+                <a href="tel:+34656269013">+34 656 269 013</a>
+                <a href="mailto:Barcelonahirecar@gmail.com">Barcelonahirecar@gmail.com</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Barcelona Hire Car Logo" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li class="dropdown">
+                    <a href="services.html" class="dropdown-toggle">Our Services</a>
+                    <div class="dropdown-content">
+                        <a href="service-andorra.html">Transfers Andorra</a>
+                        <a href="service-port.html">Port Transfers</a>
+                        <a href="service-wedding.html">Wedding</a>
+                        <a href="service-laroca.html">La Roca Village</a>
+                    </div>
+                </li>
+                <li><a href="faqs.html">FAQs</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Travel in comfort across Barcelona<br>with professional private transfers.</h1>
+            <div class="hero-features">
+                <div class="hero-feature">Reliable, punctual, and comfortable rides.</div>
+                <div class="hero-feature">Premium private transfer services.</div>
+                <div class="hero-feature">Available 24/7 for your convenience.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section - FORM LEFT, MAP RIGHT -->
+    <section class="booking-section">
+        <div class="booking-container">
+            <!-- LEFT SIDE - FORM -->
+            <div class="booking-form-side">
+                <h2>Book Your Ride in Barcelona</h2>
+                <p>Professional transport service at your convenience</p>
+                
+                <div class="form-tabs">
+                    <button class="tab-btn active">Distance</button>
+                    <button class="tab-btn">Hourly</button>
+                </div>
+
+                <form id="bookingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Pickup Date *</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pickup Time *</label>
+                            <input type="time" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pickup Location *</label>
+                        <input type="text" required placeholder="Enter pickup address">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dropoff Location *</label>
+                        <input type="text" required placeholder="Enter dropoff address">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Transfer Type *</label>
+                            <select required>
+                                <option>One-Way</option>
+                                <option>Return (Same Ride)</option>
+                                <option>Return (New Ride)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Passengers *</label>
+                            <select required>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6+</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Next: Choose Vehicle</button>
+                </form>
+            </div>
+
+            <!-- RIGHT SIDE - MAP -->
+            <div class="booking-map-side">
+                <div style="height: 300px; border-radius: 12px; overflow: hidden;">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95777.49380029233!2d2.0787281!3d41.3873974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona%2C%20Spain!5e0!3m2!1sen!2s!4v1234567890"
+                        width="100%"
+                        height="100%"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="distance-info">
+                    <h3>Route Information</h3>
+                    <div class="info-row">
+                        <span>Distance</span>
+                        <strong>Calculate upon booking</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Duration</span>
+                        <strong>Based on route</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about-section">
+        <div class="about-content">
+            <div class="about-text">
+                <h3>About Us</h3>
+                <h2>Your trusted private transfer partner in Barcelona</h2>
+                <p>At Barcelona Hire Car, we specialize in premium private rides designed for comfort, reliability, and peace of mind.</p>
+                <ul class="about-features">
+                    <li>Professional drivers and premium vehicles</li>
+                    <li>Clear, fixed pricing with no hidden charges</li>
+                    <li>24/7 availability across Barcelona and beyond</li>
+                </ul>
+                <a href="about.html" class="btn-primary" style="width: auto; display: inline-block;">Learn More</a>
+            </div>
+            <div class="about-images">
+                <div class="about-image">
+                    <img src="images/about-1.jpg" alt="Luxury Car Interior">
+                </div>
+                <div class="about-image">
+                    <img src="images/about-2.jpg" alt="Barcelona Streets">
+                </div>
+                <div class="about-image">
+                    <img src="images/about-3.jpg" alt="Professional Chauffeur">
+                </div>
+                <div class="about-image">
+                    <img src="images/about-4.jpg" alt="Mercedes Car">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services - 4 PER ROW -->
+    <section class="services-section">
+        <div class="section-header">
+            <h3>Our Services</h3>
+            <h2>Comfortable, reliable, and personalized private transfers</h2>
+        </div>
+        <div class="services-grid">
+            <a href="service-andorra.html" class="service-card">
+                <div class="service-image">
+                    <img src="images/service-andorra.jpg" alt="Andorra Mountains">
+                </div>
+                <div class="service-content">
+                    <h3>Transfers Andorra</h3>
+                </div>
+            </a>
+            <a href="service-port.html" class="service-card">
+                <div class="service-image">
+                    <img src="images/service-port.jpg" alt="Cruise Port">
+                </div>
+                <div class="service-content">
+                    <h3>Port Transfers</h3>
+                </div>
+            </a>
+            <a href="service-wedding.html" class="service-card">
+                <div class="service-image">
+                    <img src="images/service-wedding.jpg" alt="Wedding Car">
+                </div>
+                <div class="service-content">
+                    <h3>Wedding</h3>
+                </div>
+            </a>
+            <a href="service-laroca.html" class="service-card">
+                <div class="service-image">
+                    <img src="images/service-shopping.jpg" alt="Shopping">
+                </div>
+                <div class="service-content">
+                    <h3>La Roca Village</h3>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Why Choose -->
+    <section class="why-section">
+        <div class="section-header">
+            <h3>Why Choose Us</h3>
+            <h2>Your Trusted Partner for Every Ride</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">⏱</div>
+                <h4>Reliable & Punctual</h4>
+                <p>We value your time — our drivers arrive on schedule, every time.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🚗</div>
+                <h4>Premium Fleet</h4>
+                <p>Choose from our range of luxury, business, and executive vehicles.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">💰</div>
+                <h4>Transparent Pricing</h4>
+                <p>No hidden costs — just clear, fair rates for premium service.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📞</div>
+                <h4>24/7 Support</h4>
+                <p>Get assistance whenever you need it with our dedicated team.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet - 4 PER ROW -->
+    <section class="fleet-section">
+        <div class="section-header">
+            <h3>Our Fleet</h3>
+            <h2>Premium vehicles for every occasion</h2>
+        </div>
+        <div class="fleet-grid">
+            <div class="fleet-card">
+                <div class="fleet-image">
+                    <img src="images/car-eclass.jpg" alt="Mercedes E Class">
+                </div>
+                <div class="fleet-info">
+                    <div class="fleet-rating">★★★★★ 4.96</div>
+                    <h3>Mercedes E Class</h3>
+                    <div class="fleet-price">€55 / 20km</div>
+                    <div class="fleet-specs">
+                        <span>⚙️ Auto</span>
+                        <span>⛽ Diesel</span>
+                        <span>👤 3 pax</span>
+                    </div>
+                    <div class="hourly-rate">City: €45 / 20km</div>
+                </div>
+            </div>
+
+            <div class="fleet-card">
+                <div class="fleet-image">
+                    <img src="images/car-vclass.jpg" alt="Mercedes V Class">
+                </div>
+                <div class="fleet-info">
+                    <div class="fleet-rating">★★★★★ 4.96</div>
+                    <h3>Mercedes V Class</h3>
+                    <div class="fleet-price">€68 / 20km</div>
+                    <div class="fleet-specs">
+                        <span>⚙️ Auto</span>
+                        <span>⛽ Diesel</span>
+                        <span>👤 6 pax</span>
+                    </div>
+                    <div class="hourly-rate">City: €50 / 20km</div>
+                </div>
+            </div>
+
+            <div class="fleet-card">
+                <div class="fleet-image">
+                    <img src="images/car-vito.jpg" alt="Mercedes Vito">
+                </div>
+                <div class="fleet-info">
+                    <div class="fleet-rating">★★★★★ 4.96</div>
+                    <h3>Mercedes Vito</h3>
+                    <div class="fleet-price">€63 / 20km</div>
+                    <div class="fleet-specs">
+                        <span>⚙️ Auto</span>
+                        <span>⛽ Diesel</span>
+                        <span>👤 6 pax</span>
+                    </div>
+                    <div class="hourly-rate">€1.95/km extra</div>
+                </div>
+            </div>
+
+            <div class="fleet-card">
+                <div class="fleet-image">
+                    <img src="images/car-lexus.jpg" alt="Lexus ES300h">
+                </div>
+                <div class="fleet-info">
+                    <div class="fleet-rating">★★★★★ 4.96</div>
+                    <h3>Lexus ES300h</h3>
+                    <div class="fleet-price">€50 / 20km</div>
+                    <div class="fleet-specs">
+                        <span>⚙️ Auto</span>
+                        <span>⛽ Hybrid</span>
+                        <span>👤 3 pax</span>
+                    </div>
+                    <div class="hourly-rate">City: €40 / 20km</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <div class="section-header">
+            <h3>Testimonials</h3>
+            <h2>What our clients say</h2>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">Barcelona Hire Car handled everything perfectly from the moment I landed. The chauffeur was ready, the car spotless.</p>
+                <div class="testimonial-author">
+                    <div class="author-image"></div>
+                    <div class="author-info">
+                        <h4>James Porter</h4>
+                        <p>London</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">★★★★★</div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">My driver arrived exactly on time and stayed in touch before pickup. The ride was comfortable and professional.</p>
+                <div class="testimonial-author">
+                    <div class="author-image"></div>
+                    <div class="author-info">
+                        <h4>Matthias Vogel</h4>
+                        <p>Berlin</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">★★★★★</div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">I travel frequently for meetings, and this service has become essential. Clean vehicles, courteous chauffeurs.</p>
+                <div class="testimonial-author">
+                    <div class="author-image"></div>
+                    <div class="author-info">
+                        <h4>Carlos Navarro</h4>
+                        <p>Valencia</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">★★★★★</div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">Everything was seamless — booking, communication, and the ride itself. The chauffeur was respectful and professional.</p>
+                <div class="testimonial-author">
+                    <div class="author-image"></div>
+                    <div class="author-info">
+                        <h4>Lorenzo Ricci</h4>
+                        <p>Rome</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">★★★★★</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Hours: 24/7</h3>
+                <p>Barcelonahirecar@gmail.com</p>
+                <p>Need help? Call us</p>
+                <p><a href="tel:+34656269013">+34 656 269 013</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="booking.html">Book Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <ul>
+                    <li><a href="service-andorra.html">Transfers Andorra</a></li>
+                    <li><a href="service-port.html">Port Transfers</a></li>
+                    <li><a href="service-wedding.html">Wedding</a></li>
+                    <li><a href="service-laroca.html">La Roca Village</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="cookies.html">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Barcelona Hire Car. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP BUTTON ONLY -->
+    <a href="https://wa.me/34656269013?text=Hello!%20I'm%20interested%20in%20booking%20a%20transfer%20in%20Barcelona." class="whatsapp-btn" title="Chat on WhatsApp">
+        💬
+    </a>
+
+    <script>
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = 'booking.html';
+        });
+    </script>
+    <script>
+        var mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        var navLinks = document.querySelector('.nav-links');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navLinks.classList.toggle('mobile-active');
+                this.textContent = navLinks.classList.contains('mobile-active') ? '✕' : '☰';
+            });
+        }
+        document.addEventListener('click', function(e) {
+            if (navLinks && !e.target.closest('nav')) {
+                navLinks.classList.remove('mobile-active');
+                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
+            }
+        });
+        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('mobile-active');
+                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
+            });
+        });
+        document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var dropdown = this.closest('.dropdown');
+                    var wasOpen = dropdown.classList.contains('mobile-open');
+                    document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
+                    if (!wasOpen) dropdown.classList.add('mobile-open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
