@@ -1,32 +1,7 @@
 {
-  "name": "barcelona-hire-car-backend",
+  "name": "barcelona-hire-car",
   "version": "1.0.0",
-  "description": "Backend payment handler for Barcelona Hire Car website",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
-  "keywords": [
-    "barcelona",
-    "hire",
-    "car",
-    "transfer",
-    "stripe",
-    "payment"
-  ],
-  "author": "Barcelona Hire Car",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "stripe": "^13.0.0",
-    "dotenv": "^16.3.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
-  "engines": {
-    "node": ">=14.0.0"
+    "stripe": "^14.0.0"
   }
 }
