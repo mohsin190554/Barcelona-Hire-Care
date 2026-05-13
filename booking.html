@@ -1110,7 +1110,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
             try {
                 // Create payment intent on your backend
-                const response = await fetch('/create-payment-intent', {
+                    const response = await fetch('https://barcelona-hire-care.vercel.app/api/create-payment', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
