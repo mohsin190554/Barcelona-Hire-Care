@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB40otCtaIQlRq_FnSepReW-iTQConTCVQ&libraries=places&callback=initBookingMap" async defer></script>
     <style>
         * {
             margin: 0;
@@ -18,8 +19,8 @@
         }
 
         :root {
-            --primary-color: #8B7F00;
-            --primary-dark: #6d6300;
+            --primary-color: #1E293B;
+            --primary-dark: #0F172A;
             --text-dark: #1a1a1a;
             --text-light: #666;
             --bg-light: #f8f8f8;
@@ -28,7 +29,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--text-dark);
             line-height: 1.6;
             background: var(--bg-light);
@@ -475,7 +476,7 @@
         }
 
         .footer-section a:hover {
-            color: var(--primary-color);
+            color: #ffffff;
         }
 
         .footer-bottom {
@@ -563,6 +564,25 @@
             .dropdown-toggle::after { transition: transform 0.3s; }
             .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
         }
+            h1, h2, h3, h4, h5, h6 { font-family: sans-serif; }
+
+        /* Google Places Autocomplete */
+        .pac-container {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-family: 'Inter', sans-serif;
+            margin-top: 5px;
+            z-index: 9999;
+        }
+        .pac-item { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 14px; }
+        .pac-item:hover { background-color: #f8f8f8; }
+        .pac-item-query { font-size: 15px; color: #1E293B; font-weight: 500; }
+        .pac-icon { display: none; }
+        .pac-matched { font-weight: 700; }
+
+        #map { width: 100%; height: 350px; border-radius: 12px; margin: 20px 0; display: none; }
     </style>
 </head>
 <body>
@@ -603,20 +623,16 @@
 
     <div class="booking-container">
         <div class="progress-steps">
-            <div class="step" id="step1">
+            <div class="step active" id="step1">
                 <div class="step-number">1</div>
-                <span>Ride Details</span>
+                <span>Your Details</span>
             </div>
-            <div class="step active" id="step2">
+            <div class="step" id="step2">
                 <div class="step-number">2</div>
                 <span>Choose Vehicle</span>
             </div>
             <div class="step" id="step3">
                 <div class="step-number">3</div>
-                <span>Contact Details</span>
-            </div>
-            <div class="step" id="step4">
-                <div class="step-number">4</div>
                 <span>Payment</span>
             </div>
         </div>
@@ -650,10 +666,16 @@
                             <input type="text" id="dropoffLocation" placeholder="Enter dropoff address" required>
                         </div>
 
+                        <div class="form-group">
+                            <label>Flight Number (Optional)</label>
+                            <input type="text" id="flightNumber" name="flightNumber" placeholder="e.g., BA456, VY8501">
+                            <small style="color: #666; font-size: 12px;">For airport pickups only</small>
+                        </div>
+
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Distance (km) *</label>
-                                <input type="number" id="distance" placeholder="Approximate distance" required min="1">
+                                <label>Distance</label>
+                                <input type="text" id="distance" placeholder="Auto-calculated from locations" readonly style="background: #f5f5f5; cursor: not-allowed;">
                             </div>
                             <div class="form-group">
                                 <label>Transfer Type *</label>
@@ -663,6 +685,25 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label>Waiting Time / Hourly Booking (Optional)</label>
+                            <select id="waitingTime" name="waitingTime">
+                                <option value="0">No waiting time</option>
+                                <option value="1">1 hour</option>
+                                <option value="2">2 hours</option>
+                                <option value="3">3 hours</option>
+                                <option value="4">4 hours</option>
+                                <option value="custom">Custom duration</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="customWaitingTime" style="display: none;">
+                            <label>Custom Waiting Duration (Hours)</label>
+                            <input type="number" id="customHours" name="customHours" placeholder="Enter hours" min="1" max="12">
+                        </div>
+
+                        <div id="map"></div>
 
                         <div class="form-group">
                             <label>Number of Passengers *</label>
@@ -676,85 +717,9 @@
                             </select>
                         </div>
 
-                        <button type="button" class="btn-primary" onclick="goToStep(2)">Next: Choose Vehicle</button>
-                    </form>
-                </div>
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid #e0e0e0;">
+                        <h3 style="font-size: 20px; margin-bottom: 20px; color: #1E293B;">Contact Information</h3>
 
-                <!-- Step 2: Vehicle Selection -->
-                <div id="vehicleSection" class="hidden">
-                    <h2>Choose Your Vehicle</h2>
-                    <p class="section-subtitle">Select the perfect car for your journey</p>
-
-                    <div class="vehicle-grid">
-                        <div class="vehicle-option" onclick="selectVehicle('eclass', 55, 45)">
-                            <div class="vehicle-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);"></div>
-                            <div class="vehicle-info">
-                                <div class="vehicle-name">Mercedes E Class</div>
-                                <div class="vehicle-specs">
-                                    <span>⚙️ Automatic</span>
-                                    <span>⛽ Diesel</span>
-                                    <span>👤 3 pax</span>
-                                </div>
-                                <div class="vehicle-price">€55 / 20km</div>
-                                <div class="vehicle-note">City to City: €45 / 20km | €1.95/km above 20km</div>
-                            </div>
-                        </div>
-
-                        <div class="vehicle-option" onclick="selectVehicle('vclass', 68, 50)">
-                            <div class="vehicle-image" style="background: linear-gradient(135deg, #8B7F00 0%, #6d6300 100%);"></div>
-                            <div class="vehicle-info">
-                                <div class="vehicle-name">Mercedes V Class</div>
-                                <div class="vehicle-specs">
-                                    <span>⚙️ Automatic</span>
-                                    <span>⛽ Diesel</span>
-                                    <span>👤 6 pax</span>
-                                </div>
-                                <div class="vehicle-price">€68 / 20km</div>
-                                <div class="vehicle-note">City to City: €50 / 20km | €1.95/km above 20km</div>
-                            </div>
-                        </div>
-
-                        <div class="vehicle-option" onclick="selectVehicle('vito', 63, 63)">
-                            <div class="vehicle-image" style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);"></div>
-                            <div class="vehicle-info">
-                                <div class="vehicle-name">Mercedes Vito</div>
-                                <div class="vehicle-specs">
-                                    <span>⚙️ Automatic</span>
-                                    <span>⛽ Diesel</span>
-                                    <span>👤 6 pax</span>
-                                </div>
-                                <div class="vehicle-price">€63 / 20km</div>
-                                <div class="vehicle-note">€1.95/km above 20km</div>
-                            </div>
-                        </div>
-
-                        <div class="vehicle-option" onclick="selectVehicle('lexus', 50, 40)">
-                            <div class="vehicle-image" style="background: linear-gradient(135deg, #6d6300 0%, #8B7F00 100%);"></div>
-                            <div class="vehicle-info">
-                                <div class="vehicle-name">Lexus ES300h</div>
-                                <div class="vehicle-specs">
-                                    <span>⚙️ Automatic</span>
-                                    <span>⛽ Hybrid</span>
-                                    <span>👤 3 pax</span>
-                                </div>
-                                <div class="vehicle-price">€50 / 20km</div>
-                                <div class="vehicle-note">City to City: €40 / 20km | €1.95/km above 20km</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 15px; margin-top: 30px;">
-                        <button type="button" class="btn-secondary" onclick="goToStep(1)">Back</button>
-                        <button type="button" class="btn-primary" id="continueToContact" onclick="goToStep(3)" disabled>Continue to Contact Details</button>
-                    </div>
-                </div>
-
-                <!-- Step 3: Contact Details -->
-                <div id="contactSection" class="hidden">
-                    <h2>Contact Information</h2>
-                    <p class="section-subtitle">How should we reach you?</p>
-
-                    <form id="contactForm">
                         <div class="form-row">
                             <div class="form-group">
                                 <label>First Name *</label>
@@ -777,19 +742,128 @@
                             </div>
                         </div>
 
+                        <div class="form-section" style="margin-top: 30px;">
+                            <h3 style="font-size: 18px; margin-bottom: 20px; color: #1E293B;">Extra Options</h3>
+
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label style="display: flex; align-items: center; gap: 10px; font-weight: normal;">
+                                    <input type="checkbox" id="meetGreet" name="meetGreet" value="yes" style="width: auto;">
+                                    <span>Meet &amp; Greet Service (Free)</span>
+                                </label>
+                                <small style="display: block; color: #666; margin-left: 30px; font-size: 13px;">Driver will meet you at arrivals hall with name board</small>
+                            </div>
+
+                            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label>Child Seats (Free)</label>
+                                    <select id="childSeats" name="childSeats">
+                                        <option value="0">None</option>
+                                        <option value="1">1 Child Seat</option>
+                                        <option value="2">2 Child Seats</option>
+                                        <option value="3">3 Child Seats</option>
+                                    </select>
+                                    <small style="color: #666; font-size: 12px;">Age 0-4 years</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Booster Seats (Free)</label>
+                                    <select id="boosterSeats" name="boosterSeats">
+                                        <option value="0">None</option>
+                                        <option value="1">1 Booster Seat</option>
+                                        <option value="2">2 Booster Seats</option>
+                                        <option value="3">3 Booster Seats</option>
+                                    </select>
+                                    <small style="color: #666; font-size: 12px;">Age 4-12 years</small>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label>Special Requests (Optional)</label>
                             <textarea id="specialRequests" rows="3" placeholder="Any special requirements?"></textarea>
                         </div>
 
-                        <div style="display: flex; gap: 15px; margin-top: 30px;">
-                            <button type="button" class="btn-secondary" onclick="goToStep(2)">Back</button>
-                            <button type="button" class="btn-primary" onclick="goToStep(4)">Continue to Payment</button>
-                        </div>
+                        <button type="button" class="btn-primary" onclick="goToStep(2)">Next: Choose Vehicle</button>
                     </form>
                 </div>
 
-                <!-- Step 4: Payment -->
+                <!-- Step 2: Vehicle Selection -->
+                <div id="vehicleSection" class="hidden">
+                    <h2>Choose Your Vehicle</h2>
+                    <p class="section-subtitle">Select the perfect car for your journey</p>
+
+                    <div class="vehicle-grid">
+                        <div class="vehicle-option" onclick="selectVehicle('eclass', 55, 45)">
+                            <div class="vehicle-image">
+                                <img src="images/car-eclass.jpg" alt="Mercedes E Class" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                            <div class="vehicle-info">
+                                <div class="vehicle-name">Mercedes E Class</div>
+                                <div class="vehicle-specs">
+                                    <span>⚙️ Automatic</span>
+                                    <span>⛽ Diesel</span>
+                                    <span>👤 3 pax</span>
+                                </div>
+                                <div class="vehicle-price">€55 / hour</div>
+                                <div class="vehicle-note">City to City: €45 / 20km | €1.95/km above 20km</div>
+                            </div>
+                        </div>
+
+                        <div class="vehicle-option" onclick="selectVehicle('vclass', 68, 50)">
+                            <div class="vehicle-image">
+                                <img src="images/car-vclass.jpg" alt="Mercedes V Class" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                            <div class="vehicle-info">
+                                <div class="vehicle-name">Mercedes V Class</div>
+                                <div class="vehicle-specs">
+                                    <span>⚙️ Automatic</span>
+                                    <span>⛽ Diesel</span>
+                                    <span>👤 6 pax</span>
+                                </div>
+                                <div class="vehicle-price">€68 / hour</div>
+                                <div class="vehicle-note">City to City: €50 / 20km | €1.95/km above 20km</div>
+                            </div>
+                        </div>
+
+                        <div class="vehicle-option" onclick="selectVehicle('vito', 63, 63)">
+                            <div class="vehicle-image">
+                                <img src="images/car-vito.jpg" alt="Mercedes Vito" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                            <div class="vehicle-info">
+                                <div class="vehicle-name">Mercedes Vito</div>
+                                <div class="vehicle-specs">
+                                    <span>⚙️ Automatic</span>
+                                    <span>⛽ Diesel</span>
+                                    <span>👤 6 pax</span>
+                                </div>
+                                <div class="vehicle-price">€63 / hour</div>
+                                <div class="vehicle-note">€1.95/km above 20km</div>
+                            </div>
+                        </div>
+
+                        <div class="vehicle-option" onclick="selectVehicle('lexus', 50, 40)">
+                            <div class="vehicle-image">
+                                <img src="images/car-lexus.jpg" alt="Lexus ES300h" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                            <div class="vehicle-info">
+                                <div class="vehicle-name">Lexus ES300h</div>
+                                <div class="vehicle-specs">
+                                    <span>⚙️ Automatic</span>
+                                    <span>⛽ Hybrid</span>
+                                    <span>👤 3 pax</span>
+                                </div>
+                                <div class="vehicle-price">€50 / hour</div>
+                                <div class="vehicle-note">City to City: €40 / 20km | €1.95/km above 20km</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="button" class="btn-secondary" onclick="goToStep(1)">Back</button>
+                        <button type="button" class="btn-primary" id="continueToPayment" onclick="goToStep(3)" disabled>Continue to Payment</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment -->
                 <div id="paymentSection" class="hidden">
                     <h2>Payment Details</h2>
                     <p class="section-subtitle">Secure payment with Stripe</p>
@@ -804,7 +878,7 @@
                         </div>
 
                         <div style="display: flex; gap: 15px; margin-top: 30px;">
-                            <button type="button" class="btn-secondary" onclick="goToStep(3)">Back</button>
+                            <button type="button" class="btn-secondary" onclick="goToStep(2)">Back</button>
                             <button type="submit" class="btn-primary" id="submitPayment">
                                 <span id="button-text">Pay Now</span>
                                 <span id="spinner" class="hidden">Processing...</span>
@@ -903,12 +977,13 @@
     </footer>
 
     <script>
+
         // ═══════════════════════════════════════════════
 // SUPABASE CONFIGURATION - ADD THIS FIRST
 // ═══════════════════════════════════════════════
-const SUPABASE_URL = 'https://xxxxxxxxxxxxx.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_URL = 'https://jiypwhysddlajkuoynat.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppeXB3aHlzZGRsYWprdW95bmF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTU1ODcsImV4cCI6MjA5NDI3MTU4N30.ip1_RLzb3GV0OTHPsVXXbXCVlmVhUqg901MJ8MFSU0c';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         // Booking state
         let bookingData = {
             pickupDate: '',
@@ -926,53 +1001,48 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             email: '',
             phone: '',
             specialRequests: '',
-            totalPrice: 0
+            totalPrice: 0,
+            flightNumber: '',
+            waitingTime: '0',
+            customHours: '',
+            meetGreet: false,
+            childSeats: '0',
+            boosterSeats: '0'
         };
 
         let selectedVehicle = null;
 
         // Initialize Stripe
-        const stripe = Stripe('pk_test_51QcefnP5vsJZAnEMhFw9kTVsqmvK8EpyOqVKmK6xjHZbcKLMJYc5OmYm0mxE3KNMZxvW0jN7FrBMF8vgdS2rHkVu00Jqjf5gCq'); // Replace with your actual Stripe publishable key
+        const stripe = Stripe('pk_live_51TOjr0EdWmvL3vWsm57PRii2Q53u9sDVW6JlfURJLH7KfJCwAaMdBdttSfw3DvjeVc9gNB6qBILq5mySN1lx9fHI00DrpMIfVz');
         let elements;
         let cardElement;
 
         // Step navigation
         function goToStep(step) {
-            // Hide all sections
-            document.querySelectorAll('#rideDetailsSection, #vehicleSection, #contactSection, #paymentSection').forEach(el => {
+            document.querySelectorAll('#rideDetailsSection, #vehicleSection, #paymentSection').forEach(el => {
                 el.classList.add('hidden');
             });
-
-            // Update step indicators
             document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
 
-            // Show selected section
             switch(step) {
                 case 1:
                     document.getElementById('rideDetailsSection').classList.remove('hidden');
                     document.getElementById('step1').classList.add('active');
                     break;
                 case 2:
-                    // Validate step 1
                     if (!validateStep1()) return;
                     updateSummary();
                     document.getElementById('vehicleSection').classList.remove('hidden');
                     document.getElementById('step2').classList.add('active');
                     break;
                 case 3:
-                    // Validate step 2
                     if (!selectedVehicle) {
                         alert('Please select a vehicle');
                         return;
                     }
-                    document.getElementById('contactSection').classList.remove('hidden');
-                    document.getElementById('step3').classList.add('active');
-                    break;
-                case 4:
-                    // Validate step 3
-                    if (!validateStep3()) return;
+                    updateSummary();
                     document.getElementById('paymentSection').classList.remove('hidden');
-                    document.getElementById('step4').classList.add('active');
+                    document.getElementById('step3').classList.add('active');
                     initializeStripe();
                     break;
             }
@@ -983,24 +1053,25 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             bookingData.pickupTime = document.getElementById('pickupTime').value;
             bookingData.pickupLocation = document.getElementById('pickupLocation').value;
             bookingData.dropoffLocation = document.getElementById('dropoffLocation').value;
-            bookingData.distance = parseInt(document.getElementById('distance').value);
+            bookingData.distance = parseFloat(document.getElementById('distance').value) || 0;
             bookingData.transferType = document.getElementById('transferType').value;
             bookingData.passengers = document.getElementById('passengers').value;
-
-            if (!bookingData.pickupDate || !bookingData.pickupTime || !bookingData.pickupLocation || !bookingData.dropoffLocation || !bookingData.distance) {
-                alert('Please fill in all required fields');
-                return false;
-            }
-            return true;
-        }
-
-        function validateStep3() {
+            bookingData.flightNumber = document.getElementById('flightNumber')?.value || '';
+            bookingData.waitingTime = document.getElementById('waitingTime')?.value || '0';
+            bookingData.customHours = document.getElementById('customHours')?.value || '';
             bookingData.firstName = document.getElementById('firstName').value;
             bookingData.lastName = document.getElementById('lastName').value;
             bookingData.email = document.getElementById('email').value;
             bookingData.phone = document.getElementById('phone').value;
             bookingData.specialRequests = document.getElementById('specialRequests').value;
+            bookingData.meetGreet = document.getElementById('meetGreet')?.checked || false;
+            bookingData.childSeats = document.getElementById('childSeats')?.value || '0';
+            bookingData.boosterSeats = document.getElementById('boosterSeats')?.value || '0';
 
+            if (!bookingData.pickupDate || !bookingData.pickupTime || !bookingData.pickupLocation || !bookingData.dropoffLocation) {
+                alert('Please fill in all ride details');
+                return false;
+            }
             if (!bookingData.firstName || !bookingData.lastName || !bookingData.email || !bookingData.phone) {
                 alert('Please fill in all contact details');
                 return false;
@@ -1023,7 +1094,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             bookingData.vehicleCityPrice = cityPrice;
 
             // Enable continue button
-            document.getElementById('continueToContact').disabled = false;
+            document.getElementById('continueToPayment').disabled = false;
 
             // Calculate and update price
             calculatePrice();
@@ -1144,7 +1215,35 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 } else {
                     // Payment successful
                     showMessage('Payment successful! Booking confirmed.', 'success');
-                    
+
+                    // Save booking to Supabase
+                    try {
+                        const { error: dbError } = await supabaseClient.from('bookings').insert([{
+                            customer_name: bookingData.firstName + ' ' + bookingData.lastName,
+                            customer_phone: bookingData.phone,
+                            customer_email: bookingData.email,
+                            pickup_date: bookingData.pickupDate,
+                            pickup_time: bookingData.pickupTime,
+                            pickup_location: bookingData.pickupLocation,
+                            dropoff_location: bookingData.dropoffLocation,
+                            distance: bookingData.distance || null,
+                            vehicle: bookingData.vehicle,
+                            passengers: parseInt(bookingData.passengers),
+                            transfer_type: bookingData.transferType || 'regular',
+                            flight_number: bookingData.flightNumber || null,
+                            meet_greet: bookingData.meetGreet || false,
+                            child_seats: parseInt(bookingData.childSeats) || 0,
+                            booster_seats: parseInt(bookingData.boosterSeats) || 0,
+                            waiting_time: bookingData.waitingTime || '0',
+                            special_requests: bookingData.specialRequests || null,
+                            total_price: bookingData.totalPrice,
+                            status: 'pending'
+                        }]);
+                        if (dbError) console.error('Database error:', dbError);
+                    } catch (e) {
+                        console.error('Supabase error:', e);
+                    }
+
                     // Redirect to confirmation page or home
                     setTimeout(() => {
                         window.location.href = 'index.html?booking=success';
@@ -1167,11 +1266,135 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Set minimum date to today
         document.getElementById('pickupDate').min = new Date().toISOString().split('T')[0];
+
+        // Pre-fill from index.html sessionStorage
+        (function() {
+            const saved = sessionStorage.getItem('bookingData');
+            if (!saved) return;
+            try {
+                const d = JSON.parse(saved);
+                if (d.pickupDate) document.getElementById('pickupDate').value = d.pickupDate;
+                if (d.pickupTime) document.getElementById('pickupTime').value = d.pickupTime;
+                if (d.pickupLocation) document.getElementById('pickupLocation').value = d.pickupLocation;
+                if (d.dropoffLocation) document.getElementById('dropoffLocation').value = d.dropoffLocation;
+                if (d.transferType) document.getElementById('transferType').value = d.transferType;
+                if (d.passengers) document.getElementById('passengers').value = d.passengers;
+                sessionStorage.removeItem('bookingData');
+            } catch(e) {}
+        })();
+
+        // Show/hide custom waiting time field
+        const waitingTimeEl = document.getElementById('waitingTime');
+        if (waitingTimeEl) {
+            waitingTimeEl.addEventListener('change', function() {
+                const customField = document.getElementById('customWaitingTime');
+                if (customField) customField.style.display = this.value === 'custom' ? 'block' : 'none';
+            });
+        }
     </script>
 
     <a href="https://wa.me/34656269013?text=Hello!%20I'm%20interested%20in%20booking%20a%20transfer%20in%20Barcelona." class="whatsapp-btn" title="Chat on WhatsApp">
         💬
     </a>
+
+    <script>
+// ═══════════════════════════════════════════════════════════
+// GOOGLE MAPS - BOOKING PAGE (Autocomplete + Distance + Map)
+// ═══════════════════════════════════════════════════════════
+let bookingPickupAutocomplete, bookingDropoffAutocomplete;
+let bookingMap, directionsService, directionsRenderer;
+let pickupPlace = null;
+let dropoffPlace = null;
+
+function initBookingMap() {
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+
+    const pickupInput = document.getElementById('pickupLocation');
+    if (pickupInput) {
+        bookingPickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, {
+            componentRestrictions: { country: 'es' },
+            fields: ['formatted_address', 'geometry', 'name', 'place_id'],
+            types: ['establishment', 'geocode']
+        });
+        bookingPickupAutocomplete.addListener('place_changed', function() {
+            pickupPlace = bookingPickupAutocomplete.getPlace();
+            calculateRouteDistance();
+        });
+    }
+
+    const dropoffInput = document.getElementById('dropoffLocation');
+    if (dropoffInput) {
+        bookingDropoffAutocomplete = new google.maps.places.Autocomplete(dropoffInput, {
+            componentRestrictions: { country: 'es' },
+            fields: ['formatted_address', 'geometry', 'name', 'place_id'],
+            types: ['establishment', 'geocode']
+        });
+        bookingDropoffAutocomplete.addListener('place_changed', function() {
+            dropoffPlace = bookingDropoffAutocomplete.getPlace();
+            calculateRouteDistance();
+        });
+    }
+
+    const mapElement = document.getElementById('map');
+    if (mapElement) {
+        bookingMap = new google.maps.Map(mapElement, {
+            center: { lat: 41.3851, lng: 2.1734 },
+            zoom: 10,
+            mapTypeControl: false,
+            streetViewControl: false
+        });
+        directionsRenderer.setMap(bookingMap);
+    }
+}
+
+function calculateRouteDistance() {
+    if (!pickupPlace || !dropoffPlace) return;
+
+    const distanceInput = document.getElementById('distance');
+    if (distanceInput) distanceInput.value = 'Calculating...';
+
+    const service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix({
+        origins: [pickupPlace.geometry.location],
+        destinations: [dropoffPlace.geometry.location],
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC
+    }, function(response, status) {
+        if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
+            const result = response.rows[0].elements[0];
+            const distanceKm = (result.distance.value / 1000).toFixed(1);
+
+            if (distanceInput) distanceInput.value = distanceKm + ' km';
+
+            bookingData.distance = parseFloat(distanceKm);
+            calculatePrice();
+            updateSummary();
+            showBookingRoute();
+        } else {
+            if (distanceInput) distanceInput.value = 'Unable to calculate';
+        }
+    });
+}
+
+function showBookingRoute() {
+    if (!pickupPlace || !dropoffPlace || !bookingMap) return;
+
+    const mapElement = document.getElementById('map');
+    if (mapElement) mapElement.style.display = 'block';
+
+    directionsService.route({
+        origin: pickupPlace.geometry.location,
+        destination: dropoffPlace.geometry.location,
+        travelMode: 'DRIVING'
+    }, function(response, status) {
+        if (status === 'OK') directionsRenderer.setDirections(response);
+    });
+}
+
+window.initBookingMap = initBookingMap;
+    </script>
+
     <script>
         var mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         var navLinks = document.querySelector('.nav-links');
