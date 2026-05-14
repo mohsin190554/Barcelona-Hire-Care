@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --primary: #8B7F00; --text-dark: #1a1a1a; --text-light: #666; --bg-light: #f8f8f8; --white: #ffffff; }
+        :root { --primary: #1E293B; --text-dark: #1a1a1a; --text-light: #666; --bg-light: #f8f8f8; --white: #ffffff; }
         body { font-family: 'Inter', sans-serif; color: var(--text-dark); line-height: 1.6; }
         .top-bar { background: var(--text-dark); color: var(--white); padding: 10px 0; font-size: 14px; }
         .top-bar-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
@@ -42,7 +42,7 @@
         .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
         .footer-section h3 { font-size: 18px; margin-bottom: 20px; }
         .footer-section ul { list-style: none; }
-        .footer-section a { color: rgba(255,255,255,0.7); text-decoration: none; }
+        .footer-section a { color: rgba(255,255,255,0.7); text-decoration: none; } .footer-section a:hover { color: #ffffff; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: rgba(255,255,255,0.6); }
         .whatsapp-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 30px; text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 999; }
         @media (max-width: 768px) { .nav-links { display: none; } .page-hero h1 { font-size: 32px; } .footer-content { grid-template-columns: 1fr; } }
@@ -56,6 +56,7 @@
             .dropdown-toggle::after { transition: transform 0.3s; }
             .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
         }
+            h1, h2, h3, h4, h5, h6 { font-family: sans-serif; }
     </style>
 </head>
 <body>
