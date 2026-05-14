@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB40otCtaIQlRq_FnSepReW-iTQConTCVQ&libraries=places,geometry&callback=initHomeAutocomplete" async defer></script>
     <style>
         * {
             margin: 0;
@@ -17,9 +18,9 @@
         }
 
         :root {
-            --primary: #8B7F00;
-            --primary-light: #a39400;
-            --primary-dark: #6d6300;
+            --primary: #1E293B;
+            --primary-light: #334155;
+            --primary-dark: #0F172A;
             --text-dark: #1a1a1a;
             --text-light: #666;
             --bg-light: #f8f8f8;
@@ -28,7 +29,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--text-dark);
             line-height: 1.6;
         }
@@ -715,7 +716,7 @@
         }
 
         .footer-section a:hover {
-            color: var(--primary);
+            color: #ffffff;
         }
 
         .footer-bottom {
@@ -815,6 +816,23 @@
             .dropdown-toggle::after { transition: transform 0.3s; }
             .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
         }
+            h1, h2, h3, h4, h5, h6 { font-family: sans-serif; }
+
+        /* Google Places Autocomplete */
+        .pac-container {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-family: 'Inter', sans-serif;
+            margin-top: 5px;
+            z-index: 9999;
+        }
+        .pac-item { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 14px; }
+        .pac-item:hover { background-color: #f8f8f8; }
+        .pac-item-query { font-size: 15px; color: #1E293B; font-weight: 500; }
+        .pac-icon { display: none; }
+        .pac-matched { font-weight: 700; }
     </style>
 </head>
 <body>
@@ -884,36 +902,35 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Pickup Date *</label>
-                            <input type="date" required>
+                            <input type="date" id="pickupDate" required>
                         </div>
                         <div class="form-group">
                             <label>Pickup Time *</label>
-                            <input type="time" required>
+                            <input type="time" id="pickupTime" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Pickup Location *</label>
-                        <input type="text" required placeholder="Enter pickup address">
+                        <input type="text" id="pickupLocation" required placeholder="Enter pickup address">
                     </div>
 
                     <div class="form-group">
                         <label>Dropoff Location *</label>
-                        <input type="text" required placeholder="Enter dropoff address">
+                        <input type="text" id="dropoffLocation" required placeholder="Enter dropoff address">
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Transfer Type *</label>
-                            <select required>
-                                <option>One-Way</option>
-                                <option>Return (Same Ride)</option>
-                                <option>Return (New Ride)</option>
+                            <select id="transferType" required>
+                                <option value="regular">Regular Transfer</option>
+                                <option value="city-to-city">City to City</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Passengers *</label>
-                            <select required>
+                            <select id="passengers" required>
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -930,26 +947,16 @@
 
             <!-- RIGHT SIDE - MAP -->
             <div class="booking-map-side">
-                <div style="height: 300px; border-radius: 12px; overflow: hidden;">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95777.49380029233!2d2.0787281!3d41.3873974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona%2C%20Spain!5e0!3m2!1sen!2s!4v1234567890"
-                        width="100%"
-                        height="100%"
-                        style="border:0;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
+                <div id="homeMap" style="height: 300px; border-radius: 12px; overflow: hidden;"></div>
                 <div class="distance-info">
                     <h3>Route Information</h3>
                     <div class="info-row">
                         <span>Distance</span>
-                        <strong>Calculate upon booking</strong>
+                        <strong id="homeDistance">Calculate upon booking</strong>
                     </div>
                     <div class="info-row">
                         <span>Duration</span>
-                        <strong>Based on route</strong>
+                        <strong id="homeDuration">Based on route</strong>
                     </div>
                 </div>
             </div>
@@ -1073,7 +1080,7 @@
                 <div class="fleet-info">
                     <div class="fleet-rating">★★★★★ 4.96</div>
                     <h3>Mercedes E Class</h3>
-                    <div class="fleet-price">€55 / 20km</div>
+                    <div class="fleet-price">€55 / hour</div>
                     <div class="fleet-specs">
                         <span>⚙️ Auto</span>
                         <span>⛽ Diesel</span>
@@ -1090,7 +1097,7 @@
                 <div class="fleet-info">
                     <div class="fleet-rating">★★★★★ 4.96</div>
                     <h3>Mercedes V Class</h3>
-                    <div class="fleet-price">€68 / 20km</div>
+                    <div class="fleet-price">€68 / hour</div>
                     <div class="fleet-specs">
                         <span>⚙️ Auto</span>
                         <span>⛽ Diesel</span>
@@ -1107,7 +1114,7 @@
                 <div class="fleet-info">
                     <div class="fleet-rating">★★★★★ 4.96</div>
                     <h3>Mercedes Vito</h3>
-                    <div class="fleet-price">€63 / 20km</div>
+                    <div class="fleet-price">€63 / hour</div>
                     <div class="fleet-specs">
                         <span>⚙️ Auto</span>
                         <span>⛽ Diesel</span>
@@ -1124,7 +1131,7 @@
                 <div class="fleet-info">
                     <div class="fleet-rating">★★★★★ 4.96</div>
                     <h3>Lexus ES300h</h3>
-                    <div class="fleet-price">€50 / 20km</div>
+                    <div class="fleet-price">€50 / hour</div>
                     <div class="fleet-specs">
                         <span>⚙️ Auto</span>
                         <span>⛽ Hybrid</span>
@@ -1246,10 +1253,6 @@
             });
         });
 
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            window.location.href = 'booking.html';
-        });
     </script>
     <script>
         var mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -1288,5 +1291,223 @@
             });
         });
     </script>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// GOOGLE MAPS - HOMEPAGE (Autocomplete + Route Display)
+// ═══════════════════════════════════════════════════════════
+var homeMap;
+var homePickupPlace = null;
+var homeDropoffPlace = null;
+var homeDirectionsService;
+var homeDirectionsRenderer;
+
+function initHomeAutocomplete() {
+    homeDirectionsService = new google.maps.DirectionsService();
+    homeDirectionsRenderer = new google.maps.DirectionsRenderer({
+        suppressMarkers: false,
+        polylineOptions: {
+            strokeColor: '#1E293B',
+            strokeWeight: 4,
+            strokeOpacity: 0.8
+        }
+    });
+
+    var mapElement = document.getElementById('homeMap');
+    if (mapElement) {
+        homeMap = new google.maps.Map(mapElement, {
+            center: { lat: 41.3851, lng: 2.1734 },
+            zoom: 12,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: true,
+            zoomControl: true
+        });
+        homeDirectionsRenderer.setMap(homeMap);
+    }
+
+    var pickupInput = document.getElementById('pickupLocation');
+    if (pickupInput) {
+        var pickupAC = new google.maps.places.Autocomplete(pickupInput, {
+            componentRestrictions: { country: 'es' },
+            types: ['geocode', 'establishment'],
+            fields: ['geometry', 'formatted_address', 'name', 'place_id']
+        });
+        pickupAC.addListener('place_changed', function() {
+            var place = pickupAC.getPlace();
+            if (place && place.geometry) {
+                homePickupPlace = place;
+                updateMapRoute();
+            }
+        });
+    }
+
+    var dropoffInput = document.getElementById('dropoffLocation');
+    if (dropoffInput) {
+        var dropoffAC = new google.maps.places.Autocomplete(dropoffInput, {
+            componentRestrictions: { country: 'es' },
+            types: ['geocode', 'establishment'],
+            fields: ['geometry', 'formatted_address', 'name', 'place_id']
+        });
+        dropoffAC.addListener('place_changed', function() {
+            var place = dropoffAC.getPlace();
+            if (place && place.geometry) {
+                homeDropoffPlace = place;
+                updateMapRoute();
+            }
+        });
+    }
+}
+
+function updateMapRoute() {
+    if (!homePickupPlace || !homeDropoffPlace) return;
+
+    var pickupLatLng = homePickupPlace.geometry.location;
+    var dropoffLatLng = homeDropoffPlace.geometry.location;
+
+    homeDirectionsService.route({
+        origin: pickupLatLng,
+        destination: dropoffLatLng,
+        travelMode: google.maps.TravelMode.DRIVING
+    }, function(response, status) {
+        if (status === 'OK') {
+            homeDirectionsRenderer.setDirections(response);
+
+            var leg = response.routes[0].legs[0];
+
+            var distEl = document.getElementById('homeDistance');
+            if (distEl) distEl.textContent = leg.distance.text;
+
+            var durEl = document.getElementById('homeDuration');
+            if (durEl) durEl.textContent = leg.duration.text;
+        } else {
+            showFallbackRoute(pickupLatLng, dropoffLatLng);
+        }
+    });
+}
+
+function showFallbackRoute(pickupLatLng, dropoffLatLng) {
+    homeDirectionsRenderer.setMap(null);
+
+    var bounds = new google.maps.LatLngBounds();
+    bounds.extend(pickupLatLng);
+    bounds.extend(dropoffLatLng);
+    homeMap.fitBounds(bounds);
+
+    new google.maps.Marker({ position: pickupLatLng, map: homeMap, label: 'A', title: 'Pickup' });
+    new google.maps.Marker({ position: dropoffLatLng, map: homeMap, label: 'B', title: 'Dropoff' });
+
+    new google.maps.Polyline({
+        path: [pickupLatLng, dropoffLatLng],
+        geodesic: true,
+        strokeColor: '#1E293B',
+        strokeOpacity: 0.6,
+        strokeWeight: 3,
+        map: homeMap
+    });
+
+    var distM = google.maps.geometry.spherical.computeDistanceBetween(pickupLatLng, dropoffLatLng);
+    var distKm = (distM / 1000).toFixed(1);
+
+    var distEl = document.getElementById('homeDistance');
+    if (distEl) distEl.textContent = distKm + ' km (approx)';
+
+    var estHours = distKm / 80;
+    var h = Math.floor(estHours);
+    var m = Math.round((estHours - h) * 60);
+    var durText = (h > 0 ? h + ' hour' + (h > 1 ? 's' : '') + ' ' : '') + (m > 0 ? m + ' min' : '');
+
+    var durEl = document.getElementById('homeDuration');
+    if (durEl) durEl.textContent = durText.trim() + ' (approx)';
+}
+
+window.initHomeAutocomplete = initHomeAutocomplete;
+</script>
+
+<script>
+// HOMEPAGE BOOKING FORM - SAVE AND REDIRECT
+(function() {
+    console.log('Homepage booking script loaded');
+
+    window.addEventListener('DOMContentLoaded', function() {
+
+        const form = document.getElementById('bookingForm') ||
+                    document.querySelector('.booking-form') ||
+                    document.querySelector('form');
+
+        if (!form) {
+            console.error('Form not found!');
+            return;
+        }
+
+        console.log('Form found:', form);
+
+        const button = form.querySelector('button[type="submit"]') ||
+                      form.querySelector('button') ||
+                      form.querySelector('.btn-primary') ||
+                      form.querySelector('a[href*="booking"]');
+
+        if (!button) {
+            console.error('Button not found!');
+            return;
+        }
+
+        console.log('Button found:', button);
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submitted!');
+            saveAndRedirect();
+        });
+
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Button clicked!');
+            saveAndRedirect();
+        });
+
+        function saveAndRedirect() {
+            console.log('Saving data...');
+
+            const pickupDate = form.querySelector('input[type="date"]');
+            const pickupTime = form.querySelector('input[type="time"]');
+            const pickupLocation = form.querySelector('input[name*="pickup"]') ||
+                                  form.querySelector('input[placeholder*="pickup" i]') ||
+                                  form.querySelector('#pickupLocation');
+            const dropoffLocation = form.querySelector('input[name*="dropoff"]') ||
+                                   form.querySelector('input[placeholder*="dropoff" i]') ||
+                                   form.querySelector('#dropoffLocation');
+            const passengers = form.querySelector('select[name*="passenger"]') ||
+                             form.querySelector('#passengers');
+            const transferType = form.querySelector('select[name*="transfer"]') ||
+                               form.querySelector('#transferType');
+
+            const formData = {
+                pickupDate: pickupDate ? pickupDate.value : '',
+                pickupTime: pickupTime ? pickupTime.value : '',
+                pickupLocation: pickupLocation ? pickupLocation.value : '',
+                dropoffLocation: dropoffLocation ? dropoffLocation.value : '',
+                passengers: passengers ? passengers.value : '1',
+                transferType: transferType ? transferType.value : 'regular',
+                timestamp: new Date().toISOString()
+            };
+
+            console.log('Form data collected:', formData);
+
+            if (!formData.pickupDate || !formData.pickupTime ||
+                !formData.pickupLocation || !formData.dropoffLocation) {
+                alert('Please fill in all required fields!');
+                return;
+            }
+
+            sessionStorage.setItem('bookingData', JSON.stringify(formData));
+            console.log('Data saved to sessionStorage');
+
+            console.log('Redirecting to booking.html...');
+            window.location.href = 'booking.html';
+        }
+    });
+})();
+</script>
 </body>
 </html>
