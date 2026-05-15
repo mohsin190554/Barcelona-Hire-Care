@@ -8,8 +8,10 @@
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB40otCtaIQlRq_FnSepReW-iTQConTCVQ&libraries=places,geometry&callback=initHomeAutocomplete" async defer></script>
+        <!-- Global Theme: colors, fonts, design tokens -->
+    <link rel="stylesheet" href="css/theme.css">
     <style>
         * {
             margin: 0;
@@ -18,9 +20,9 @@
         }
 
         :root {
-            --primary: #1E293B;
-            --primary-light: #334155;
-            --primary-dark: #0F172A;
+            --primary: #7E7E7E;
+            --primary-light: #8E8E8E;
+            --primary-dark: #6A6A6A;
             --text-dark: #1a1a1a;
             --text-light: #666;
             --bg-light: #f8f8f8;
@@ -29,7 +31,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: var(--text-dark);
             line-height: 1.6;
         }
@@ -484,6 +486,7 @@
             transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
             color: inherit;
+            position: relative;
         }
 
         .service-card:hover {
@@ -493,7 +496,7 @@
 
         .service-image {
             width: 100%;
-            height: 180px;
+            height: 240px;
             overflow: hidden;
         }
 
@@ -504,12 +507,20 @@
         }
 
         .service-content {
-            padding: 25px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 245, 245, 0.95);
+            padding: 20px 25px;
+            border-radius: 0 0 12px 12px;
+            backdrop-filter: blur(8px);
         }
 
         .service-content h3 {
             font-size: 18px;
-            margin-bottom: 10px;
+            margin: 0;
+            color: #1a1a1a;
         }
 
         /* Why Choose */
@@ -557,7 +568,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 25px;
         }
 
@@ -824,22 +835,144 @@
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin-top: 5px;
             z-index: 9999;
         }
         .pac-item { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 14px; }
         .pac-item:hover { background-color: #f8f8f8; }
-        .pac-item-query { font-size: 15px; color: #1E293B; font-weight: 500; }
+        .pac-item-query { font-size: 15px; color: #7E7E7E; font-weight: 500; }
         .pac-icon { display: none; }
         .pac-matched { font-weight: 700; }
-    </style>
+            /* === MOBILE: contact info one line === */
+        @media (max-width: 768px) {
+            .top-bar-content { justify-content: flex-end; }
+            .top-bar-content > div:last-child { flex-wrap: nowrap !important; font-size: 12px; }
+            .top-bar-content > div:last-child a:not(:first-child)::before { content: ' | '; color: rgba(255,255,255,0.6); }
+        }
+        /* === MOBILE: heading sizing === */
+        @media (max-width: 768px) {
+            h1, .page-hero h1 { font-size: 28px !important; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        }
+        /* === About Us heading === */
+        .about-text h2 { line-height: 1.2 !important; }
+        @media (max-width: 768px) { .about-text h2 { font-size: 22px !important; line-height: 1.2; } }
+        /* === MOBILE: form labels black === */
+        @media (max-width: 768px) {
+            label, .tab-btn { color: #1a1a1a !important; }
+        }
+        /* === MOBILE: date/time inputs white === */
+        @media (max-width: 768px) {
+            input[type="date"], input[type="time"] { background: #ffffff !important; border: 1px solid #ddd !important; color: #333333 !important; border-radius: 8px !important; font-size: 15px !important; }
+            input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0) !important; }
+        }
+        /* === MOBILE: menu left-aligned === */
+        @media (max-width: 768px) {
+            .nav-links.mobile-active { text-align: left !important; }
+            .nav-links.mobile-active a { text-align: left !important; }
+        }
+        /* === MOBILE: services dropdown white === */
+        @media (max-width: 768px) {
+            .dropdown-content { background-color: #ffffff !important; }
+            .dropdown-content a { background-color: #ffffff !important; }
+        }
+        /* === Fleet/vehicle image positioning for rating badges === */
+        .fleet-image, .vehicle-image { position: relative; overflow: hidden; }
+        /* === Heading fonts === */
+        h1, h2, h3, h4, h5, h6 { font-family: 'Century Gothic', 'Futura PT', 'Avenir Next', sans-serif !important; font-weight: 600 !important; }
+                /* === MOBILE TYPOGRAPHY REFINEMENTS === */
+        @media (max-width: 768px) {
+            /* Change 1: Section labels bigger (h3 small labels above h2) */
+            .section-header h3, .section-label, .section-tag, .overline, .eyebrow {
+                font-size: 15px !important;
+                letter-spacing: 1px;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+            /* Change 2: Main headings reduced */
+            h1 {
+                font-size: 26px !important;
+                line-height: 1.2 !important;
+                margin-bottom: 15px !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                text-overflow: clip !important;
+            }
+            h2 {
+                font-size: 24px !important;
+                line-height: 1.3 !important;
+                margin-bottom: 12px !important;
+            }
+            /* Change 3: Hero/booking title - one line */
+            .hero-title, .booking-form-title, .page-hero h1 {
+                font-size: 22px !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                line-height: 1.2 !important;
+            }
+            /* Change 4: Mobile menu left-aligned */
+            .nav-links.mobile-active {
+                align-items: flex-start !important;
+                padding-left: 0 !important;
+            }
+            .nav-links.mobile-active li {
+                width: 100%;
+                text-align: left !important;
+            }
+            .nav-links.mobile-active > li > a,
+            .nav-links.mobile-active > li > .dropdown-toggle {
+                display: block !important;
+                width: 100%;
+                text-align: left !important;
+                padding-left: 20px !important;
+            }
+            .dropdown-content a {
+                padding-left: 35px !important;
+            }
+            /* Subtitle / description readable */
+            .subtitle, .hero-subtitle, .description, p.lead {
+                font-size: 15px !important;
+                line-height: 1.5 !important;
+                margin-bottom: 20px !important;
+            }
+            /* Form labels */
+            label {
+                font-size: 14px !important;
+                font-weight: 500 !important;
+                margin-bottom: 8px !important;
+                display: block !important;
+            }
+            /* Section spacing */
+            .section-header {
+                margin-bottom: 25px !important;
+            }
+        }
+                /* Change 1: Booking form title one line on mobile */
+        @media (max-width: 768px) {
+            .booking-form-side h2 {
+                font-size: 20px !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                line-height: 1.2 !important;
+            }
+        }
+        /* Change 4: About images gradient background */
+        .about-image {
+            background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%);
+            padding: 8px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .about-image img { border-radius: 10px; }
+        </style>
 </head>
 <body>
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="top-bar-content">
-            <div>Trusted by 800+ travelers for private transfers across Barcelona</div>
+            <div></div>
             <div>
                 <a href="tel:+34656269013">+34 656 269 013</a>
                 <a href="mailto:Barcelonahirecar@gmail.com">Barcelonahirecar@gmail.com</a>
@@ -1075,6 +1208,7 @@
         <div class="fleet-grid">
             <div class="fleet-card">
                 <div class="fleet-image">
+                    <div style="position:absolute;top:10px;left:10px;background:white;padding:6px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:5px;z-index:10;"><span style="color:#FFB800;font-size:16px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:13px;">4.96</span><span style="color:#666;font-size:12px;">(672 reviews)</span></div>
                     <img src="images/car-eclass.jpg" alt="Mercedes E Class">
                 </div>
                 <div class="fleet-info">
@@ -1092,6 +1226,7 @@
 
             <div class="fleet-card">
                 <div class="fleet-image">
+                    <div style="position:absolute;top:10px;left:10px;background:white;padding:6px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:5px;z-index:10;"><span style="color:#FFB800;font-size:16px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:13px;">4.96</span><span style="color:#666;font-size:12px;">(680 reviews)</span></div>
                     <img src="images/car-vclass.jpg" alt="Mercedes V Class">
                 </div>
                 <div class="fleet-info">
@@ -1109,6 +1244,7 @@
 
             <div class="fleet-card">
                 <div class="fleet-image">
+                    <div style="position:absolute;top:10px;left:10px;background:white;padding:6px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:5px;z-index:10;"><span style="color:#FFB800;font-size:16px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:13px;">4.96</span><span style="color:#666;font-size:12px;">(665 reviews)</span></div>
                     <img src="images/car-vito.jpg" alt="Mercedes Vito">
                 </div>
                 <div class="fleet-info">
@@ -1118,7 +1254,7 @@
                     <div class="fleet-specs">
                         <span>⚙️ Auto</span>
                         <span>⛽ Diesel</span>
-                        <span>👤 6 pax</span>
+                        <span>👤 8 pax</span>
                     </div>
                     <div class="hourly-rate">€1.95/km extra</div>
                 </div>
@@ -1126,6 +1262,7 @@
 
             <div class="fleet-card">
                 <div class="fleet-image">
+                    <div style="position:absolute;top:10px;left:10px;background:white;padding:6px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:5px;z-index:10;"><span style="color:#FFB800;font-size:16px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:13px;">4.96</span><span style="color:#666;font-size:12px;">(658 reviews)</span></div>
                     <img src="images/car-lexus.jpg" alt="Lexus ES300h">
                 </div>
                 <div class="fleet-info">
@@ -1138,6 +1275,24 @@
                         <span>👤 3 pax</span>
                     </div>
                     <div class="hourly-rate">City: €40 / 20km</div>
+                </div>
+            </div>
+
+            <div class="fleet-card">
+                <div class="fleet-image">
+                    <div style="position:absolute;top:10px;left:10px;background:white;padding:6px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:5px;z-index:10;"><span style="color:#FFB800;font-size:16px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:13px;">4.96</span><span style="color:#666;font-size:12px;">(645 reviews)</span></div>
+                    <img src="images/toyota.jpg" alt="Toyota">
+                </div>
+                <div class="fleet-info">
+                    <div class="fleet-rating">★★★★★ 4.96</div>
+                    <h3>Toyota</h3>
+                    <div class="fleet-price">€45 / hour</div>
+                    <div class="fleet-specs">
+                        <span>⚙️ Auto</span>
+                        <span>⛽ Hybrid</span>
+                        <span>👤 4 pax</span>
+                    </div>
+                    <div class="hourly-rate">City: €45 / 20km</div>
                 </div>
             </div>
         </div>
@@ -1307,7 +1462,7 @@ function initHomeAutocomplete() {
     homeDirectionsRenderer = new google.maps.DirectionsRenderer({
         suppressMarkers: false,
         polylineOptions: {
-            strokeColor: '#1E293B',
+            strokeColor: '#7E7E7E',
             strokeWeight: 4,
             strokeOpacity: 0.8
         }
@@ -1400,7 +1555,7 @@ function showFallbackRoute(pickupLatLng, dropoffLatLng) {
     new google.maps.Polyline({
         path: [pickupLatLng, dropoffLatLng],
         geodesic: true,
-        strokeColor: '#1E293B',
+        strokeColor: '#7E7E7E',
         strokeOpacity: 0.6,
         strokeWeight: 3,
         map: homeMap
@@ -1426,88 +1581,45 @@ window.initHomeAutocomplete = initHomeAutocomplete;
 
 <script>
 // HOMEPAGE BOOKING FORM - SAVE AND REDIRECT
-(function() {
-    console.log('Homepage booking script loaded');
-
-    window.addEventListener('DOMContentLoaded', function() {
-
-        const form = document.getElementById('bookingForm') ||
-                    document.querySelector('.booking-form') ||
-                    document.querySelector('form');
-
-        if (!form) {
-            console.error('Form not found!');
-            return;
-        }
-
-        console.log('Form found:', form);
-
-        const button = form.querySelector('button[type="submit"]') ||
-                      form.querySelector('button') ||
-                      form.querySelector('.btn-primary') ||
-                      form.querySelector('a[href*="booking"]');
-
-        if (!button) {
-            console.error('Button not found!');
-            return;
-        }
-
-        console.log('Button found:', button);
-
-        form.addEventListener('submit', function(e) {
+document.addEventListener('DOMContentLoaded', function() {
+    var bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('Form submitted!');
-            saveAndRedirect();
-        });
 
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('Button clicked!');
-            saveAndRedirect();
-        });
+            var pickupLocation = document.getElementById('pickupLocation').value;
+            var dropoffLocation = document.getElementById('dropoffLocation').value;
+            var pickupDate = document.getElementById('pickupDate') ? document.getElementById('pickupDate').value : '';
+            var pickupTime = document.getElementById('pickupTime') ? document.getElementById('pickupTime').value : '';
+            var passengers = document.getElementById('passengers') ? document.getElementById('passengers').value : '1';
+            var transferType = document.getElementById('transferType') ? document.getElementById('transferType').value : 'regular';
 
-        function saveAndRedirect() {
-            console.log('Saving data...');
-
-            const pickupDate = form.querySelector('input[type="date"]');
-            const pickupTime = form.querySelector('input[type="time"]');
-            const pickupLocation = form.querySelector('input[name*="pickup"]') ||
-                                  form.querySelector('input[placeholder*="pickup" i]') ||
-                                  form.querySelector('#pickupLocation');
-            const dropoffLocation = form.querySelector('input[name*="dropoff"]') ||
-                                   form.querySelector('input[placeholder*="dropoff" i]') ||
-                                   form.querySelector('#dropoffLocation');
-            const passengers = form.querySelector('select[name*="passenger"]') ||
-                             form.querySelector('#passengers');
-            const transferType = form.querySelector('select[name*="transfer"]') ||
-                               form.querySelector('#transferType');
-
-            const formData = {
-                pickupDate: pickupDate ? pickupDate.value : '',
-                pickupTime: pickupTime ? pickupTime.value : '',
-                pickupLocation: pickupLocation ? pickupLocation.value : '',
-                dropoffLocation: dropoffLocation ? dropoffLocation.value : '',
-                passengers: passengers ? passengers.value : '1',
-                transferType: transferType ? transferType.value : 'regular',
-                timestamp: new Date().toISOString()
-            };
-
-            console.log('Form data collected:', formData);
-
-            if (!formData.pickupDate || !formData.pickupTime ||
-                !formData.pickupLocation || !formData.dropoffLocation) {
-                alert('Please fill in all required fields!');
+            if (!pickupLocation || !dropoffLocation) {
+                alert('Please enter both pickup and dropoff locations');
                 return;
             }
 
-            sessionStorage.setItem('bookingData', JSON.stringify(formData));
-            console.log('Data saved to sessionStorage');
+            var bookingData = {
+                pickup: pickupLocation,
+                dropoff: dropoffLocation,
+                date: pickupDate,
+                time: pickupTime,
+                passengers: passengers,
+                transferType: transferType,
+                timestamp: new Date().getTime()
+            };
 
-            console.log('Redirecting to booking.html...');
+            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
             window.location.href = 'booking.html';
-        }
-    });
-})();
+        });
+    }
+});
 </script>
 </body>
 </html>
+
+
+
+
+
+
