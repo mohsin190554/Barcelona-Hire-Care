@@ -165,6 +165,40 @@
                 margin-bottom: 25px !important;
             }
         }
+                /* === TOP BAR: phone + email on one line on mobile === */
+        @media (max-width: 768px) {
+            .top-bar { padding: 6px 0; }
+            .top-bar-content {
+                flex-wrap: nowrap !important;
+                justify-content: flex-end !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                scrollbar-width: none !important;
+                gap: 0 !important;
+            }
+            .top-bar-content::-webkit-scrollbar { display: none; }
+            .top-bar-content > div:first-child { display: none !important; }
+            .top-bar-content > div:last-child {
+                flex-wrap: nowrap !important;
+                white-space: nowrap !important;
+                font-size: 11px !important;
+                gap: 0 !important;
+                align-items: center;
+            }
+            .top-bar a {
+                font-size: 11px !important;
+                white-space: nowrap !important;
+                margin-left: 6px !important;
+            }
+            .top-bar-content > div:last-child a:not(:first-child)::before {
+                content: ' | ' !important;
+                margin-right: 2px;
+                color: rgba(255,255,255,0.5);
+            }
+        }
+        @media (max-width: 360px) {
+            .top-bar a { font-size: 10px !important; }
+        }
         </style>
 </head>
 <body>
@@ -365,6 +399,7 @@
     </script>
 </body>
 </html>
+
 
 
 
