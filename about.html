@@ -1,107 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | Barcelona Hire Car</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <!-- Global Theme: colors, fonts, design tokens -->
+<title>Barcelona Hire Car Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Global Theme: colors, fonts, design tokens -->
     <link rel="stylesheet" href="css/theme.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #7E7E7E;
-            --primary-light: #8E8E8E;
-            --primary-dark: #6A6A6A;
-            --text-dark: #1a1a1a;
-            --text-light: #666;
-            --bg-light: #f8f8f8;
-            --white: #ffffff;
-            --border: #e0e0e0;
-        }
-        body { font-family: 'Poppins', sans-serif; color: var(--text-dark); line-height: 1.6; }
-        .top-bar { background: var(--text-dark); color: var(--white); padding: 10px 0; font-size: 14px; }
-        .top-bar-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .top-bar-content > div:first-child { font-size: 13px; line-height: 1.4; }
-        .top-bar-content > div:last-child { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
-        .top-bar a { color: var(--white); text-decoration: none; margin-left: 20px; }
-        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        nav { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; color: var(--text-dark); text-decoration: none; }
-        .logo-image { height: 45px; width: auto; object-fit: contain; }
-        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
-        .nav-links a { color: var(--text-dark); text-decoration: none; font-weight: 500; transition: color 0.3s; padding: 8px 0; }
-        .nav-links a:hover { color: var(--primary); }
-        .dropdown { position: relative; }
-        .dropdown-toggle { cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .dropdown-toggle::after { content: '▼'; font-size: 10px; }
-        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background: var(--white); min-width: 220px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border-radius: 8px; padding: 10px 0; margin-top: 10px; z-index: 1000; }
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a { display: block; padding: 12px 20px; color: var(--text-dark); }
-        .dropdown-content a:hover { background: var(--bg-light); color: var(--primary); }
-        .mobile-menu-btn { display: none; background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-dark); }
-        .page-hero { background: linear-gradient(135deg, rgba(26, 26, 26, 0.50) 0%, rgba(45, 45, 45, 0.50) 100%), url('images/hero-bg.jpg') center/cover no-repeat; color: var(--white); padding: 80px 20px; text-align: center; position: relative; }
-        .page-hero h1 { font-size: 48px; margin-bottom: 15px; }
-        .breadcrumb { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; align-items: center; gap: 10px; color: var(--text-light); }
-        .breadcrumb a { color: var(--primary); text-decoration: none; }
-        .content-section { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
-        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 80px; }
-        .content-text h2 { font-size: 36px; margin-bottom: 20px; }
-        .content-text h3 { font-size: 14px; color: var(--primary); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .content-text p { color: var(--text-light); margin-bottom: 20px; line-height: 1.8; }
-        .content-text ul { list-style: none; margin: 30px 0; }
-        .content-text ul li { padding: 10px 0 10px 30px; position: relative; }
-        .content-text ul li::before { content: '✓'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
-        .content-images { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .content-image { width: 100%; height: 250px; border-radius: 12px; overflow: hidden; }
-        .content-image img { width: 100%; height: 100%; object-fit: cover; }
-        .stats-section { background: var(--bg-light); padding: 60px 20px; text-align: center; }
-        .stats-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
-        .stat-item h3 { font-size: 48px; color: var(--primary); margin-bottom: 10px; }
-        .stat-item p { color: var(--text-light); font-size: 16px; }
-        .features-section { padding: 80px 20px; background: var(--white); }
-        .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
-        .feature-card { text-align: center; padding: 30px; }
-        .feature-icon { width: 80px; height: 80px; background: transparent; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 40px; }
-        .feature-card h3 { font-size: 20px; margin-bottom: 15px; }
-        .feature-card p { color: var(--text-light); }
-        .btn-primary { background: var(--primary); color: var(--white); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; transition: background 0.3s; }
-        .btn-primary:hover { background: var(--primary-dark); }
-        footer { background: var(--text-dark); color: var(--white); padding: 60px 20px 20px; }
-        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
-        .footer-section h3 { font-size: 18px; margin-bottom: 20px; }
-        .footer-section ul { list-style: none; }
-        .footer-section ul li { margin-bottom: 10px; }
-        .footer-section a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s; }
-        .footer-section a:hover { color: #ffffff; }
-        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: rgba(255,255,255,0.6); }
-        .whatsapp-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 30px; text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.3s; z-index: 999; }
-        .whatsapp-btn:hover { transform: scale(1.1); }
-        @media (max-width: 1024px) {
-            .stats-grid, .features-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .mobile-menu-btn { display: block; }
-            .page-hero h1 { font-size: 32px; }
-            .content-grid { grid-template-columns: 1fr; }
-            .stats-grid, .features-grid, .footer-content { grid-template-columns: 1fr; }
-            .whatsapp-btn { width: 50px; height: 50px; font-size: 24px; bottom: 20px; right: 20px; }
-        }
-        .nav-links.mobile-active { display: flex !important; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 20px; gap: 10px; z-index: 1000; }
-        .dropdown-toggle { cursor: pointer; user-select: none; }
-        @media (max-width: 768px) {
-            .dropdown-content { position: static; box-shadow: none; border-radius: 0; margin: 0; padding: 0; background: #f8f8f8; display: none; }
-            .dropdown.mobile-open .dropdown-content { display: block; }
-            .dropdown-content a { padding-left: 40px; font-size: 0.9rem; }
-            .dropdown-toggle { display: block; width: 100%; }
-            .dropdown-toggle::after { transition: transform 0.3s; }
-            .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
-        }
-            h1, h2, h3, h4, h5, h6 { font-family: sans-serif; }
+:root {
+  --primary: #7E7E7E;
+  --primary-light: #8E8E8E;
+  --primary-dark: #6A6A6A;
+  --text-dark: #1a1a1a;
+  --text-light: #666;
+  --bg-light: #f8f8f8;
+  --white: #ffffff;
+  --border: #e0e0e0;
+  --green: #4caf50;
+  --red: #e05252;
+  --orange: #ff9800;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg-light); color: var(--text-dark); font-family: 'Poppins', sans-serif; font-size: 14px; }
+
+/* LOGIN */
+#loginScreen {
+  position: fixed; inset: 0; z-index: 1000;
+  background: linear-gradient(135deg, var(--text-dark) 0%, #2d2d2d 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.login-box {
+  width: 400px; padding: 3rem;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.login-logo { font-size: 1.8rem; font-weight: 700; margin-bottom: .3rem; color: var(--text-dark); }
+.login-logo span { color: var(--primary); }
+.login-sub { color: var(--text-light); font-size: .85rem; margin-bottom: 2rem; }
+.login-field { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1.2rem; }
+.login-field label { font-size: .85rem; font-weight: 500; }
+.login-field input { 
+  background: var(--bg-light); 
+  border: 1px solid var(--border); 
+  color: var(--text-dark); 
+  padding: .75rem 1rem; 
+  border-radius: 8px;
+  font-family: inherit; 
+  font-size: .9rem; 
+  outline: none; 
+}
+.login-field input:focus { border-color: var(--primary); }
+.login-btn { 
+  width: 100%; 
+  margin-top: .5rem; 
+  background: var(--primary); 
+  color: var(--white); 
+  padding: .9rem; 
+  border: none; 
+  border-radius: 8px;
+  cursor: pointer; 
+  font-family: inherit; 
+  font-size: .9rem; 
+  font-weight: 600; 
+  transition: background .3s; 
+}
+.login-btn:hover { background: var(--primary-dark); }
+.login-error { color: var(--red); font-size: .85rem; margin-top: .8rem; display: none; }
+
+/* LAYOUT */
+#app { display: none; min-height: 100vh; }
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 250px;
+  background: var(--white); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; z-index: 100;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+}
+.sidebar-logo { padding: 2rem 1.5rem; border-bottom: 1px solid var(--border); }
+.sidebar-logo-text { font-size: 1.4rem; font-weight: 700; }
+.sidebar-logo-text span { color: var(--primary); }
+.sidebar-logo-sub { font-size: .75rem; color: var(--text-light); margin-top: .3rem; }
+.sidebar-nav { flex: 1; padding: 1.5rem 0; }
+.nav-item {
+  display: flex; align-items: center; gap: .8rem;
+  padding: .85rem 1.5rem; cursor: pointer;
+  color: var(--text-light); transition: all .2s;
+  font-size: .9rem; border-left: 3px solid transparent;
+}
+.nav-item:hover { color: var(--text-dark); background: var(--bg-light); }
+.nav-item.active { color: var(--primary); border-left-color: var(--primary); background: rgba(139, 127, 0, 0.08); font-weight: 500; }
+.nav-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+.sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+.logout-btn { 
+  width: 100%; 
+  background: var(--white); 
+  border: 1px solid var(--border); 
+  color: var(--text-light); 
+  padding: .7rem; 
+  border-radius: 8px;
+  cursor: pointer; 
+  font-family: inherit; 
+  font-size: .85rem; 
+  font-weight: 500;
+  transition: all .3s; 
+}
+.logout-btn:hover { border-color: var(--red); color: var(--red); background: rgba(224, 82, 82, 0.05); }
+
+.main { margin-left: 250px; min-height: 100vh; background: var(--bg-light); }
+.topbar { 
+  padding: 1.5rem 2rem; 
+  background: var(--white);
+  border-bottom: 1px solid var(--border); 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  position: sticky; 
+  top: 0; 
+  z-index: 50; 
+}
+.topbar-title { font-size: 1.5rem; font-weight: 700; }
+.topbar-right { display: flex; align-items: center; gap: 1rem; }
+.refresh-btn { 
+  background: rgba(139, 127, 0, 0.1); 
+  border: 1px solid var(--primary); 
+  color: var(--primary); 
+  padding: .6rem 1.2rem; 
+  border-radius: 8px;
+  cursor: pointer; 
+  font-family: inherit; 
+  font-size: .85rem; 
+  font-weight: 500;
+  transition: background .3s; 
+}
+.refresh-btn:hover { background: rgba(139, 127, 0, 0.2); }
+.live-dot { 
+  width: 10px; 
+  height: 10px; 
+  background: var(--green); 
+  border-radius: 50%; 
+  animation: blink 2s infinite; 
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.content { padding: 2rem; }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+.stat-card { 
+  background: var(--white); 
+  border: 1px solid var(--border); 
+  padding: 1.8rem; 
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.stat-label { font-size: .8rem; color: var(--text-light); margin-bottom: 1rem; font-weight: 500; text-transform: uppercase; letter-spacing: .5px; }
+.stat-num { font-size: 2.5rem; font-weight: 700; color: var(--text-dark); line-height: 1; }
+.stat-sub { font-size: .85rem; color: var(--text-light); margin-top: .5rem; }
+.stat-card.gold .stat-num { color: var(--primary); }
+.stat-card.green .stat-num { color: var(--green); }
+.stat-card.orange .stat-num { color: var(--orange); }
+
+/* TABLE */
+.section-card { 
+  background: var(--white); 
+  border: 1px solid var(--border); 
+  border-radius: 12px;
+  margin-bottom: 2rem; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.section-head { 
+  padding: 1.5rem 2rem; 
+  border-bottom: 1px solid var(--border); 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+.section-head h2 { font-size: 1.1rem; font-weight: 600; }
+.filter-row { display: flex; gap: .5rem; }
+.filter-btn { 
+  background: var(--white); 
+  border: 1px solid var(--border); 
+  color: var(--text-light); 
+  padding: .5rem 1rem; 
+  border-radius: 8px;
+  cursor: pointer; 
+  font-family: inherit; 
+  font-size: .85rem; 
+  font-weight: 500;
+  transition: all .2s; 
+}
+.filter-btn.active, .filter-btn:hover { 
+  border-color: var(--primary); 
+  color: var(--primary); 
+  background: rgba(139, 127, 0, 0.05);
+}
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { 
+  padding: 1rem 1.5rem; 
+  text-align: left; 
+  font-size: .8rem; 
+  font-weight: 600;
+  color: var(--text-light); 
+  border-bottom: 1px solid var(--border); 
+  white-space: nowrap; 
+  background: var(--bg-light);
+}
+td { 
+  padding: 1rem 1.5rem; 
+  border-bottom: 1px solid var(--border); 
+  font-size: .9rem; 
+  vertical-align: middle; 
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(139, 127, 0, 0.02); }
+
+.badge { 
+  display: inline-block; 
+  padding: .3rem .8rem; 
+  font-size: .75rem; 
+  font-weight: 600;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+.badge.pending { background: rgba(255, 152, 0, 0.15); color: var(--orange); }
+.badge.confirmed { background: rgba(76, 175, 80, 0.15); color: var(--green); }
+.badge.cancelled { background: rgba(224, 82, 82, 0.15); color: var(--red); }
+.badge.unread { background: rgba(139, 127, 0, 0.15); color: var(--primary); }
+.badge.read { background: rgba(102, 102, 102, 0.15); color: var(--text-light); }
+
+.action-btn { 
+  background: var(--white); 
+  border: 1px solid var(--border); 
+  color: var(--text-light); 
+  padding: .4rem .8rem; 
+  border-radius: 6px;
+  cursor: pointer; 
+  font-family: inherit; 
+  font-size: .8rem; 
+  font-weight: 500;
+  transition: all .2s; 
+  margin-right: .4rem; 
+}
+.action-btn:hover { border-color: var(--primary); color: var(--primary); }
+.action-btn.confirm:hover { border-color: var(--green); color: var(--green); background: rgba(76, 175, 80, 0.05); }
+.action-btn.cancel:hover { border-color: var(--red); color: var(--red); background: rgba(224, 82, 82, 0.05); }
+.action-btn.delete:hover { border-color: var(--red); color: var(--red); background: rgba(224, 82, 82, 0.08); }
+
+/* EMPTY */
+.empty { padding: 3rem; text-align: center; color: var(--text-light); }
+.empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: .4; }
+.empty p { font-size: .95rem; }
+
+/* LOADING */
+.loading { padding: 2rem; text-align: center; color: var(--text-light); font-size: .95rem; }
+
+/* MODAL */
+.modal-overlay { 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,.5); 
+  z-index: 500; 
+  display: none; 
+  align-items: center; 
+  justify-content: center; 
+}
+.modal-overlay.open { display: flex; }
+.modal { 
+  background: var(--white); 
+  border-radius: 12px;
+  padding: 2rem; 
+  width: 600px; 
+  max-width: 95vw; 
+  max-height: 85vh; 
+  overflow-y: auto; 
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.modal h3 { font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 700; }
+.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.modal-field { display: flex; flex-direction: column; gap: .4rem; }
+.modal-field.full { grid-column: 1 / -1; }
+.modal-field label { font-size: .8rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: .5px; }
+.modal-field p { font-size: .95rem; color: var(--text-dark); }
+.modal-actions { display: flex; gap: .8rem; margin-top: 2rem; }
+.modal-btn { 
+  flex: 1;
+  padding: .8rem; 
+  border: none; 
+  border-radius: 8px;
+  cursor: pointer; 
+  font-family: inherit; 
+  font-size: .9rem; 
+  font-weight: 600;
+  transition: all .3s; 
+}
+.modal-btn.confirm { background: var(--green); color: var(--white); }
+.modal-btn.confirm:hover { background: #45a049; }
+.modal-btn.cancel { background: var(--red); color: var(--white); }
+.modal-btn.cancel:hover { background: #d44444; }
+.modal-btn.close { background: var(--bg-light); color: var(--text-dark); border: 1px solid var(--border); }
+.modal-btn.close:hover { background: var(--border); }
+
+/* TOAST */
+.toast { 
+  position: fixed; 
+  bottom: 2rem; 
+  right: 2rem; 
+  background: var(--white); 
+  color: var(--text-dark); 
+  padding: 1rem 1.5rem; 
+  border-radius: 8px;
+  font-size: .9rem; 
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
+  z-index: 1000; 
+  opacity: 0; 
+  transform: translateY(100px); 
+  transition: all .3s; 
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { border-left: 4px solid var(--green); }
+.toast.error { border-left: 4px solid var(--red); }
+
+@media (max-width: 768px) {
+  .sidebar { width: 70px; }
+  .sidebar-logo-text, .sidebar-logo-sub, .nav-item span, .logout-btn { display: none; }
+  .main { margin-left: 70px; }
+  .stats-grid { grid-template-columns: 1fr; }
+}
+        h1, h2, h3, h4, h5, h6 { font-family: sans-serif; }
             /* === MOBILE: contact info one line === */
         @media (max-width: 768px) {
             .top-bar-content { justify-content: flex-end; }
@@ -206,14 +440,6 @@
                 margin-bottom: 25px !important;
             }
         }
-                /* Change 4: About images gradient background */
-        .content-image {
-            background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%);
-            padding: 8px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .content-image img { border-radius: 10px; width: 100%; height: 100%; object-fit: cover; }
                 /* === TOP BAR: phone + email on one line on mobile === */
         @media (max-width: 768px) {
             .top-bar { padding: 6px 0; }
@@ -251,232 +477,499 @@
         </style>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="top-bar-content">
-            <div></div>
-            <div>
-                <a href="tel:+34656269013">+34 656 269 013</a>
-                <a href="mailto:Barcelonahirecar@gmail.com">Barcelonahirecar@gmail.com</a>
-            </div>
-        </div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Barcelona <span>Hire Car</span></div>
+    <div class="login-sub">Admin Dashboard</div>
+    <div class="login-field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="admin@barcelonahirecar.com">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••">
+    </div>
+    <button class="login-btn" onclick="login()">Sign In</button>
+    <div class="login-error" id="loginError">Invalid credentials</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <img src="images/logo.png" alt="Barcelona Hire Car" style="height: 50px; width: auto; margin-bottom: 10px;">
+      <div class="sidebar-logo-sub">Admin Panel</div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-item active" onclick="switchPage('dashboard')">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('bookings')">
+        <span class="nav-icon">📅</span>
+        <span>Bookings</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('messages')">
+        <span class="nav-icon">✉️</span>
+        <span>Messages</span>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="live-dot"></div>
+        <button class="refresh-btn" onclick="loadAll()">Refresh</button>
+      </div>
     </div>
 
-    <header>
-        <nav>
-            <a href="index.html" class="logo">
-                <img src="images/logo.png" alt="Barcelona Hire Car Logo" class="logo-image">
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="booking.html">Book Now</a></li>
-                <li class="dropdown">
-                    <a href="services.html" class="dropdown-toggle">Our Services</a>
-                    <div class="dropdown-content">
-                        <a href="service-andorra.html">Transfers Andorra</a>
-                        <a href="service-port.html">Port Transfers</a>
-                        <a href="service-wedding.html">Wedding</a>
-                        <a href="service-laroca.html">La Roca Village</a>
-                    </div>
-                </li>
-                <li><a href="faqs.html">FAQs</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <button class="mobile-menu-btn">☰</button>
-        </nav>
-    </header>
-
-    <div class="page-hero">
-        <h1>About Us</h1>
-        <p>Learn more about our company</p>
-    </div>
-
-    <div class="breadcrumb">
-        <a href="index.html">Home</a>
-        <span>→</span>
-        <span>About Us</span>
-    </div>
-
-    <section class="content-section">
-        <div class="content-grid">
-            <div class="content-text">
-                <h3>Our Story</h3>
-                <h2>The Future of Private Transfers is Here</h2>
-                <p>Welcome to Barcelona Hire Car, your trusted partner in transport. Since our founding, we have been committed to providing our customers with a seamless and reliable private transfers experience.</p>
-                <p>Our mission is to redefine intercity travel with comfort, reliability, and ease. We believe every journey should feel effortless — from booking your ride to arriving at your destination.</p>
-            </div>
-            <div class="content-images">
-                <div class="content-image">
-                    <img src="images/about-1.jpg" alt="Luxury Car">
-                </div>
-                <div class="content-image">
-                    <img src="images/about-2.jpg" alt="Barcelona">
-                </div>
-                <div class="content-image">
-                    <img src="images/about-3.jpg" alt="Chauffeur">
-                </div>
-                <div class="content-image">
-                    <img src="images/about-4.jpg" alt="Mercedes">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="stats-section">
+    <!-- CONTENT -->
+    <div class="content">
+      <!-- DASHBOARD PAGE -->
+      <div id="page-dashboard">
         <div class="stats-grid">
-            <div class="stat-item">
-                <h3>9+</h3>
-                <p>Industry Experts</p>
-            </div>
-            <div class="stat-item">
-                <h3>12+</h3>
-                <p>Years in Business</p>
-            </div>
-            <div class="stat-item">
-                <h3>800+</h3>
-                <p>Happy Customers</p>
-            </div>
-            <div class="stat-item">
-                <h3>24/7</h3>
-                <p>Customer Support</p>
-            </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Bookings</div>
+            <div class="stat-num" id="stat-total">0</div>
+            <div class="stat-sub">All time</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Confirmed</div>
+            <div class="stat-num" id="stat-confirmed">0</div>
+            <div class="stat-sub">Active bookings</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-label">Pending</div>
+            <div class="stat-num" id="stat-pending">0</div>
+            <div class="stat-sub">Awaiting confirmation</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-label">New Messages</div>
+            <div class="stat-num" id="stat-messages">0</div>
+            <div class="stat-sub">Unread</div>
+          </div>
         </div>
+
+        <!-- RECENT BOOKINGS -->
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Recent Bookings</h2>
+          </div>
+          <div class="loading" id="dashboardLoading">Loading...</div>
+          <div class="table-wrap" id="dashboardTable" style="display:none">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Customer</th>
+                  <th>Pickup</th>
+                  <th>Dropoff</th>
+                  <th>Vehicle</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardBookings"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOOKINGS PAGE -->
+      <div id="page-bookings" style="display:none">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>All Bookings</h2>
+            <div class="filter-row">
+              <button class="filter-btn active" onclick="filterBookings('all', this)">All</button>
+              <button class="filter-btn" onclick="filterBookings('pending', this)">Pending</button>
+              <button class="filter-btn" onclick="filterBookings('confirmed', this)">Confirmed</button>
+              <button class="filter-btn" onclick="filterBookings('cancelled', this)">Cancelled</button>
+            </div>
+          </div>
+          <div class="loading" id="bookingsLoading">Loading...</div>
+          <div class="table-wrap" id="bookingsTable" style="display:none">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Pickup</th>
+                  <th>Dropoff</th>
+                  <th>Vehicle</th>
+                  <th>Passengers</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="bookingsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGES PAGE -->
+      <div id="page-messages" style="display:none">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Contact Messages</h2>
+            <div class="filter-row">
+              <button class="filter-btn active" onclick="filterMessages('all', this)">All</button>
+              <button class="filter-btn" onclick="filterMessages('unread', this)">Unread</button>
+              <button class="filter-btn" onclick="filterMessages('read', this)">Read</button>
+            </div>
+          </div>
+          <div class="loading" id="messagesLoading">Loading...</div>
+          <div class="table-wrap" id="messagesTable" style="display:none">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Message</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messagesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <section class="content-section">
-        <div class="content-grid" style="direction: rtl;">
-            <div class="content-text" style="direction: ltr;">
-                <h3>Our Mission</h3>
-                <h2>Connecting cities with comfort</h2>
-                <p>Our mission is to redefine intercity travel with comfort, reliability, and ease.</p>
-                <ul>
-                    <li>Smooth city-to-city rides designed for your comfort</li>
-                    <li>Professional drivers and well-maintained vehicles</li>
-                    <li>24/7 customer assistance to keep you moving</li>
-                </ul>
-                <a href="booking.html" class="btn-primary">Book Your Ride</a>
-            </div>
-            <div class="content-images" style="direction: ltr;">
-                <div class="content-image">
-                    <img src="images/about-5.jpg" alt="Car">
-                </div>
-                <div class="content-image">
-                    <img src="images/about-6.jpg" alt="Interior">
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- BOOKING DETAIL MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <h3>Booking Details</h3>
+    <div class="modal-grid" id="modalContent"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
 
-    <section class="features-section" style="background: var(--bg-light);">
-        <div style="text-align: center; margin-bottom: 60px;">
-            <h3 style="font-size: 14px; color: var(--primary); font-weight: 600; margin-bottom: 10px; text-transform: uppercase;">What We Offer</h3>
-            <h2 style="font-size: 36px;">Why Choose Barcelona Hire Car</h2>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📍</div>
-                <h3>Choose Location</h3>
-                <p>Select the ideal destination to begin your journey with ease</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h3>Transparent Pricing</h3>
-                <p>Enjoy clear and upfront pricing with no surprises</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📅</div>
-                <h3>Convenient Booking</h3>
-                <p>Easy booking options for all your travel needs</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📞</div>
-                <h3>24/7 Support</h3>
-                <p>Get assistance whenever you need it</p>
-            </div>
-        </div>
-    </section>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Hours: 24/7</h3>
-                <p>Barcelonahirecar@gmail.com</p>
-                <p>Need help? Call us</p>
-                <p><a href="tel:+34656269013">+34 656 269 013</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>Company</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="booking.html">Book Now</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Our Services</h3>
-                <ul>
-                    <li><a href="service-andorra.html">Transfers Andorra</a></li>
-                    <li><a href="service-port.html">Port Transfers</a></li>
-                    <li><a href="service-wedding.html">Wedding</a></li>
-                    <li><a href="service-laroca.html">La Roca Village</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Legal</h3>
-                <ul>
-                    <li><a href="terms.html">Terms & Conditions</a></li>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="cookies.html">Cookie Policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 Barcelona Hire Car. All rights reserved.</p>
-        </div>
-    </footer>
+<script>
+// ══════════════════════════════════════════
+// SUPABASE CONFIGURATION
+// ══════════════════════════════════════════
+const SUPABASE_URL = 'https://jiypwhysddlajkuoynat.supabase.co'
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppeXB3aHlzZGRsYWprdW95bmF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTU1ODcsImV4cCI6MjA5NDI3MTU4N30.ip1_RLzb3GV0OTHPsVXXbXCVlmVhUqg901MJ8MFSU0c'
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-    <a href="https://wa.me/34656269013?text=Hello!%20I'm%20interested%20in%20booking%20a%20transfer." class="whatsapp-btn" title="Chat on WhatsApp">💬</a>
-    <script>
-        var mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        var navLinks = document.querySelector('.nav-links');
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                navLinks.classList.toggle('mobile-active');
-                this.textContent = navLinks.classList.contains('mobile-active') ? '✕' : '☰';
-            });
-        }
-        document.addEventListener('click', function(e) {
-            if (navLinks && !e.target.closest('nav')) {
-                navLinks.classList.remove('mobile-active');
-                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
-                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
-            }
-        });
-        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(function(link) {
-            link.addEventListener('click', function() {
-                navLinks.classList.remove('mobile-active');
-                document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
-                if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
-            });
-        });
-        document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
-            toggle.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var dropdown = this.closest('.dropdown');
-                    var wasOpen = dropdown.classList.contains('mobile-open');
-                    document.querySelectorAll('.dropdown').forEach(function(d) { d.classList.remove('mobile-open'); });
-                    if (!wasOpen) dropdown.classList.add('mobile-open');
-                }
-            });
-        });
-    </script>
+let allBookings = []
+let allMessages = []
+
+// ══════════════════════════════════════════
+// LOGIN
+// ══════════════════════════════════════════
+async function login() {
+  const email = document.getElementById('loginEmail').value
+  const password = document.getElementById('loginPassword').value
+  
+  const { data, error } = await db.auth.signInWithPassword({ email, password })
+  
+  if (error) {
+    document.getElementById('loginError').style.display = 'block'
+    return
+  }
+  
+  document.getElementById('loginScreen').style.display = 'none'
+  document.getElementById('app').style.display = 'block'
+  loadAll()
+}
+
+// ══════════════════════════════════════════
+// LOGOUT
+// ══════════════════════════════════════════
+async function logout() {
+  await db.auth.signOut()
+  location.reload()
+}
+
+// ══════════════════════════════════════════
+// LOAD ALL DATA
+// ══════════════════════════════════════════
+async function loadAll() {
+  await loadBookings()
+  await loadMessages()
+  updateStats()
+}
+
+// ══════════════════════════════════════════
+// LOAD BOOKINGS
+// ══════════════════════════════════════════
+async function loadBookings() {
+  const { data, error } = await db
+    .from('bookings')
+    .select('*')
+    .order('created_at', { ascending: false })
+  
+  if (error) { console.error(error); return; }
+  
+  allBookings = data
+  renderDashboardBookings(data.slice(0, 5))
+  renderAllBookings(data)
+  document.getElementById('dashboardLoading').style.display = 'none'
+  document.getElementById('dashboardTable').style.display = 'block'
+  document.getElementById('bookingsLoading').style.display = 'none'
+  document.getElementById('bookingsTable').style.display = 'block'
+}
+
+// ══════════════════════════════════════════
+// LOAD MESSAGES
+// ══════════════════════════════════════════
+async function loadMessages() {
+  const { data, error } = await db
+    .from('messages')
+    .select('*')
+    .order('created_at', { ascending: false })
+  
+  if (error) { console.error(error); return; }
+  
+  allMessages = data
+  renderMessages(data)
+  document.getElementById('messagesLoading').style.display = 'none'
+  document.getElementById('messagesTable').style.display = 'block'
+}
+
+// ══════════════════════════════════════════
+// UPDATE STATS
+// ══════════════════════════════════════════
+function updateStats() {
+  document.getElementById('stat-total').textContent = allBookings.length
+  document.getElementById('stat-confirmed').textContent = allBookings.filter(b => b.status === 'confirmed').length
+  document.getElementById('stat-pending').textContent = allBookings.filter(b => b.status === 'pending').length
+  document.getElementById('stat-messages').textContent = allMessages.filter(m => m.status === 'unread').length
+}
+
+// ══════════════════════════════════════════
+// RENDER DASHBOARD BOOKINGS
+// ══════════════════════════════════════════
+function renderDashboardBookings(bookings) {
+  const tbody = document.getElementById('dashboardBookings')
+  if (!bookings.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="empty-icon">📅</div><p>No bookings yet.</p></div></td></tr>'
+    return
+  }
+  
+  tbody.innerHTML = bookings.map(b => {
+    const date = new Date(b.pickup_date).toLocaleDateString('en-GB', { day:'2-digit', month:'short' })
+    return `
+    <tr>
+      <td>${date}</td>
+      <td><strong>${b.customer_name}</strong></td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">${b.pickup_location}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">${b.dropoff_location || '—'}</td>
+      <td>${b.vehicle}</td>
+      <td><span class="badge ${b.status}">${b.status}</span></td>
+      <td><button class="action-btn" onclick="viewBooking('${b.id}')">View</button></td>
+    </tr>`
+  }).join('')
+}
+
+// ══════════════════════════════════════════
+// RENDER ALL BOOKINGS
+// ══════════════════════════════════════════
+function renderAllBookings(bookings) {
+  const tbody = document.getElementById('bookingsTableBody')
+  if (!bookings.length) {
+    tbody.innerHTML = '<tr><td colspan="10"><div class="empty"><div class="empty-icon">📅</div><p>No bookings found.</p></div></td></tr>'
+    return
+  }
+  
+  tbody.innerHTML = bookings.map(b => {
+    const date = new Date(b.pickup_date).toLocaleDateString('en-GB', { day:'2-digit', month:'short' })
+    const time = b.pickup_time?.slice(0,5) || '—'
+    return `
+    <tr>
+      <td>${date}</td>
+      <td>${time}</td>
+      <td><strong>${b.customer_name}</strong></td>
+      <td>${b.customer_phone}</td>
+      <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis" title="${b.pickup_location}">${b.pickup_location}</td>
+      <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis" title="${b.dropoff_location || '—'}">${b.dropoff_location || '—'}</td>
+      <td>${b.vehicle}</td>
+      <td style="text-align:center">${b.passengers}</td>
+      <td><span class="badge ${b.status}">${b.status}</span></td>
+      <td style="white-space:nowrap">
+        <button class="action-btn" onclick="viewBooking('${b.id}')">View</button>
+        ${b.status !== 'confirmed' ? `<button class="action-btn confirm" onclick="updateBookingStatus('${b.id}','confirmed')">✓</button>` : ''}
+        ${b.status !== 'cancelled' ? `<button class="action-btn cancel" onclick="updateBookingStatus('${b.id}','cancelled')">✕</button>` : ''}
+        <button class="action-btn delete" onclick="deleteBooking('${b.id}')">🗑</button>
+      </td>
+    </tr>`
+  }).join('')
+}
+
+// ══════════════════════════════════════════
+// FILTER BOOKINGS
+// ══════════════════════════════════════════
+function filterBookings(status, btn) {
+  document.querySelectorAll('#page-bookings .filter-btn').forEach(b => b.classList.remove('active'))
+  btn.classList.add('active')
+  const filtered = status === 'all' ? allBookings : allBookings.filter(b => b.status === status)
+  renderAllBookings(filtered)
+}
+
+// ══════════════════════════════════════════
+// VIEW BOOKING MODAL
+// ══════════════════════════════════════════
+function viewBooking(id) {
+  const b = allBookings.find(x => x.id === id)
+  if (!b) return
+  
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-field"><label>Customer Name</label><p>${b.customer_name}</p></div>
+    <div class="modal-field"><label>Phone</label><p>${b.customer_phone}</p></div>
+    <div class="modal-field"><label>Email</label><p>${b.customer_email || '—'}</p></div>
+    <div class="modal-field"><label>Vehicle</label><p>${b.vehicle}</p></div>
+    <div class="modal-field"><label>Passengers</label><p>${b.passengers}</p></div>
+    <div class="modal-field"><label>Distance</label><p>${b.distance || '—'} km</p></div>
+    <div class="modal-field"><label>Pickup Date</label><p>${b.pickup_date}</p></div>
+    <div class="modal-field"><label>Pickup Time</label><p>${b.pickup_time?.slice(0,5) || '—'}</p></div>
+    <div class="modal-field full"><label>Pickup Location</label><p>${b.pickup_location}</p></div>
+    <div class="modal-field full"><label>Drop-off Location</label><p>${b.dropoff_location || '—'}</p></div>
+    <div class="modal-field full"><label>Special Requests</label><p>${b.special_requests || 'None'}</p></div>
+    <div class="modal-field"><label>Status</label><p><span class="badge ${b.status}">${b.status}</span></p></div>
+    <div class="modal-field"><label>Booked On</label><p>${new Date(b.created_at).toLocaleString('en-GB')}</p></div>
+  `
+  
+  document.getElementById('modalActions').innerHTML = `
+    ${b.status !== 'confirmed' ? `<button class="modal-btn confirm" onclick="updateBookingStatus('${b.id}','confirmed');closeModal()">✓ Confirm</button>` : ''}
+    ${b.status !== 'cancelled' ? `<button class="modal-btn cancel" onclick="updateBookingStatus('${b.id}','cancelled');closeModal()">✕ Cancel</button>` : ''}
+    <button class="modal-btn close" onclick="closeModal()">Close</button>
+  `
+  
+  document.getElementById('bookingModal').classList.add('open')
+}
+
+function closeModal() { 
+  document.getElementById('bookingModal').classList.remove('open') 
+}
+
+document.getElementById('bookingModal').addEventListener('click', e => { 
+  if (e.target === e.currentTarget) closeModal() 
+})
+
+// ══════════════════════════════════════════
+// UPDATE BOOKING STATUS
+// ══════════════════════════════════════════
+async function updateBookingStatus(id, status) {
+  const { error } = await db.from('bookings').update({ status }).eq('id', id)
+  if (error) { showToast('Update failed', 'error'); return; }
+  showToast(`Booking ${status}!`, 'success')
+  await loadAll()
+}
+
+// ══════════════════════════════════════════
+// DELETE BOOKING
+// ══════════════════════════════════════════
+async function deleteBooking(id) {
+  if (!confirm('Delete this booking? This cannot be undone.')) return
+  const { error } = await db.from('bookings').delete().eq('id', id)
+  if (error) { showToast('Delete failed', 'error'); return; }
+  showToast('Booking deleted', 'success')
+  await loadAll()
+}
+
+// ══════════════════════════════════════════
+// RENDER MESSAGES
+// ══════════════════════════════════════════
+function renderMessages(messages) {
+  const tbody = document.getElementById('messagesTableBody')
+  if (!messages.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="empty-icon">✉️</div><p>No messages yet.</p></div></td></tr>'
+    return
+  }
+  
+  tbody.innerHTML = messages.map(m => {
+    const date = new Date(m.created_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short' })
+    return `
+    <tr>
+      <td>${date}</td>
+      <td><strong>${m.name}</strong></td>
+      <td>${m.phone}</td>
+      <td>${m.email || '—'}</td>
+      <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis" title="${m.message}">${m.message}</td>
+      <td><span class="badge ${m.status}">${m.status}</span></td>
+      <td>
+        ${m.status === 'unread' ? `<button class="action-btn" onclick="markRead('${m.id}')">Mark Read</button>` : ''}
+        <button class="action-btn delete" onclick="deleteMessage('${m.id}')">🗑</button>
+      </td>
+    </tr>`
+  }).join('')
+}
+
+function filterMessages(status, btn) {
+  document.querySelectorAll('#page-messages .filter-btn').forEach(b => b.classList.remove('active'))
+  btn.classList.add('active')
+  const filtered = status === 'all' ? allMessages : allMessages.filter(m => m.status === status)
+  renderMessages(filtered)
+}
+
+async function markRead(id) {
+  const { error } = await db.from('messages').update({ status: 'read' }).eq('id', id)
+  if (!error) { showToast('Marked as read', 'success'); await loadAll(); }
+}
+
+async function deleteMessage(id) {
+  if (!confirm('Delete this message?')) return
+  const { error } = await db.from('messages').delete().eq('id', id)
+  if (!error) { showToast('Message deleted', 'success'); await loadAll(); }
+}
+
+// ══════════════════════════════════════════
+// SWITCH PAGE
+// ══════════════════════════════════════════
+function switchPage(page) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'))
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none')
+  
+  event.target.closest('.nav-item').classList.add('active')
+  document.getElementById('page-' + page).style.display = 'block'
+  
+  const titles = { dashboard: 'Dashboard', bookings: 'Bookings', messages: 'Messages' }
+  document.querySelector('.topbar-title').textContent = titles[page]
+}
+
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast')
+  t.textContent = msg
+  t.className = 'toast ' + type + ' show'
+  setTimeout(() => t.classList.remove('show'), 3500)
+}
+
+// ══════════════════════════════════════════
+// AUTO REFRESH EVERY 30 SECONDS
+// ══════════════════════════════════════════
+setInterval(() => {
+  if (document.getElementById('app').style.display !== 'none') loadAll()
+}, 30000)
+</script>
 </body>
 </html>
-
-
 
 
 
