@@ -7,11 +7,13 @@
     <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/favicon.png">
     <title>Privacy Policy | Barcelona Hire Car</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Global Theme: colors, fonts, design tokens -->
+    <link rel="stylesheet" href="css/theme.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --primary: #1E293B; --text-dark: #1a1a1a; --text-light: #666; --bg-light: #f8f8f8; --white: #ffffff; }
-        body { font-family: 'Inter', sans-serif; color: var(--text-dark); line-height: 1.6; }
+        :root { --primary: #7E7E7E; --text-dark: #1a1a1a; --text-light: #666; --bg-light: #f8f8f8; --white: #ffffff; }
+        body { font-family: 'Poppins', sans-serif; color: var(--text-dark); line-height: 1.6; }
         .top-bar { background: var(--text-dark); color: var(--white); padding: 10px 0; font-size: 14px; }
         .top-bar-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         .top-bar-content > div:first-child { font-size: 13px; line-height: 1.4; }
@@ -57,12 +59,116 @@
             .dropdown.mobile-open .dropdown-toggle::after { transform: rotate(180deg); }
         }
             h1, h2, h3, h4, h5, h6 { font-family: sans-serif; }
-    </style>
+            /* === MOBILE: contact info one line === */
+        @media (max-width: 768px) {
+            .top-bar-content { justify-content: flex-end; }
+            .top-bar-content > div:last-child { flex-wrap: nowrap !important; font-size: 12px; }
+            .top-bar-content > div:last-child a:not(:first-child)::before { content: ' | '; color: rgba(255,255,255,0.6); }
+        }
+        /* === MOBILE: heading sizing === */
+        @media (max-width: 768px) {
+            h1, .page-hero h1 { font-size: 28px !important; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        }
+        /* === About Us heading === */
+        .about-text h2 { line-height: 1.2 !important; }
+        @media (max-width: 768px) { .about-text h2 { font-size: 22px !important; line-height: 1.2; } }
+        /* === MOBILE: form labels black === */
+        @media (max-width: 768px) {
+            label, .tab-btn { color: #1a1a1a !important; }
+        }
+        /* === MOBILE: date/time inputs white === */
+        @media (max-width: 768px) {
+            input[type="date"], input[type="time"] { background: #ffffff !important; border: 1px solid #ddd !important; color: #333333 !important; border-radius: 8px !important; font-size: 15px !important; }
+            input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0) !important; }
+        }
+        /* === MOBILE: menu left-aligned === */
+        @media (max-width: 768px) {
+            .nav-links.mobile-active { text-align: left !important; }
+            .nav-links.mobile-active a { text-align: left !important; }
+        }
+        /* === MOBILE: services dropdown white === */
+        @media (max-width: 768px) {
+            .dropdown-content { background-color: #ffffff !important; }
+            .dropdown-content a { background-color: #ffffff !important; }
+        }
+        /* === Fleet/vehicle image positioning for rating badges === */
+        .fleet-image, .vehicle-image { position: relative; overflow: hidden; }
+        /* === Heading fonts === */
+        h1, h2, h3, h4, h5, h6 { font-family: 'Century Gothic', 'Futura PT', 'Avenir Next', sans-serif !important; font-weight: 600 !important; }
+                /* === MOBILE TYPOGRAPHY REFINEMENTS === */
+        @media (max-width: 768px) {
+            /* Change 1: Section labels bigger (h3 small labels above h2) */
+            .section-header h3, .section-label, .section-tag, .overline, .eyebrow {
+                font-size: 15px !important;
+                letter-spacing: 1px;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+            /* Change 2: Main headings reduced */
+            h1 {
+                font-size: 26px !important;
+                line-height: 1.2 !important;
+                margin-bottom: 15px !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                text-overflow: clip !important;
+            }
+            h2 {
+                font-size: 24px !important;
+                line-height: 1.3 !important;
+                margin-bottom: 12px !important;
+            }
+            /* Change 3: Hero/booking title - one line */
+            .hero-title, .booking-form-title, .page-hero h1 {
+                font-size: 22px !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                line-height: 1.2 !important;
+            }
+            /* Change 4: Mobile menu left-aligned */
+            .nav-links.mobile-active {
+                align-items: flex-start !important;
+                padding-left: 0 !important;
+            }
+            .nav-links.mobile-active li {
+                width: 100%;
+                text-align: left !important;
+            }
+            .nav-links.mobile-active > li > a,
+            .nav-links.mobile-active > li > .dropdown-toggle {
+                display: block !important;
+                width: 100%;
+                text-align: left !important;
+                padding-left: 20px !important;
+            }
+            .dropdown-content a {
+                padding-left: 35px !important;
+            }
+            /* Subtitle / description readable */
+            .subtitle, .hero-subtitle, .description, p.lead {
+                font-size: 15px !important;
+                line-height: 1.5 !important;
+                margin-bottom: 20px !important;
+            }
+            /* Form labels */
+            label {
+                font-size: 14px !important;
+                font-weight: 500 !important;
+                margin-bottom: 8px !important;
+                display: block !important;
+            }
+            /* Section spacing */
+            .section-header {
+                margin-bottom: 25px !important;
+            }
+        }
+        </style>
 </head>
 <body>
     <div class="top-bar">
         <div class="top-bar-content">
-            <div>Trusted by 800+ travelers for private transfers across Barcelona</div>
+            <div></div>
             <div><a href="tel:+34656269013">+34 656 269 013</a><a href="mailto:Barcelonahirecar@gmail.com">Barcelonahirecar@gmail.com</a></div>
         </div>
     </div>
@@ -266,3 +372,6 @@
     </script>
 </body>
 </html>
+
+
+
