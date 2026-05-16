@@ -20,9 +20,9 @@
         }
 
         :root {
-            --primary: #7E7E7E;
-            --primary-light: #8E8E8E;
-            --primary-dark: #6A6A6A;
+            --primary: #0096C7;
+            --primary-light: #0096C7;
+            --primary-dark: #007BA7;
             --text-dark: #1a1a1a;
             --text-light: #666;
             --bg-light: #f8f8f8;
@@ -841,7 +841,7 @@
         }
         .pac-item { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 14px; }
         .pac-item:hover { background-color: #f8f8f8; }
-        .pac-item-query { font-size: 15px; color: #7E7E7E; font-weight: 500; }
+        .pac-item-query { font-size: 15px; color: #0096C7; font-weight: 500; }
         .pac-icon { display: none; }
         .pac-matched { font-weight: 700; }
             /* === MOBILE: contact info one line === */
@@ -999,6 +999,71 @@
         }
         @media (max-width: 360px) {
             .top-bar a { font-size: 10px !important; }
+        }
+        
+        /* Top bar centering fix */
+        @media (max-width: 768px) {
+            .top-bar-content {
+                justify-content: center !important;
+            }
+        }
+        
+        /* Hero left-align with horizontal bullets */
+        .hero {
+            text-align: left;
+        }
+        .hero-content {
+            text-align: left;
+            align-items: flex-start;
+            max-width: 700px;
+        }
+        .hero h1 {
+            text-align: left;
+        }
+        .hero-subtitle {
+            text-align: left;
+        }
+        .hero-features {
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            gap: 24px;
+        }
+        @media (max-width: 600px) {
+            .hero-features {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        /* Form spacing fix */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            margin-top: 2px;
+        }
+
+        /* iOS Safari blue text fix */
+        @supports (-webkit-touch-callout: none) {
+            input, select, textarea {
+                -webkit-text-fill-color: #1E293B !important;
+                color: #1E293B !important;
+            }
+            select {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%231E293B' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 12px center;
+                -webkit-appearance: none;
+                appearance: none;
+            }
         }
         </style>
 </head>
@@ -1496,7 +1561,7 @@ function initHomeAutocomplete() {
     homeDirectionsRenderer = new google.maps.DirectionsRenderer({
         suppressMarkers: false,
         polylineOptions: {
-            strokeColor: '#7E7E7E',
+            strokeColor: '#0096C7',
             strokeWeight: 4,
             strokeOpacity: 0.8
         }
@@ -1589,7 +1654,7 @@ function showFallbackRoute(pickupLatLng, dropoffLatLng) {
     new google.maps.Polyline({
         path: [pickupLatLng, dropoffLatLng],
         geodesic: true,
-        strokeColor: '#7E7E7E',
+        strokeColor: '#0096C7',
         strokeOpacity: 0.6,
         strokeWeight: 3,
         map: homeMap
