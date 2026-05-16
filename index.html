@@ -1065,6 +1065,245 @@
                 appearance: none;
             }
         }
+        
+        /* ========================================
+           FIX 1: HERO SECTION - NEW STRUCTURE
+           ======================================== */
+        .hero-section {
+            position: relative;
+            background-image: url('images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .hero-section .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 60px 20px;
+            color: white;
+        }
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 40px;
+            text-align: center;
+            color: white;
+        }
+        .hero-section .hero-features {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            margin-top: 30px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .check-icon {
+            color: #10B981;
+            font-size: 24px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .feature-text {
+            color: white;
+            font-size: 18px;
+            white-space: nowrap;
+        }
+        @media (max-width: 768px) {
+            .hero-section { min-height: 500px; }
+            .hero-section .hero-content {
+                text-align: left;
+                padding: 40px 20px;
+            }
+            .hero-title {
+                font-size: 26px !important;
+                text-align: left !important;
+                margin-bottom: 25px;
+                white-space: normal !important;
+            }
+            .hero-section .hero-features {
+                flex-direction: column !important;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+            .check-icon { font-size: 20px; }
+            .feature-text { font-size: 14px; white-space: normal; }
+        }
+
+        /* ========================================
+           FIX 2: ROUTE INFORMATION BOX
+           ======================================== */
+        .route-info-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+            margin-top: 20px;
+        }
+        .route-info-box h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 20px;
+        }
+        .route-info-box .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        .route-info-box .info-row:first-of-type {
+            border-bottom: 1px solid #E5E7EB;
+        }
+        .info-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1E293B;
+            flex-shrink: 0;
+        }
+        .info-value {
+            font-size: 13px;
+            color: #6B7280;
+            text-align: right;
+            margin-left: 30px;
+        }
+        @media (max-width: 768px) {
+            .route-info-box { padding: 15px; }
+            .info-label { font-size: 15px; }
+            .info-value { font-size: 12px; }
+        }
+
+        /* ========================================
+           FIX 3 & 4: IMAGE GRID WITH BLUE FRAME
+           ======================================== */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .image-wrapper {
+            position: relative;
+            border-radius: 20px;
+            padding: 10px;
+            background: linear-gradient(135deg, #E0F4FF 0%, #B3E5FC 100%);
+            box-shadow: 0 4px 12px rgba(0, 150, 199, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+        .image-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 150, 199, 0.25);
+        }
+        .image-wrapper img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 14px;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .image-grid { grid-template-columns: 1fr; gap: 16px; }
+            .image-wrapper img {
+                height: auto;
+                min-height: 220px;
+                max-height: 350px;
+                object-fit: cover;
+            }
+        }
+        
+        /* ========================================
+           WHY CHOOSE US - VERTICAL LAYOUT RESTORE
+           (Scoped to prevent conflict with hero feature-item)
+           ======================================== */
+        .why-choose-section {
+            padding: 80px 20px;
+            background: white;
+        }
+        .why-choose-section .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-label {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .why-choose-section .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* VERTICAL layout - scoped so hero items stay horizontal */
+        .why-choose-section .feature-item {
+            text-align: center !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 0 !important;
+        }
+        .why-choose-section .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        .why-choose-section .feature-item h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 12px;
+        }
+        .why-choose-section .feature-item p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #6B7280;
+        }
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .why-choose-section .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .why-choose-section { padding: 50px 20px; }
+            .why-choose-section .section-header h2 { font-size: 28px; }
+            .why-choose-section .features-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+            .why-choose-section .feature-item { padding: 0 20px; }
+        }
         </style>
 </head>
 <body>
@@ -1106,16 +1345,26 @@
     </header>
 
     <!-- Hero -->
-    <section class="hero">
+    <div class="hero-section">
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Travel in comfort across Barcelona<br>with professional private transfers.</h1>
+            <h1 class="hero-title">Travel in comfort across Barcelona with professional private transfers.</h1>
             <div class="hero-features">
-                <div class="hero-feature">Reliable, punctual, and comfortable rides.</div>
-                <div class="hero-feature">Premium private transfer services.</div>
-                <div class="hero-feature">Available 24/7 for your convenience.</div>
+                <div class="feature-item">
+                    <span class="check-icon">✓</span>
+                    <span class="feature-text">Reliable, punctual, and comfortable rides.</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check-icon">✓</span>
+                    <span class="feature-text">Premium private transfer services.</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check-icon">✓</span>
+                    <span class="feature-text">Available 24/7 for your convenience.</span>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Booking Section - FORM LEFT, MAP RIGHT -->
     <section class="booking-section">
@@ -1180,15 +1429,15 @@
             <!-- RIGHT SIDE - MAP -->
             <div class="booking-map-side">
                 <div id="homeMap" style="height: 300px; border-radius: 12px; overflow: hidden;"></div>
-                <div class="distance-info">
+                <div class="route-info-box">
                     <h3>Route Information</h3>
                     <div class="info-row">
-                        <span>Distance</span>
-                        <strong id="homeDistance">Calculate upon booking</strong>
+                        <span class="info-label">Distance</span>
+                        <span class="info-value" id="homeDistance">Calculate upon booking</span>
                     </div>
                     <div class="info-row">
-                        <span>Duration</span>
-                        <strong id="homeDuration">Based on route</strong>
+                        <span class="info-label">Duration</span>
+                        <span class="info-value" id="homeDuration">Based on route</span>
                     </div>
                 </div>
             </div>
@@ -1209,17 +1458,17 @@
                 </ul>
                 <a href="about.html" class="btn-primary" style="width: auto; display: inline-block;">Learn More</a>
             </div>
-            <div class="about-images">
-                <div class="about-image">
+            <div class="image-grid">
+                <div class="image-wrapper">
                     <img src="images/about-1.jpg" alt="Luxury Car Interior">
                 </div>
-                <div class="about-image">
+                <div class="image-wrapper">
                     <img src="images/about-2.jpg" alt="Barcelona Streets">
                 </div>
-                <div class="about-image">
+                <div class="image-wrapper">
                     <img src="images/about-3.jpg" alt="Professional Chauffeur">
                 </div>
-                <div class="about-image">
+                <div class="image-wrapper">
                     <img src="images/about-4.jpg" alt="Mercedes Car">
                 </div>
             </div>
@@ -1269,30 +1518,30 @@
     </section>
 
     <!-- Why Choose -->
-    <section class="why-section">
+    <section class="why-choose-section">
         <div class="section-header">
-            <h3>Why Choose Us</h3>
+            <p class="section-label">WHY CHOOSE US</p>
             <h2>Your Trusted Partner for Every Ride</h2>
         </div>
         <div class="features-grid">
             <div class="feature-item">
                 <div class="feature-icon">⏱</div>
-                <h4>Reliable & Punctual</h4>
+                <h3>Reliable & Punctual</h3>
                 <p>We value your time — our drivers arrive on schedule, every time.</p>
             </div>
             <div class="feature-item">
                 <div class="feature-icon">🚗</div>
-                <h4>Premium Fleet</h4>
+                <h3>Premium Fleet</h3>
                 <p>Choose from our range of luxury, business, and executive vehicles.</p>
             </div>
             <div class="feature-item">
                 <div class="feature-icon">💰</div>
-                <h4>Transparent Pricing</h4>
+                <h3>Transparent Pricing</h3>
                 <p>No hidden costs — just clear, fair rates for premium service.</p>
             </div>
             <div class="feature-item">
                 <div class="feature-icon">📞</div>
-                <h4>24/7 Support</h4>
+                <h3>24/7 Support</h3>
                 <p>Get assistance whenever you need it with our dedicated team.</p>
             </div>
         </div>
