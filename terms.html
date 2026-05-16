@@ -13,8 +13,8 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #7E7E7E;
-            --primary-dark: #6A6A6A;
+            --primary: #0096C7;
+            --primary-dark: #007BA7;
             --text-dark: #1a1a1a;
             --text-light: #666;
             --bg-light: #f8f8f8;
@@ -364,6 +364,13 @@
         }
         @media (max-width: 360px) {
             .top-bar a { font-size: 10px !important; }
+        }
+        
+        /* Top bar centering fix */
+        @media (max-width: 768px) {
+            .top-bar-content {
+                justify-content: center !important;
+            }
         }
         </style>
 </head>
