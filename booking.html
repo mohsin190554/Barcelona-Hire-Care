@@ -891,12 +891,14 @@
                         <div class="form-group">
                             <label>Number of Passengers *</label>
                             <select id="passengers" required>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6+</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
                             </select>
                         </div>
 
@@ -975,7 +977,7 @@
                     <p class="section-subtitle">Select the perfect car for your journey</p>
 
                     <div class="vehicle-grid">
-                        <div class="vehicle-option" onclick="selectVehicle('eclass', 55, 45)">
+                        <div class="vehicle-option" onclick="selectVehicle('eclass', 55, 50)">
                             <div class="vehicle-image">
                                 <div style="position:absolute;top:8px;left:8px;background:white;padding:5px 9px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:4px;z-index:10;"><span style="color:#FFB800;font-size:14px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:12px;">4.96</span><span style="color:#666;font-size:11px;">(672)</span></div>
                                 <img src="images/car-eclass.jpg" alt="Mercedes E Class" style="width:100%;height:100%;object-fit:cover;">
@@ -988,11 +990,11 @@
                                     <span>👤 3 pax</span>
                                 </div>
                                 <div class="vehicle-price">€55 / hour</div>
-                                <div class="vehicle-note">City to City: €45 / 20km | €1.95/km above 20km</div>
+                                <div class="vehicle-note">City to City: €50 / 20km | €1.95/km above 20km</div>
                             </div>
                         </div>
 
-                        <div class="vehicle-option" onclick="selectVehicle('vclass', 68, 50)">
+                        <div class="vehicle-option" onclick="selectVehicle('vclass', 68, 55)">
                             <div class="vehicle-image">
                                 <div style="position:absolute;top:8px;left:8px;background:white;padding:5px 9px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:4px;z-index:10;"><span style="color:#FFB800;font-size:14px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:12px;">4.96</span><span style="color:#666;font-size:11px;">(680)</span></div>
                                 <img src="images/car-vclass.jpg" alt="Mercedes V Class" style="width:100%;height:100%;object-fit:cover;">
@@ -1005,11 +1007,11 @@
                                     <span>👤 6 pax</span>
                                 </div>
                                 <div class="vehicle-price">€68 / hour</div>
-                                <div class="vehicle-note">City to City: €50 / 20km | €1.95/km above 20km</div>
+                                <div class="vehicle-note">City to City: €55 / 20km | €1.95/km above 20km</div>
                             </div>
                         </div>
 
-                        <div class="vehicle-option" onclick="selectVehicle('vito', 63, 63)">
+                        <div class="vehicle-option" onclick="selectVehicle('vito', 63, 50)">
                             <div class="vehicle-image">
                                 <div style="position:absolute;top:8px;left:8px;background:white;padding:5px 9px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:4px;z-index:10;"><span style="color:#FFB800;font-size:14px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:12px;">4.96</span><span style="color:#666;font-size:11px;">(665)</span></div>
                                 <img src="images/car-vito.jpg" alt="Mercedes Vito" style="width:100%;height:100%;object-fit:cover;">
@@ -1022,41 +1024,41 @@
                                     <span>👤 8 pax</span>
                                 </div>
                                 <div class="vehicle-price">€63 / hour</div>
-                                <div class="vehicle-note">€1.95/km above 20km</div>
+                                <div class="vehicle-note">City to City: €50 / 20km | €1.95/km above 20km</div>
                             </div>
                         </div>
 
-                        <div class="vehicle-option" onclick="selectVehicle('lexus', 50, 40)">
+                        <div class="vehicle-option" onclick="selectVehicle('lexus', 50, 45)">
                             <div class="vehicle-image">
                                 <div style="position:absolute;top:8px;left:8px;background:white;padding:5px 9px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:4px;z-index:10;"><span style="color:#FFB800;font-size:14px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:12px;">4.96</span><span style="color:#666;font-size:11px;">(658)</span></div>
                                 <img src="images/car-lexus.jpg" alt="Lexus ES300h" style="width:100%;height:100%;object-fit:cover;">
                             </div>
                             <div class="vehicle-info">
-                                <div class="vehicle-name">Lexus ES300h</div>
+                                <div class="vehicle-name">Lexus ES300h (Standard)</div>
                                 <div class="vehicle-specs">
                                     <span>⚙️ Automatic</span>
                                     <span>⛽ Hybrid</span>
                                     <span>👤 3 pax</span>
                                 </div>
                                 <div class="vehicle-price">€50 / hour</div>
-                                <div class="vehicle-note">City to City: €40 / 20km | €1.95/km above 20km</div>
+                                <div class="vehicle-note">City to City: €45 / 20km | €1.95/km above 20km</div>
                             </div>
                         </div>
 
-                        <div class="vehicle-option" onclick="selectVehicle('toyota', 45, 35)">
+                        <div class="vehicle-option" onclick="selectVehicle('toyota', 45, 40)">
                             <div class="vehicle-image">
                                 <div style="position:absolute;top:8px;left:8px;background:white;padding:5px 9px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;gap:4px;z-index:10;"><span style="color:#FFB800;font-size:14px;">★</span><span style="font-weight:600;color:#1a1a1a;font-size:12px;">4.96</span><span style="color:#666;font-size:11px;">(645)</span></div>
                                 <img src="images/toyota.jpg" alt="Toyota" style="width:100%;height:100%;object-fit:cover;">
                             </div>
                             <div class="vehicle-info">
-                                <div class="vehicle-name">Toyota</div>
+                                <div class="vehicle-name">Toyota Corolla (Economy)</div>
                                 <div class="vehicle-specs">
                                     <span>⚙️ Automatic</span>
                                     <span>⛽ Hybrid</span>
                                     <span>👤 4 pax</span>
                                 </div>
                                 <div class="vehicle-price">€45 / hour</div>
-                                <div class="vehicle-note">City to City: €45 / 20km | €1.75/km above 20km</div>
+                                <div class="vehicle-note">City to City: €40 / 20km | €1.95/km above 20km</div>
                             </div>
                         </div>
                     </div>
@@ -1250,6 +1252,9 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                     initializeStripe();
                     break;
             }
+
+            // Scroll to top of page after every step transition
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function validateStep1() {
@@ -1325,7 +1330,8 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                 'eclass': 'Mercedes E Class',
                 'vclass': 'Mercedes V Class',
                 'vito': 'Mercedes Vito',
-                'lexus': 'Lexus ES300h'
+                'lexus': 'Lexus ES300h (Standard)',
+                'toyota': 'Toyota Corolla (Economy)'
             };
 
             document.getElementById('summaryPickup').textContent = bookingData.pickupLocation || '-';
