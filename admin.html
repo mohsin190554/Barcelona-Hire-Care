@@ -481,6 +481,60 @@ tr:hover td { background: rgba(139, 127, 0, 0.02); }
                 justify-content: center !important;
             }
         }
+        
+        /* ========================================
+           ADMIN MOBILE - HAMBURGER SIDEBAR
+           ======================================== */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-dark);
+            padding: 5px 8px;
+            border-radius: 6px;
+            line-height: 1;
+        }
+        .mobile-menu-toggle:hover { background: var(--bg-light); }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99;
+        }
+        .sidebar-overlay.active { display: block; }
+
+        @media (max-width: 768px) {
+            /* Override collapsed icon-only sidebar */
+            .sidebar {
+                width: 250px !important;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 200;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            /* Restore hidden text in sidebar */
+            .sidebar-logo-text, .sidebar-logo-sub, .nav-item span, .logout-btn {
+                display: block !important;
+            }
+            /* Main takes full width */
+            .main { margin-left: 0 !important; }
+            /* Show hamburger */
+            .mobile-menu-toggle { display: inline-flex; align-items: center; }
+            /* Topbar layout */
+            .topbar { padding: 1rem 1rem !important; }
+            .topbar-title { font-size: 1.2rem !important; }
+            /* Stats single column */
+            .stats-grid { grid-template-columns: 1fr !important; gap: 1rem !important; }
+            /* Tables scroll */
+            .table-wrapper, table { overflow-x: auto !important; display: block !important; }
+            th, td { white-space: nowrap; padding: 10px 8px !important; font-size: 12px !important; }
+        }
         </style>
 </head>
 <body>
@@ -534,12 +588,16 @@ tr:hover td { background: rgba(139, 127, 0, 0.02); }
   <div class="main">
     <!-- TOPBAR -->
     <div class="topbar">
-      <div class="topbar-title">Dashboard</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">☰</button>
+        <div class="topbar-title">Dashboard</div>
+      </div>
       <div class="topbar-right">
         <div class="live-dot"></div>
         <button class="refresh-btn" onclick="loadAll()">Refresh</button>
       </div>
     </div>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
     <!-- CONTENT -->
     <div class="content">
@@ -974,6 +1032,24 @@ function showToast(msg, type = 'success') {
 setInterval(() => {
   if (document.getElementById('app').style.display !== 'none') loadAll()
 }, 30000)
+
+// MOBILE SIDEBAR TOGGLE
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('active');
+}
+
+// Close sidebar when a nav item is clicked on mobile
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
+      document.querySelector('.sidebar').classList.remove('mobile-open');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+    }
+  });
+});
 </script>
 </body>
 </html>
