@@ -1397,7 +1397,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        amount: Math.round(bookingData.totalPrice * 100), // Amount in cents
+                        amount: parseFloat(bookingData.totalPrice), // Send in euros, backend converts to cents
                         bookingData: bookingData
                     }),
                 });
