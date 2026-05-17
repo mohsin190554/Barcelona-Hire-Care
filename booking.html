@@ -1414,6 +1414,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                             phone: bookingData.phone,
                         },
                     },
+                    return_url: window.location.href,
                 });
 
                 if (error) {
