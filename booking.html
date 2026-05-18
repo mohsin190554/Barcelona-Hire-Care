@@ -1456,31 +1456,40 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 
                     // Save booking to database via API
                     try {
+                        const savePayload = {
+                            customer_name:    bookingData.firstName + ' ' + bookingData.lastName,
+                            customer_phone:   bookingData.phone,
+                            customer_email:   bookingData.email,
+                            pickup_date:      bookingData.pickupDate,
+                            pickup_time:      bookingData.pickupTime,
+                            pickup_location:  bookingData.pickupLocation,
+                            dropoff_location: bookingData.dropoffLocation,
+                            distance:         bookingData.distance || null,
+                            vehicle:          bookingData.vehicle,
+                            passengers:       parseInt(bookingData.passengers) || 1,
+                            transfer_type:    bookingData.transferType || 'regular',
+                            flight_number:    bookingData.flightNumber || null,
+                            meet_greet:       bookingData.meetGreet || false,
+                            child_seats:      parseInt(bookingData.childSeats) || 0,
+                            booster_seats:    parseInt(bookingData.boosterSeats) || 0,
+                            waiting_time:     bookingData.waitingTime || '0',
+                            special_requests: bookingData.specialRequests || null,
+                            total_price:      parseFloat(bookingData.totalPrice),
+                            payment_id:       paymentIntent.id,
+                            status:           'confirmed'
+                        };
+                        console.log('Booking data types:', {
+                            passengers:    typeof savePayload.passengers,
+                            child_seats:   typeof savePayload.child_seats,
+                            booster_seats: typeof savePayload.booster_seats,
+                            total_price:   typeof savePayload.total_price,
+                            distance:      typeof savePayload.distance
+                        });
+                        console.log('Booking data values:', savePayload);
                         const saveResponse = await fetch('https://barcelona-hire-care.vercel.app/api/save-booking', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                customer_name:    bookingData.firstName + ' ' + bookingData.lastName,
-                                customer_phone:   bookingData.phone,
-                                customer_email:   bookingData.email,
-                                pickup_date:      bookingData.pickupDate,
-                                pickup_time:      bookingData.pickupTime,
-                                pickup_location:  bookingData.pickupLocation,
-                                dropoff_location: bookingData.dropoffLocation,
-                                distance:         bookingData.distance || null,
-                                vehicle:          bookingData.vehicle,
-                                passengers:       parseInt(bookingData.passengers),
-                                transfer_type:    bookingData.transferType || 'regular',
-                                flight_number:    bookingData.flightNumber || null,
-                                meet_greet:       bookingData.meetGreet || false,
-                                child_seats:      parseInt(bookingData.childSeats) || 0,
-                                booster_seats:    parseInt(bookingData.boosterSeats) || 0,
-                                waiting_time:     bookingData.waitingTime || '0',
-                                special_requests: bookingData.specialRequests || null,
-                                total_price:      bookingData.totalPrice,
-                                payment_id:       paymentIntent.id,
-                                status:           'confirmed'
-                            })
+                            body: JSON.stringify(savePayload)
                         });
                         if (!saveResponse.ok) console.error('Failed to save booking:', await saveResponse.text());
                     } catch (e) {
