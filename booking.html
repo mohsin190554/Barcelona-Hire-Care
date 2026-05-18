@@ -1,3 +1,9 @@
+<!--
+⚠️ WARNING: PAYMENT TESTING MODE ACTIVE
+Real payment processing is disabled for testing.
+Remember to restore original payment code before deployment!
+Search for: "TESTING MODE - PAYMENT DISABLED"
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1390,8 +1396,14 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
             spinner.classList.remove('hidden');
 
             try {
+                // ═══════════════════════════════════════════════════════
+                // TEMPORARY: TESTING MODE - PAYMENT DISABLED
+                // TODO: REMOVE THIS BEFORE GOING LIVE!
+                // ═══════════════════════════════════════════════════════
+
+                /*
                 // Create payment intent on your backend
-                    const response = await fetch('https://barcelona-hire-care.vercel.app/api/create-payment', {
+                const response = await fetch('https://barcelona-hire-care.vercel.app/api/create-payment', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1416,6 +1428,21 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                     },
                     return_url: window.location.href,
                 });
+                */
+
+                // Simulate successful payment for testing
+                const error = null;
+                const paymentIntent = {
+                    id: 'test_' + Date.now(),
+                    status: 'succeeded',
+                    amount: parseFloat(bookingData.totalPrice),
+                    currency: 'eur'
+                };
+                console.log('🧪 TEST MODE: Simulated payment success', paymentIntent);
+
+                // ═══════════════════════════════════════════════════════
+                // END TEMPORARY CODE
+                // ═══════════════════════════════════════════════════════
 
                 if (error) {
                     // Show error to customer
