@@ -1455,6 +1455,17 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                             body: JSON.stringify(savePayload)
                         });
                         if (!saveResponse.ok) console.error('Failed to save booking:', await saveResponse.text());
+
+                        // Send email notification to admin
+                        try {
+                            await fetch('https://barcelona-hire-care.vercel.app/api/send-email', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(savePayload)
+                            });
+                        } catch (emailErr) {
+                            console.error('Email notification error:', emailErr);
+                        }
                     } catch (e) {
                         console.error('Save booking error:', e);
                     }
