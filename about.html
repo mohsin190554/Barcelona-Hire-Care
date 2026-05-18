@@ -214,7 +214,11 @@ body { background: var(--bg-light); color: var(--text-dark); font-family: 'Poppi
 }
 @media (max-width: 768px) {
   .filter-row { display: none !important; }
-  .mobile-filter-select { display: block; }
+  .mobile-filter-select { display: block !important; }
+}
+@media (min-width: 769px) {
+  .filter-row { display: flex !important; }
+  .mobile-filter-select { display: none !important; }
 }
 
 .table-wrap { overflow-x: auto; }
