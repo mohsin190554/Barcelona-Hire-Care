@@ -14,10 +14,10 @@ function generateBookingPDF(booking) {
         doc.on('error', reject);
 
         // Header
-        doc.fontSize(24).fillColor('#0096C7').text('🚗 BARCELONA HIRE CAR', { align: 'center' });
+        doc.fontSize(24).fillColor('#0096C7').text('BARCELONA HIRE CAR', { align: 'center' });
         doc.moveDown(0.5);
         doc.fontSize(16).fillColor('#000000').text('BOOKING CONFIRMATION', { align: 'center' });
-        doc.moveDown(1);
+        doc.moveDown(2);
 
         // Booking ID and Date
         const bookingId = `BHC-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(Math.random() * 1000)}`;
@@ -29,30 +29,24 @@ function generateBookingPDF(booking) {
             minute: '2-digit'
         });
 
-        doc.fontSize(10).text('━'.repeat(80), { align: 'center' });
-        doc.moveDown(0.5);
-        doc.fontSize(12).text('BOOKING INFORMATION', { underline: true });
+        doc.fontSize(12).fillColor('#000000').text('BOOKING INFORMATION', { underline: true });
         doc.moveDown(0.5);
         doc.fontSize(10);
         doc.text(`Booking ID: ${bookingId}`);
         doc.text(`Booking Date: ${bookingDate}`);
-        doc.text(`Status: ✓ CONFIRMED`, { color: '#10B981' });
-        doc.moveDown(1);
+        doc.text(`Status: CONFIRMED`);
+        doc.moveDown(1.5);
 
         // Customer Details
-        doc.fontSize(10).text('━'.repeat(80));
-        doc.moveDown(0.5);
         doc.fontSize(12).text('CUSTOMER DETAILS', { underline: true });
         doc.moveDown(0.5);
         doc.fontSize(10);
         doc.text(`Full Name: ${booking.customer_name || 'N/A'}`);
         doc.text(`Email: ${booking.customer_email || 'N/A'}`);
         doc.text(`Phone: ${booking.customer_phone || 'N/A'}`);
-        doc.moveDown(1);
+        doc.moveDown(1.5);
 
         // Trip Details
-        doc.fontSize(10).text('━'.repeat(80));
-        doc.moveDown(0.5);
         doc.fontSize(12).text('TRIP DETAILS', { underline: true });
         doc.moveDown(0.5);
         doc.fontSize(10);
@@ -60,100 +54,50 @@ function generateBookingPDF(booking) {
         doc.text(`Dropoff Location: ${booking.dropoff_location || 'N/A'}`);
         doc.text(`Pickup Date: ${booking.pickup_date || 'N/A'}`);
         doc.text(`Pickup Time: ${booking.pickup_time || 'N/A'}`);
-        doc.text(`Transfer Type: ${booking.transfer_type || 'N/A'}`);
-        doc.moveDown(1);
+        doc.moveDown(1.5);
 
         // Vehicle & Passengers
-        doc.fontSize(10).text('━'.repeat(80));
-        doc.moveDown(0.5);
         doc.fontSize(12).text('VEHICLE & PASSENGERS', { underline: true });
         doc.moveDown(0.5);
         doc.fontSize(10);
         doc.text(`Selected Vehicle: ${booking.vehicle || 'N/A'}`);
         doc.text(`Passengers: ${booking.passengers || 'N/A'}`);
         
-        if (booking.child_seats) {
+        if (booking.child_seats && booking.child_seats > 0) {
             doc.text(`Child Seats: ${booking.child_seats}`);
         }
-        if (booking.booster_seats) {
+        if (booking.booster_seats && booking.booster_seats > 0) {
             doc.text(`Booster Seats: ${booking.booster_seats}`);
         }
         if (booking.meet_greet) {
-            doc.text(`Meet & Greet: ${booking.meet_greet ? '✓ Yes' : '✗ No'}`);
+            doc.text(`Meet & Greet: Yes`);
         }
         if (booking.flight_number) {
             doc.text(`Flight Number: ${booking.flight_number}`);
         }
-        if (booking.waiting_time) {
-            doc.text(`Waiting Time: ${booking.waiting_time} minutes`);
-        }
-        doc.moveDown(1);
+        doc.moveDown(1.5);
 
         // Special Requests
         if (booking.special_requests) {
-            doc.fontSize(10).text('━'.repeat(80));
-            doc.moveDown(0.5);
             doc.fontSize(12).text('SPECIAL REQUESTS', { underline: true });
             doc.moveDown(0.5);
             doc.fontSize(10);
             doc.text(booking.special_requests, { width: 500 });
-            doc.moveDown(1);
+            doc.moveDown(1.5);
         }
 
-        // Payment Summary
-        doc.fontSize(10).text('━'.repeat(80));
-        doc.moveDown(0.5);
-        doc.fontSize(12).text('PAYMENT SUMMARY', { underline: true });
-        doc.moveDown(0.5);
-        doc.fontSize(10);
-        doc.text(`Total Amount: €${booking.total_amount || booking.total_price || '0.00'}`);
-        doc.text(`Payment ID: ${booking.payment_id || 'N/A'}`);
-        doc.text(`Status: ✓ PAID`);
-        doc.moveDown(1);
-
         // Contact Information
-        doc.fontSize(10).text('━'.repeat(80));
-        doc.moveDown(0.5);
         doc.fontSize(12).text('CONTACT US', { underline: true });
         doc.moveDown(0.5);
         doc.fontSize(10);
-        doc.text('Phone: +34 656 269 013 (Available 24/7)');
+        doc.text('Phone: +34 656 269 013');
         doc.text('Email: barcelonahirecar@gmail.com');
         doc.text('Website: www.barcelonahirecar.com');
-        doc.text('WhatsApp: +34 656 269 013');
-        doc.moveDown(1);
-
-        // Important Information
-        doc.fontSize(10).text('━'.repeat(80));
-        doc.moveDown(0.5);
-        doc.fontSize(12).text('IMPORTANT INFORMATION', { underline: true });
-        doc.moveDown(0.5);
-        doc.fontSize(9);
-        doc.text('✓ Your booking is confirmed and payment has been processed');
-        doc.text('✓ Driver will meet you at the specified pickup location');
-        doc.text('✓ Please arrive 5 minutes before scheduled pickup time');
-        doc.text('✓ If your flight is delayed, please notify us immediately');
-        doc.moveDown(1);
-
-        // Cancellation Policy
-        doc.fontSize(10).text('━'.repeat(80));
-        doc.moveDown(0.5);
-        doc.fontSize(12).text('CANCELLATION POLICY', { underline: true });
-        doc.moveDown(0.5);
-        doc.fontSize(9);
-        doc.text('• Free cancellation up to 24 hours before pickup');
-        doc.text('• 50% refund for cancellations within 24 hours');
-        doc.text('• No refund for no-shows');
-        doc.moveDown(1);
+        doc.moveDown(2);
 
         // Footer
-        doc.fontSize(10).text('━'.repeat(80));
-        doc.moveDown(0.5);
         doc.fontSize(10).fillColor('#0096C7').text('Thank you for choosing Barcelona Hire Car!', { align: 'center' });
         doc.fontSize(9).fillColor('#666666').text('Your Premium Transportation Partner', { align: 'center' });
-        doc.moveDown(0.5);
-        doc.fontSize(8).fillColor('#999999').text(`Generated on: ${bookingDate}`, { align: 'center' });
-        doc.text(`Document ID: ${bookingId}`, { align: 'center' });
 
         doc.end();
     });
