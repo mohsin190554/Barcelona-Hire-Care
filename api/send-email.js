@@ -14,9 +14,9 @@ function generateBookingPDF(booking) {
         doc.on('error', reject);
 
         // Header
-        doc.fontSize(26).fillColor('#0096C7').text('BARCELONA HIRE CAR', { align: 'center' });
+        doc.fontSize(26).fillColor('#0096C7').font('Helvetica-Bold').text('BARCELONA HIRE CAR', { align: 'center' });
         doc.moveDown(0.3);
-        doc.fontSize(18).fillColor('#000000').text('BOOKING CONFIRMATION', { align: 'center' });
+        doc.fontSize(18).fillColor('#000000').font('Helvetica-Bold').text('BOOKING CONFIRMATION', { align: 'center' });
         doc.moveDown(1.2);
 
         // Booking ID and Date
@@ -29,27 +29,27 @@ function generateBookingPDF(booking) {
             minute: '2-digit'
         });
 
-        doc.fontSize(13).fillColor('#000000').text('BOOKING INFORMATION', { underline: true });
+        doc.fontSize(13).fillColor('#000000').font('Helvetica-Bold').text('BOOKING INFORMATION', { underline: true });
         doc.moveDown(0.3);
-        doc.fontSize(11);
+        doc.fontSize(11).font('Helvetica');
         doc.text(`Booking ID: ${bookingId}`);
         doc.text(`Booking Date: ${bookingDate}`);
         doc.text(`Status: CONFIRMED`);
         doc.moveDown(1);
 
         // Customer Details
-        doc.fontSize(13).text('CUSTOMER DETAILS', { underline: true });
+        doc.fontSize(13).font('Helvetica-Bold').text('CUSTOMER DETAILS', { underline: true });
         doc.moveDown(0.3);
-        doc.fontSize(11);
+        doc.fontSize(11).font('Helvetica');
         doc.text(`Full Name: ${booking.customer_name || 'N/A'}`);
         doc.text(`Email: ${booking.customer_email || 'N/A'}`);
         doc.text(`Phone: ${booking.customer_phone || 'N/A'}`);
         doc.moveDown(1);
 
         // Trip Details
-        doc.fontSize(13).text('TRIP DETAILS', { underline: true });
+        doc.fontSize(13).font('Helvetica-Bold').text('TRIP DETAILS', { underline: true });
         doc.moveDown(0.3);
-        doc.fontSize(11);
+        doc.fontSize(11).font('Helvetica');
         doc.text(`Pickup Location: ${booking.pickup_location || 'N/A'}`);
         doc.text(`Dropoff Location: ${booking.dropoff_location || 'N/A'}`);
         doc.text(`Pickup Date: ${booking.pickup_date || 'N/A'}`);
@@ -57,9 +57,9 @@ function generateBookingPDF(booking) {
         doc.moveDown(1);
 
         // Vehicle & Passengers
-        doc.fontSize(13).text('VEHICLE & PASSENGERS', { underline: true });
+        doc.fontSize(13).font('Helvetica-Bold').text('VEHICLE & PASSENGERS', { underline: true });
         doc.moveDown(0.3);
-        doc.fontSize(11);
+        doc.fontSize(11).font('Helvetica');
         doc.text(`Selected Vehicle: ${booking.vehicle || 'N/A'}`);
         doc.text(`Passengers: ${booking.passengers || 'N/A'}`);
         
@@ -79,25 +79,25 @@ function generateBookingPDF(booking) {
 
         // Special Requests
         if (booking.special_requests) {
-            doc.fontSize(13).text('SPECIAL REQUESTS', { underline: true });
+            doc.fontSize(13).font('Helvetica-Bold').text('SPECIAL REQUESTS', { underline: true });
             doc.moveDown(0.3);
-            doc.fontSize(11);
+            doc.fontSize(11).font('Helvetica');
             doc.text(booking.special_requests, { width: 500 });
             doc.moveDown(1);
         }
 
         // Contact Information
-        doc.fontSize(13).text('CONTACT US', { underline: true });
+        doc.fontSize(13).font('Helvetica-Bold').text('CONTACT US', { underline: true });
         doc.moveDown(0.3);
-        doc.fontSize(11);
+        doc.fontSize(11).font('Helvetica');
         doc.text('Phone: +34 656 269 013');
         doc.text('Email: barcelonahirecar@gmail.com');
         doc.text('Website: www.barcelonahirecar.com');
         doc.moveDown(1.5);
 
         // Footer
-        doc.fontSize(11).fillColor('#0096C7').text('Thank you for choosing Barcelona Hire Car!', { align: 'center' });
-        doc.fontSize(10).fillColor('#666666').text('Your Premium Transportation Partner', { align: 'center' });
+        doc.fontSize(11).fillColor('#0096C7').font('Helvetica-Bold').text('Thank you for choosing Barcelona Hire Car!', { align: 'center' });
+        doc.fontSize(10).fillColor('#666666').font('Helvetica').text('Your Premium Transportation Partner', { align: 'center' });
 
         doc.end();
     });
