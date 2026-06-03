@@ -1356,13 +1356,31 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                 'toyota': 'Toyota Corolla (Economy)'
             };
 
-            document.getElementById('summaryPickup').textContent = bookingData.pickupLocation || '-';
-            document.getElementById('summaryDropoff').textContent = bookingData.dropoffLocation || '-';
-            document.getElementById('summaryDateTime').textContent = bookingData.pickupDate && bookingData.pickupTime 
-                ? `${bookingData.pickupDate} ${bookingData.pickupTime}` 
-                : '-';
-            document.getElementById('summaryDistance').textContent = bookingData.distance ? `${bookingData.distance} km` : '-';
-            document.getElementById('summaryVehicle').textContent = bookingData.vehicle ? vehicleNames[bookingData.vehicle] : 'Not selected';
+            // Read directly from form fields for real-time updates
+            const pickup = document.getElementById('pickupLocation')?.value || '-';
+            const dropoff = document.getElementById('dropoffLocation')?.value || '-';
+            const pickupDate = document.getElementById('pickupDate')?.value || '';
+            const pickupTime = document.getElementById('pickupTime')?.value || '';
+
+            // Sync back to bookingData so later steps stay consistent
+            bookingData.pickupLocation = pickup === '-' ? '' : pickup;
+            bookingData.dropoffLocation = dropoff === '-' ? '' : dropoff;
+            bookingData.pickupDate = pickupDate;
+            bookingData.pickupTime = pickupTime;
+
+            const summaryPickup = document.getElementById('summaryPickup');
+            const summaryDropoff = document.getElementById('summaryDropoff');
+            const summaryDateTime = document.getElementById('summaryDateTime');
+            const summaryDistance = document.getElementById('summaryDistance');
+            const summaryVehicle = document.getElementById('summaryVehicle');
+
+            if (summaryPickup) summaryPickup.textContent = pickup;
+            if (summaryDropoff) summaryDropoff.textContent = dropoff;
+            if (summaryDateTime) summaryDateTime.textContent = pickupDate && pickupTime
+                ? `${pickupDate} ${pickupTime}`
+                : pickupDate || '-';
+            if (summaryDistance) summaryDistance.textContent = bookingData.distance ? `${bookingData.distance} km` : '-';
+            if (summaryVehicle) summaryVehicle.textContent = bookingData.vehicle ? vehicleNames[bookingData.vehicle] : 'Not selected';
 
             if (bookingData.vehicle) {
                 const isCity = bookingData.transferType === 'city-to-city';
@@ -1379,6 +1397,24 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 
                 document.getElementById('summaryTotal').textContent = `€${bookingData.totalPrice}`;
             }
+        }
+
+        function attachSummaryListeners() {
+            ['pickupLocation', 'dropoffLocation', 'pickupDate', 'pickupTime',
+             'transferType', 'passengers', 'flightNumber'].forEach(function(id) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', updateSummary);
+                    el.addEventListener('change', updateSummary);
+                }
+            });
+            updateSummary();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', attachSummaryListeners);
+        } else {
+            attachSummaryListeners();
         }
 
         // Initialize Stripe Elements
@@ -1572,6 +1608,9 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                 }, 500);
 
                 sessionStorage.removeItem('bookingData');
+
+                // Update summary after PlaceAutocompleteElement has had time to render
+                setTimeout(updateSummary, 1500);
             } catch(e) {
                 console.error('Pre-fill error:', e);
             }
@@ -1651,6 +1690,7 @@ async function initBookingMap() {
                 };
 
                 calculateRouteDistance();
+                updateSummary();
             });
         }
 
@@ -1685,6 +1725,7 @@ async function initBookingMap() {
                 };
 
                 calculateRouteDistance();
+                updateSummary();
             });
         }
 
