@@ -9,8 +9,6 @@
 <title>Barcelona Hire Car Admin Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Global Theme: colors, fonts, design tokens -->
-    <link rel="stylesheet" href="css/theme.css">
     <style>
 :root {
   --primary: #0096C7;
@@ -194,10 +192,31 @@ body { background: var(--bg-light); color: var(--text-dark); font-family: 'Poppi
   font-weight: 500;
   transition: all .2s; 
 }
-.filter-btn.active, .filter-btn:hover { 
-  border-color: var(--primary); 
-  color: var(--primary); 
+.filter-btn.active, .filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
   background: rgba(139, 127, 0, 0.05);
+}
+.mobile-filter-select {
+  display: none;
+  padding: .5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--text-light);
+  background: var(--white);
+  cursor: pointer;
+  min-width: 160px;
+}
+@media (max-width: 768px) {
+  .filter-row { display: none !important; }
+  .mobile-filter-select { display: block !important; }
+}
+@media (min-width: 769px) {
+  .filter-row { display: flex !important; }
+  .mobile-filter-select { display: none !important; }
 }
 
 .table-wrap { overflow-x: auto; }
@@ -662,6 +681,12 @@ tr:hover td { background: rgba(139, 127, 0, 0.02); }
               <button class="filter-btn" onclick="filterBookings('confirmed', this)">Confirmed</button>
               <button class="filter-btn" onclick="filterBookings('cancelled', this)">Cancelled</button>
             </div>
+            <select class="mobile-filter-select" id="bookingFilterSelect" onchange="filterBookings(this.value, null)">
+              <option value="all">All Bookings</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
           </div>
           <div class="loading" id="bookingsLoading">Loading...</div>
           <div class="table-wrap" id="bookingsTable" style="display:none">
@@ -890,7 +915,9 @@ function renderAllBookings(bookings) {
 // ══════════════════════════════════════════
 function filterBookings(status, btn) {
   document.querySelectorAll('#page-bookings .filter-btn').forEach(b => b.classList.remove('active'))
-  btn.classList.add('active')
+  if (btn) btn.classList.add('active')
+  const select = document.getElementById('bookingFilterSelect')
+  if (select) select.value = status
   const filtered = status === 'all' ? allBookings : allBookings.filter(b => b.status === status)
   renderAllBookings(filtered)
 }
