@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barcelona Hire Car | Private Hire and Private Transfer Service</title>
+    <title>Barcelona Hire Car | Premium Chauffeur Service</title>
     <meta name="description" content="Book luxury private transfers in Barcelona. Professional chauffeur service for airport pickups, city tours, and intercity travel. Available 24/7 with premium vehicles.">
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB40otCtaIQlRq_FnSepReW-iTQConTCVQ&libraries=places,geometry&callback=initHomeAutocomplete" async defer></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB40otCtaIQlRq_FnSepReW-iTQConTCVQ&libraries=places,geometry,routes&loading=async&v=weekly&callback=initHomeAutocomplete"></script>
         <!-- Global Theme: colors, fonts, design tokens -->
-        <!-- <link rel="stylesheet" href="css/theme.css"> -->
     <style>
         * {
             margin: 0;
@@ -1304,6 +1303,29 @@
             }
             .why-choose-section .feature-item { padding: 0 20px; }
         }
+
+        /* New Place Autocomplete Element Styling */
+        gmp-place-autocomplete {
+            width: 100%;
+            display: block;
+        }
+
+        gmp-place-autocomplete input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            box-sizing: border-box;
+        }
+
+        gmp-place-autocomplete input:focus {
+            outline: none;
+            border-color: #0096C7;
+            box-shadow: 0 0 0 3px rgba(0, 150, 199, 0.1);
+        }
         </style>
 </head>
 <body>
@@ -1799,110 +1821,238 @@
 
 <script>
 // ═══════════════════════════════════════════════════════════
-// GOOGLE MAPS - HOMEPAGE (Autocomplete + Route Display)
+// GOOGLE MAPS - HOMEPAGE (Updated APIs)
 // ═══════════════════════════════════════════════════════════
 var homeMap;
 var homePickupPlace = null;
 var homeDropoffPlace = null;
-var homeDirectionsService;
-var homeDirectionsRenderer;
+var homeRoutePolyline = null;
+var homePickupMarker = null;
+var homeDropoffMarker = null;
+var homePickupAutocompleteEl = null;
+var homeDropoffAutocompleteEl = null;
 
-function initHomeAutocomplete() {
-    homeDirectionsService = new google.maps.DirectionsService();
-    homeDirectionsRenderer = new google.maps.DirectionsRenderer({
-        suppressMarkers: false,
-        polylineOptions: {
-            strokeColor: '#0096C7',
-            strokeWeight: 4,
-            strokeOpacity: 0.8
+async function initHomeAutocomplete() {
+    try {
+        // Initialize map
+        var mapElement = document.getElementById('homeMap');
+        if (mapElement) {
+            homeMap = new google.maps.Map(mapElement, {
+                center: { lat: 41.3851, lng: 2.1734 },
+                zoom: 12,
+                mapTypeControl: false,
+                streetViewControl: false,
+                fullscreenControl: true,
+                zoomControl: true
+            });
         }
-    });
 
-    var mapElement = document.getElementById('homeMap');
-    if (mapElement) {
-        homeMap = new google.maps.Map(mapElement, {
-            center: { lat: 41.3851, lng: 2.1734 },
-            zoom: 12,
-            mapTypeControl: false,
-            streetViewControl: false,
-            fullscreenControl: true,
-            zoomControl: true
-        });
-        homeDirectionsRenderer.setMap(homeMap);
-    }
+        // Import new Places library
+        const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
 
-    var pickupInput = document.getElementById('pickupLocation');
-    if (pickupInput) {
-        var pickupAC = new google.maps.places.Autocomplete(pickupInput, {
-            componentRestrictions: { country: 'es' },
-            types: ['geocode', 'establishment'],
-            fields: ['geometry', 'formatted_address', 'name', 'place_id']
-        });
-        pickupAC.addListener('place_changed', function() {
-            var place = pickupAC.getPlace();
-            if (place && place.geometry) {
-                homePickupPlace = place;
+        // Setup PICKUP autocomplete
+        var pickupInput = document.getElementById('pickupLocation');
+        if (pickupInput) {
+            var pickupContainer = pickupInput.parentElement;
+
+            homePickupAutocompleteEl = new PlaceAutocompleteElement({
+                includedRegionCodes: ['es']
+            });
+
+            homePickupAutocompleteEl.style.width = '100%';
+            homePickupAutocompleteEl.id = 'pickupLocationNew';
+
+            pickupInput.style.display = 'none';
+            pickupContainer.appendChild(homePickupAutocompleteEl);
+
+            homePickupAutocompleteEl.addEventListener('gmp-select', async (event) => {
+                const place = event.placePrediction.toPlace();
+                await place.fetchFields({
+                    fields: ['formattedAddress', 'location', 'displayName']
+                });
+
+                pickupInput.value = place.formattedAddress;
+                pickupInput.dispatchEvent(new Event('change'));
+
+                homePickupPlace = {
+                    geometry: { location: place.location },
+                    formatted_address: place.formattedAddress,
+                    name: place.displayName
+                };
+
                 updateMapRoute();
-            }
-        });
-    }
+            });
+        }
 
-    var dropoffInput = document.getElementById('dropoffLocation');
-    if (dropoffInput) {
-        var dropoffAC = new google.maps.places.Autocomplete(dropoffInput, {
-            componentRestrictions: { country: 'es' },
-            types: ['geocode', 'establishment'],
-            fields: ['geometry', 'formatted_address', 'name', 'place_id']
-        });
-        dropoffAC.addListener('place_changed', function() {
-            var place = dropoffAC.getPlace();
-            if (place && place.geometry) {
-                homeDropoffPlace = place;
+        // Setup DROPOFF autocomplete
+        var dropoffInput = document.getElementById('dropoffLocation');
+        if (dropoffInput) {
+            var dropoffContainer = dropoffInput.parentElement;
+
+            homeDropoffAutocompleteEl = new PlaceAutocompleteElement({
+                includedRegionCodes: ['es']
+            });
+
+            homeDropoffAutocompleteEl.style.width = '100%';
+            homeDropoffAutocompleteEl.id = 'dropoffLocationNew';
+
+            dropoffInput.style.display = 'none';
+            dropoffContainer.appendChild(homeDropoffAutocompleteEl);
+
+            homeDropoffAutocompleteEl.addEventListener('gmp-select', async (event) => {
+                const place = event.placePrediction.toPlace();
+                await place.fetchFields({
+                    fields: ['formattedAddress', 'location', 'displayName']
+                });
+
+                dropoffInput.value = place.formattedAddress;
+                dropoffInput.dispatchEvent(new Event('change'));
+
+                homeDropoffPlace = {
+                    geometry: { location: place.location },
+                    formatted_address: place.formattedAddress,
+                    name: place.displayName
+                };
+
                 updateMapRoute();
-            }
-        });
+            });
+        }
+
+    } catch (error) {
+        console.error('Home autocomplete initialization error:', error);
     }
 }
 
-function updateMapRoute() {
+async function updateMapRoute() {
     if (!homePickupPlace || !homeDropoffPlace) return;
 
     var pickupLatLng = homePickupPlace.geometry.location;
     var dropoffLatLng = homeDropoffPlace.geometry.location;
 
-    homeDirectionsService.route({
-        origin: pickupLatLng,
-        destination: dropoffLatLng,
-        travelMode: google.maps.TravelMode.DRIVING
-    }, function(response, status) {
-        if (status === 'OK') {
-            homeDirectionsRenderer.setDirections(response);
+    try {
+        const response = await fetch(
+            'https://routes.googleapis.com/directions/v2:computeRoutes?key=AIzaSyB40otCtaIQlRq_FnSepReW-iTQConTCVQ',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline'
+                },
+                body: JSON.stringify({
+                    origin: {
+                        location: {
+                            latLng: {
+                                latitude: pickupLatLng.lat(),
+                                longitude: pickupLatLng.lng()
+                            }
+                        }
+                    },
+                    destination: {
+                        location: {
+                            latLng: {
+                                latitude: dropoffLatLng.lat(),
+                                longitude: dropoffLatLng.lng()
+                            }
+                        }
+                    },
+                    travelMode: 'DRIVE',
+                    routingPreference: 'TRAFFIC_AWARE',
+                    languageCode: 'en-US',
+                    units: 'METRIC'
+                })
+            }
+        );
 
-            var leg = response.routes[0].legs[0];
+        const data = await response.json();
+
+        if (data.routes && data.routes[0]) {
+            const route = data.routes[0];
+            const distanceMeters = route.distanceMeters;
+            const distanceKm = (distanceMeters / 1000).toFixed(1);
+            const durationSeconds = parseInt(route.duration.replace('s', ''));
+            const hours = Math.floor(durationSeconds / 3600);
+            const minutes = Math.round((durationSeconds % 3600) / 60);
+
+            let durationText = '';
+            if (hours > 0) durationText += hours + ' hour' + (hours > 1 ? 's' : '') + ' ';
+            if (minutes > 0) durationText += minutes + ' min';
 
             var distEl = document.getElementById('homeDistance');
-            if (distEl) distEl.textContent = leg.distance.text;
+            if (distEl) distEl.textContent = distanceKm + ' km';
 
             var durEl = document.getElementById('homeDuration');
-            if (durEl) durEl.textContent = leg.duration.text;
+            if (durEl) durEl.textContent = durationText.trim();
+
+            renderHomeRoute(route.polyline.encodedPolyline, pickupLatLng, dropoffLatLng);
         } else {
             showFallbackRoute(pickupLatLng, dropoffLatLng);
         }
+
+    } catch (error) {
+        console.error('Route calculation error:', error);
+        showFallbackRoute(pickupLatLng, dropoffLatLng);
+    }
+}
+
+function renderHomeRoute(encodedPolyline, pickupLatLng, dropoffLatLng) {
+    if (homeRoutePolyline) homeRoutePolyline.setMap(null);
+    if (homePickupMarker) homePickupMarker.setMap(null);
+    if (homeDropoffMarker) homeDropoffMarker.setMap(null);
+
+    const decodedPath = google.maps.geometry.encoding.decodePath(encodedPolyline);
+
+    homeRoutePolyline = new google.maps.Polyline({
+        path: decodedPath,
+        strokeColor: '#0096C7',
+        strokeWeight: 4,
+        strokeOpacity: 0.8,
+        map: homeMap
     });
+
+    homePickupMarker = new google.maps.Marker({
+        position: pickupLatLng,
+        map: homeMap,
+        label: 'A',
+        title: 'Pickup'
+    });
+
+    homeDropoffMarker = new google.maps.Marker({
+        position: dropoffLatLng,
+        map: homeMap,
+        label: 'B',
+        title: 'Dropoff'
+    });
+
+    const bounds = new google.maps.LatLngBounds();
+    decodedPath.forEach(point => bounds.extend(point));
+    homeMap.fitBounds(bounds);
 }
 
 function showFallbackRoute(pickupLatLng, dropoffLatLng) {
-    homeDirectionsRenderer.setMap(null);
+    if (homeRoutePolyline) homeRoutePolyline.setMap(null);
+    if (homePickupMarker) homePickupMarker.setMap(null);
+    if (homeDropoffMarker) homeDropoffMarker.setMap(null);
 
     var bounds = new google.maps.LatLngBounds();
     bounds.extend(pickupLatLng);
     bounds.extend(dropoffLatLng);
     homeMap.fitBounds(bounds);
 
-    new google.maps.Marker({ position: pickupLatLng, map: homeMap, label: 'A', title: 'Pickup' });
-    new google.maps.Marker({ position: dropoffLatLng, map: homeMap, label: 'B', title: 'Dropoff' });
+    homePickupMarker = new google.maps.Marker({
+        position: pickupLatLng,
+        map: homeMap,
+        label: 'A',
+        title: 'Pickup'
+    });
 
-    new google.maps.Polyline({
+    homeDropoffMarker = new google.maps.Marker({
+        position: dropoffLatLng,
+        map: homeMap,
+        label: 'B',
+        title: 'Dropoff'
+    });
+
+    homeRoutePolyline = new google.maps.Polyline({
         path: [pickupLatLng, dropoffLatLng],
         geodesic: true,
         strokeColor: '#0096C7',
