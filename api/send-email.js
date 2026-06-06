@@ -217,7 +217,7 @@ module.exports = async function handler(req, res) {
 
         // Admin email
         const adminResult = await resend.emails.send({
-            from: 'Barcelona Hire Car <onboarding@resend.dev>',
+            from: 'Barcelona Hire Car <bookings@barcelonahirecar.com>',
             to: ['barcelonahirecar@gmail.com'],
             subject: `New Booking — ${booking.customer_name} | ${vehicleLabel} | €${totalAmount}`,
             html: generateEmailHTML(booking, false),
@@ -226,7 +226,7 @@ module.exports = async function handler(req, res) {
 
         // Customer email
         const customerResult = await resend.emails.send({
-            from: 'Barcelona Hire Car <onboarding@resend.dev>',
+            from: 'Barcelona Hire Car <bookings@barcelonahirecar.com>',
             to: [booking.customer_email],
             subject: 'Your Barcelona Hire Car Booking Confirmation',
             html: generateEmailHTML(booking, true),
