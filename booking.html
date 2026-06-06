@@ -1099,10 +1099,27 @@
                     <div id="payment-message" class="hidden"></div>
 
                     <form id="paymentForm">
-                        <div class="form-group">
-                            <label>Card Information *</label>
-                            <div id="card-element"></div>
-                            <div id="card-errors"></div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="paymentMethod" style="font-weight: 600; display: block; margin-bottom: 8px;">
+                                Choose Payment Method *
+                            </label>
+                            <select id="paymentMethod" name="paymentMethod" required
+                                    style="width: 100%; padding: 12px 15px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 14px; background: white; cursor: pointer;">
+                                <option value="full">Full Payment Now (100%)</option>
+                                <option value="partial_20">20% Advance + 80% on Pickup</option>
+                                <option value="pay_later">Pay on Pickup/Dropoff (No advance)</option>
+                            </select>
+                            <div id="paymentMethodInfo" style="margin-top: 10px; padding: 12px; background: #e0f4ff; border-radius: 8px; font-size: 13px;">
+                                💳 Pay full amount now and you're all set!
+                            </div>
+                        </div>
+
+                        <div id="card-section">
+                            <div class="form-group">
+                                <label>Card Information *</label>
+                                <div id="card-element"></div>
+                                <div id="card-errors"></div>
+                            </div>
                         </div>
 
                         <div style="display: flex; gap: 15px; margin-top: 30px;">
@@ -1272,6 +1289,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
                     document.getElementById('paymentSection').classList.remove('hidden');
                     document.getElementById('step3').classList.add('active');
                     initializeStripe();
+                    if (window.updatePaymentMethodDisplay) window.updatePaymentMethodDisplay();
                     break;
             }
 
@@ -1435,6 +1453,49 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
             }
         }
 
+        // Payment method change handler
+        (function() {
+            const paymentMethodSelect = document.getElementById('paymentMethod');
+            const paymentMethodInfo = document.getElementById('paymentMethodInfo');
+            const cardSection = document.getElementById('card-section');
+            const buttonText = document.getElementById('button-text');
+
+            function updatePaymentUI() {
+                const method = paymentMethodSelect.value;
+                const total = parseFloat(bookingData.totalPrice) || 0;
+
+                if (method === 'full') {
+                    paymentMethodInfo.innerHTML = '💳 Pay full amount now: <strong>€' + total.toFixed(2) + '</strong>';
+                    paymentMethodInfo.style.background = '#e0f4ff';
+                    cardSection.style.display = 'block';
+                    if (buttonText) buttonText.textContent = 'Pay €' + total.toFixed(2) + ' Now';
+                } else if (method === 'partial_20') {
+                    const advance = (total * 0.20).toFixed(2);
+                    const remaining = (total * 0.80).toFixed(2);
+                    paymentMethodInfo.innerHTML =
+                        '💳 Pay 20% now: <strong>€' + advance + '</strong><br>' +
+                        '💵 Remaining on pickup: <strong>€' + remaining + '</strong> (cash or card to driver)';
+                    paymentMethodInfo.style.background = '#fff3cd';
+                    cardSection.style.display = 'block';
+                    if (buttonText) buttonText.textContent = 'Pay €' + advance + ' Now';
+                } else if (method === 'pay_later') {
+                    paymentMethodInfo.innerHTML =
+                        '💵 No payment required now!<br>' +
+                        'Pay full amount on pickup/dropoff: <strong>€' + total.toFixed(2) + '</strong> (cash or card to driver)';
+                    paymentMethodInfo.style.background = '#d4edda';
+                    cardSection.style.display = 'none';
+                    if (buttonText) buttonText.textContent = 'Confirm Booking (No Payment)';
+                }
+            }
+
+            if (paymentMethodSelect) {
+                paymentMethodSelect.addEventListener('change', updatePaymentUI);
+            }
+
+            // Expose so goToStep(3) can refresh totals when entering payment step
+            window.updatePaymentMethodDisplay = updatePaymentUI;
+        })();
+
         // Handle payment form submission
         document.getElementById('paymentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1442,99 +1503,130 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
             const submitButton = document.getElementById('submitPayment');
             const buttonText = document.getElementById('button-text');
             const spinner = document.getElementById('spinner');
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const totalPrice = parseFloat(bookingData.totalPrice) || 0;
+
+            let amountToCharge = 0;
+            if (paymentMethod === 'full') {
+                amountToCharge = totalPrice;
+            } else if (paymentMethod === 'partial_20') {
+                amountToCharge = totalPrice * 0.20;
+            }
+            // pay_later: amountToCharge stays 0
 
             submitButton.disabled = true;
             buttonText.classList.add('hidden');
             spinner.classList.remove('hidden');
 
             try {
-                // Create payment intent on backend
-                const response = await fetch('https://barcelona-hire-care.vercel.app/api/create-payment', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        amount: parseFloat(bookingData.totalPrice),
-                        bookingData: bookingData
-                    }),
-                });
+                let paymentIntentId;
 
-                const { clientSecret } = await response.json();
+                if (amountToCharge > 0) {
+                    // Create payment intent on backend
+                    const response = await fetch('https://barcelona-hire-care.vercel.app/api/create-payment-intent', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            amount: Math.round(amountToCharge * 100), // cents
+                            currency: 'eur'
+                        }),
+                    });
 
-                // Confirm payment with Stripe
-                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-                    payment_method: {
-                        card: cardElement,
-                        billing_details: {
-                            name: `${bookingData.firstName} ${bookingData.lastName}`,
-                            email: bookingData.email,
-                            phone: bookingData.phone,
+                    const { clientSecret } = await response.json();
+
+                    // Confirm payment with Stripe
+                    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: {
+                            card: cardElement,
+                            billing_details: {
+                                name: bookingData.firstName + ' ' + bookingData.lastName,
+                                email: bookingData.email,
+                                phone: bookingData.phone,
+                            },
                         },
-                    },
-                    return_url: window.location.href,
-                });
+                        return_url: window.location.href,
+                    });
 
-                if (error) {
-                    // Show error to customer
-                    showMessage(error.message, 'error');
-                    submitButton.disabled = false;
-                    buttonText.classList.remove('hidden');
-                    spinner.classList.add('hidden');
-                } else {
-                    // Payment successful
-                    showMessage('Payment successful! Booking confirmed.', 'success');
-
-                    // Save booking to database via API
-                    try {
-                        const savePayload = {
-                            customer_name:    bookingData.firstName + ' ' + bookingData.lastName,
-                            customer_phone:   bookingData.phone,
-                            customer_email:   bookingData.email,
-                            pickup_date:      bookingData.pickupDate,
-                            pickup_time:      bookingData.pickupTime,
-                            pickup_location:  bookingData.pickupLocation,
-                            dropoff_location: bookingData.dropoffLocation,
-                            distance:         bookingData.distance || null,
-                            vehicle:          bookingData.vehicle,
-                            passengers:       parseInt(document.getElementById('passengers').value) || 1,
-                            transfer_type:    bookingData.transferType || 'regular',
-                            flight_number:    bookingData.flightNumber || null,
-                            meet_greet:       document.getElementById('meetGreet')?.checked === true,
-                            child_seats:      parseInt(document.getElementById('childSeats')?.value) || 0,
-                            booster_seats:    parseInt(document.getElementById('boosterSeats')?.value) || 0,
-                            waiting_time:     bookingData.waitingTime || '0',
-                            special_requests: bookingData.specialRequests || null,
-                            total_price:      parseFloat(bookingData.totalPrice),
-                            payment_id:       paymentIntent.id,
-                            status:           'confirmed'
-                        };
-                        const saveResponse = await fetch('https://barcelona-hire-care.vercel.app/api/save-booking', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(savePayload)
-                        });
-                        if (!saveResponse.ok) console.error('Failed to save booking:', await saveResponse.text());
-
-                        // Send email notification to admin
-                        try {
-                            await fetch('https://barcelona-hire-care.vercel.app/api/send-email', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(savePayload)
-                            });
-                        } catch (emailErr) {
-                            console.error('Email notification error:', emailErr);
-                        }
-                    } catch (e) {
-                        console.error('Save booking error:', e);
+                    if (error) {
+                        showMessage(error.message, 'error');
+                        submitButton.disabled = false;
+                        buttonText.classList.remove('hidden');
+                        spinner.classList.add('hidden');
+                        return;
                     }
 
-                    // Redirect to confirmation page or home
-                    setTimeout(() => {
-                        window.location.href = 'index.html?booking=success';
-                    }, 2000);
+                    paymentIntentId = paymentIntent.id;
+                } else {
+                    // No payment — generate a tracking reference
+                    paymentIntentId = 'pay_later_' + Date.now();
                 }
-            } catch (error) {
-                showMessage('Payment failed. Please try again.', 'error');
+
+                showMessage(
+                    paymentMethod === 'pay_later'
+                        ? 'Booking confirmed! Check your email for details.'
+                        : 'Payment successful! Booking confirmed.',
+                    'success'
+                );
+
+                const amountPaid = amountToCharge;
+                const amountRemaining = totalPrice - amountToCharge;
+
+                const savePayload = {
+                    customer_name:    bookingData.firstName + ' ' + bookingData.lastName,
+                    customer_phone:   bookingData.phone,
+                    customer_email:   bookingData.email,
+                    pickup_date:      bookingData.pickupDate,
+                    pickup_time:      bookingData.pickupTime,
+                    pickup_location:  bookingData.pickupLocation,
+                    dropoff_location: bookingData.dropoffLocation,
+                    distance:         bookingData.distance || null,
+                    vehicle:          bookingData.vehicle,
+                    passengers:       parseInt(document.getElementById('passengers').value) || 1,
+                    transfer_type:    bookingData.transferType || 'regular',
+                    flight_number:    bookingData.flightNumber || null,
+                    meet_greet:       document.getElementById('meetGreet')?.checked === true,
+                    child_seats:      parseInt(document.getElementById('childSeats')?.value) || 0,
+                    booster_seats:    parseInt(document.getElementById('boosterSeats')?.value) || 0,
+                    waiting_time:     bookingData.waitingTime || '0',
+                    special_requests: bookingData.specialRequests || null,
+                    total_price:      totalPrice,
+                    total_amount:     totalPrice,
+                    payment_id:       paymentIntentId,
+                    status:           paymentMethod === 'pay_later' ? 'pending_payment' : 'confirmed',
+                    payment_method:   paymentMethod,
+                    amount_paid:      amountPaid,
+                    amount_remaining: amountRemaining
+                };
+
+                // Save to database
+                try {
+                    const saveResponse = await fetch('https://barcelona-hire-care.vercel.app/api/save-booking', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(savePayload)
+                    });
+                    if (!saveResponse.ok) console.error('Failed to save booking:', await saveResponse.text());
+                } catch (saveErr) {
+                    console.error('Save booking error:', saveErr);
+                }
+
+                // Send emails (admin + customer)
+                try {
+                    await fetch('https://barcelona-hire-care.vercel.app/api/send-email', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(savePayload)
+                    });
+                } catch (emailErr) {
+                    console.error('Email notification error:', emailErr);
+                }
+
+                setTimeout(() => {
+                    window.location.href = 'index.html?booking=success';
+                }, 2000);
+
+            } catch (err) {
+                showMessage('An error occurred. Please try again.', 'error');
                 submitButton.disabled = false;
                 buttonText.classList.remove('hidden');
                 spinner.classList.add('hidden');
