@@ -40,9 +40,12 @@ module.exports = async function handler(req, res) {
                 booster_seats:    parseInt(b.booster_seats) || 0,
                 waiting_time:     b.waiting_time      || '0',
                 special_requests: b.special_requests  || null,
-                total_price:      b.total_price,
+                total_price:      b.total_price || b.total_amount || 0,
                 payment_id:       b.payment_id        || null,
                 status:           b.status            || 'confirmed',
+                payment_method:   b.payment_method    || 'full',
+                amount_paid:      parseFloat(b.amount_paid)      || 0,
+                amount_remaining: parseFloat(b.amount_remaining) || 0,
             }])
             .select();
 
